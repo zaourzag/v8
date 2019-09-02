@@ -1,0 +1,22 @@
+# MongoDB credentials
+MONGO_USER=
+MONGO_PASS=
+
+# Probes API will listen here
+PROBES_API_PORT=
+
+# Whether to boot a single shard
+BOOT_SINGLE=
+
+# WebSocket URL. Used for the "ws" library
+WS_URL=
+
+# Imgflip credentials
+IMGFLIP_USER=
+IMGFLIP_PASS=
+
+# Discord Bot Token
+DISCORD_TOKEN=
+
+# Chatwatch Token
+CHATWATCH_TOKEN=

@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2019 dirigeants. All rights reserved. MIT license.
+// Derived from klasa-pieces (c) 2017-2019 dirigeants / MIT license.
 const { Argument, util: { regExpEsc } } = require('klasa');
 const { GuildMember, User } = require('discord.js');
 
@@ -20,6 +20,7 @@ function resolveUser(query, guild) {
 module.exports = class extends Argument {
 
 	async run(arg, possible, msg) {
+		if (!arg) throw 'No user provided.';
 		if (!msg.guild) return this.store.get('user').run(arg, possible, msg);
 		const resUser = await resolveUser(arg, msg.guild);
 		if (resUser) return resUser;
@@ -39,11 +40,8 @@ module.exports = class extends Argument {
 			querySearch = results;
 		}
 
-		switch (querySearch.length) {
-			case 0: throw `${possible.name} Must be a valid name, id or user mention`;
-			case 1: return querySearch[0];
-			default: throw `Found multiple matches: \`${querySearch.map(user => user.tag).join('`, `')}\``;
-		}
+		if (querySearch.length) return querySearch[0];
+		throw `${possible.name} Must be a valid name, id or user mention`;
 	}
 
 };

@@ -1,21 +1,21 @@
 const { Command } = require('klasa');
-const superagent = require('superagent');
+const req = require('@aero/centra');
 
 module.exports = class extends Command {
 
 	constructor(...args) {
 		super(...args, {
-			description: 'Sends a random pun.',
-			extendedHelp: 'Powered by http://icanhazdadjoke.com'
+			aliases: ['dadjoke'],
+			description: language => language.get('COMMAND_PUN_DESCRIPTION')
 		});
 	}
 
 	async run(msg) {
-		const { body } = await superagent
-			.get('http://icanhazdadjoke.com')
-			.set('Accept', 'application/json')
-			.catch(() => { throw 'The API appears to be down. Try again later!'; });
-		return msg.sendMessage(`Random pun: **${body.joke}**`);
+		const res = await req('https://icanhazdadjoke.com')
+			.header('Accept', 'application/json')
+			.json()
+			.catch(() => { throw msg.language.get('COMMAND_PUN_APIDOWN'); });
+		return msg.sendMessage(msg.language.get('COMMAND_PUN_REPLY', res.joke));
 	}
 
 };

@@ -1,30 +1,16 @@
-const { Command } = require('klasa');
-const superagent = require('superagent');
+const MemeGenerationCommand = require('../../../lib/structures/MemeGenerationCommand');
 
-module.exports = class extends Command {
+module.exports = class extends MemeGenerationCommand {
 
 	constructor(...args) {
-		super(...args, {
-			cooldown: 3,
-			description: 'Generates an expanding brain meme from a group of sentences.',
-			extendedHelp: 'Separate the sentances using commas.',
-
-			usage: '<sentences:str> [...]',
-			usageDelim: ', '
-		});
-	}
-
-	async run(msg, [...sentences]) {
-		sentences = sentences.slice(0, 4);
-		let url = `https://api.imgflip.com/caption_image?username=${process.env.IMGFLIP_USER}&password=${process.env.IMGFLIP_PASS}&template_id=${BRAIN_MEME_ID}`;
-		for (let i = 0; i < sentences.length; i++) {
-			url += `&boxes[${i}][text]=${encodeURIComponent(sentences[i])}`;
-		}
-		const { body } = await superagent.get(url);
-		if (!body.success) throw `An error occurred: ${body.error_message}`;
-		return msg.channel.sendFile(body.data.url);
+		const textValidator = text => text.split(',').length === 4;
+		const textValidatorResponse = 'Please enter the text of the 4 panels seperated by commas.';
+		super({
+			name: 'brain',
+			text: true,
+			textValidator,
+			textValidatorResponse
+		}, ...args);
 	}
 
 };
-
-const BRAIN_MEME_ID = 93895088;

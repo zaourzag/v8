@@ -1,5 +1,10 @@
+/* eslint-disable no-bitwise */
+const { GUILDS, GUILD_MEMBERS, GUILD_BANS, GUILD_MESSAGES, GUILD_MESSAGE_REACTIONS } = require('../lib/util/constants').intents;
+
 module.exports = {
 	disableEveryone: true,
-	disabledEvents: ['TYPING_START', 'TYPING_END'],
-	fetchAllMembers: false
+	fetchAllMembers: false,
+	ws: {
+		intents: GUILDS | GUILD_MEMBERS | GUILD_BANS | GUILD_MESSAGES | GUILD_MESSAGE_REACTIONS
+	}
 };

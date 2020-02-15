@@ -4,7 +4,7 @@ module.exports = class extends Command {
 
 	constructor(...args) {
 		super(...args, {
-			description: 'Play a game of connect 4.',
+			description: language => language.get('COMMAND_C4_DESCRIPTION'),
 			usage: '<opponent:username>',
 			cooldown: 15,
 			aliases: ['c4'],
@@ -42,12 +42,12 @@ module.exports = class extends Command {
 		const { players, choice } = c4;
 		const usr = players[choice % 2];
 
-		await msg.edit(c4.turnTable());
-		msg.awaitReactions((r, user) => user.id === usr && this.numbers.includes(r.emoji.toString()), { time: 60000, max: 1, errors: ['time'] })
+		await msg.edit(`${c4.turnTable()}\n1⃣2⃣3⃣4⃣5⃣6⃣7⃣`);
+		msg.awaitReactions((reaction, user) => user.id === usr && this.numbers.includes(reaction.emoji.toString()), { time: 60000, max: 1, errors: ['time'] })
 			.then(async (reactions) => {
 				const res = reactions.first();
 				if (res._emoji.name === '⏹') {
-					await msg.channel.send(`${await this.client.users.fetch(usr)} has decided to quit. He loses!`);
+					await msg.channel.send(msg.language.get('COMMAND_C4_QUIT', await this.client.users.fetch(usr)));
 					c4.reset();
 					msg.reactions.removeAll();
 					this.channels.delete(msg.channel.id);
@@ -89,7 +89,7 @@ module.exports = class extends Command {
 				return this.handleProgress(msg, c4);
 			})
 			.catch(error => {
-				console.log(error);
+				this.client.console.error(error);
 				c4.reset();
 				msg.reactions.removeAll();
 				this.channels.delete(msg.channel.id);

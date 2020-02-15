@@ -19,10 +19,9 @@ module.exports = class extends Provider {
 
 		// If full connection string is provided, use that, otherwise fall back to individual parameters
 		const connectionString = this.client.options.providers.mongodb.connectionString || `mongodb://${connection.user}:${connection.password}@${connection.host}:${connection.port}/${connection.db}`;
-
 		const mongoClient = await Mongo.connect(connectionString,
-			mergeObjects(connection.options, { useNewUrlParser: true }));
-
+			mergeObjects(connection.options, { useNewUrlParser: true, useUnifiedTopology: true }));
+		this.client.console.log('[Mongo] Connected.');
 		this.db = mongoClient.db(connection.db);
 	}
 
@@ -104,5 +103,5 @@ function flatten(obj, path = '') {
 }
 
 function parseEngineInput(updated) {
-	return Object.assign({}, ...updated.map(entry => ({ [entry.data[0]]: entry.data[1] })));
+	return Object.assign({}, ...updated.map(entry => ({ [entry.key]: entry.value })));
 }

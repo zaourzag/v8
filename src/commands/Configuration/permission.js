@@ -1,70 +1,67 @@
 const { Permissions: { FLAGS } } = require('discord.js');
-const { bold, code } = require('discord-md-tags');
 const { Command } = require('klasa');
+const { error, success, unspecified } = require('../../../lib/util/constants').emojis;
 
 module.exports = class extends Command {
 
 	constructor(...args) {
 		super(...args, {
 			aliases: ['perms', 'permissions'],
-			subcommands: true,
-			usage: '[allow|deny|list|remove|nodes|clear] [target:member|target:role|everyone] [permission:string]',
-			usageDelim: ' '
+			runIn: ['text'],
+			usage: '[allow|deny|show|remove|clear] [member:membername|roleid:role|rolename:rolename|everyone] [permission:string]',
+			usageDelim: ' ',
+			description: language => language.get('COMMAND_PERMS_DESCRIPTION')
 		});
 
 		this.defaultPermissions = FLAGS.ADMINISTRATOR;
 	}
 
-	async run(msg) {
-		return msg.send(PERMISSION_NODES_HELP);
-	}
+	async run(message, [action, target, permission]) {
+		if (!action) return message.send(message.language.get('COMMAND_PERMS_HELP', message.guild.settings.get('prefix')));
 
-	async allow(msg, [target, permission]) {
-		if (!target || !permission) throw 'Invalid usage: expecting a target and a permission.';
-		await this.client.permissions.modify({
-			action: 'allow',
-			message: msg,
+		if (action === 'show') {
+			if (!target) target = message.member;
+			const tree = await this.client.permissions.handle({ action, message, target });
+			return message.send(this.buildOverview(tree, target, message.language));
+		}
+
+		if (['allow', 'deny', 'remove'].includes(action) && (!target || !permission)) throw message.language.get('COMMAND_PERMS_MISSING');
+		await this.client.permissions.handle({
+			action,
+			message,
 			permission,
 			target
 		});
-		return msg.responder.success(`Added \`${permission}\` to ${target.displayName || target.username}`);
+		return message.responder.success(message.language.get(`COMMAND_PERMS_SUCCESS_${action.toUpperCase()}`, permission, target));
 	}
 
-	async deny(msg, [target, permission]) {
-		if (!target || !permission) throw 'Invalid usage: expecting a target and a permission.';
-		await this.client.permissions.modify({
-			action: 'deny',
-			message: msg,
-			permission,
-			target
-		});
-		return msg.responder.success(`Denied \`${permission}\` from ${target.displayName || target.username}`);
-	}
+	buildOverview(tree, target, lang) {
+		const out = [];
+		const name = target === 'everyone'
+			? 'everyone'
+			: target.name || target.displayName;
 
-	async remove(msg, [target, permission]) {
-		if (!target || !permission) throw 'Invalid usage: expecting a target and a permission.';
-		await this.client.permissions.modify({
-			action: 'remove',
-			message: msg,
-			permission,
-			target
-		});
-		return msg.responder.success(`Removed \`${permission}\` from ${target.displayName || target.username}`);
+		out.push(lang.get('COMMAND_PERMS_SHOW', name));
+		for (const category in tree) {
+			if (category === 'admin') continue;
+			out.push(`${typeof tree[category]['*'] === 'boolean'
+				? tree[category]['*']
+					? success
+					: error
+				: unspecified
+			} ${category}`);
+			let i = 0;
+			const keys = Object.keys(tree[category]).length;
+			for (const key in tree[category]) {
+				i++;
+				if (tree[category]['*'] === tree[category][key]) continue;
+				out.push(`  ${i === keys ? '└──' : '├──'}${tree[category][key]
+					? success
+					: error
+				} ${key}`);
+			}
+		}
+		return out.join('\n');
 	}
 
 };
-
-const PERMISSION_NODES_HELP = [
-	bold`Permission Nodes`,
-	`Aero's permissions are ${bold`node base`} allowing complete control over what commands users and roles can use.`,
-	`Permissions have 3 levels: ${bold`User, Role, Everyone`}. Nodes take priority in that order.`,
-	'',
-	bold`Nodes`,
-	`Nodes are represented by ${code`<category.command>`}, such as ${code`general.ping`}.`,
-	`You can also use wildcards such as ${code`<category>.*`} which includes all commands in the category, and ${code`*`} which includes all commands,`,
-	'',
-	bold`Examples`,
-	`Allow Stitch to use the ping command: ${code`perms allow @Stitch general.ping`}`,
-	`Disallow ravy from using all configuration commands: ${code`perms remove @ravy configuration.*`}`,
-	`Allow admins to use all commands: ${code`perms allow @Admins *`}`
-].join('\n');

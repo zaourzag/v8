@@ -5,8 +5,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			aliases: ['coin'],
-
-			description: 'Flips one or more coins',
+			description: language => language.get('COMMAND_COINFLIP_DESCRIPTION'),
 			usage: '[coins:int{1,1000}]'
 		});
 	}
@@ -19,9 +18,10 @@ module.exports = class extends Command {
 				if (Math.random() > 0.5) heads++;
 				else tails++;
 			}
-			return msg.send(`You flipped ${coins} coins. ${heads} ${heads === '1' ? 'was' : 'were'} heads, and ${tails} ${tails === '1' ? 'was' : 'were'} tails.`);
+			return msg.send(msg.language.get('COMMAND_COINFLIP_REPLY_MULTIPLE', coins, heads, tails));
 		}
-		return msg.send(`You flipped ${Math.random() > 0.5 ? 'Heads' : 'Tails'}.`);
+		const heads = Math.random() > 0.5;
+		return msg.send(msg.language.get('COMMAND_COINFLIP_REPLY_SINGLE', heads));
 	}
 
 };

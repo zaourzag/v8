@@ -1,6 +1,6 @@
 const { Command } = require('klasa');
 const { AllHtmlEntities } = require('html-entities');
-const superagent = require('superagent');
+const req = require('@aero/centra');
 
 module.exports = class extends Command {
 
@@ -8,15 +8,13 @@ module.exports = class extends Command {
 		super(...args, {
 			bucket: 2,
 			cooldown: 4,
-
-			description: language => language.get('COMMAND_CHUCKNORRIS_DESCRIPTION'),
-			extendedHelp: language => language.get('COMMAND_CHUCKNORRIS_EXTENDEDHELP')
+			description: language => language.get('COMMAND_CHUCKNORRIS_DESCRIPTION')
 		});
 	}
 
 	async run(msg) {
-		const { body } = await superagent.get('https://api.icndb.com/jokes/random');
-		return msg.sendMessage(`📢 Chuck Norris joke: **${new AllHtmlEntities().decode(body.value.joke)}**`);
+		const res = await req('https://api.icndb.com/jokes/random').json();
+		return msg.sendMessage(`📢 Chuck Norris joke: **${new AllHtmlEntities().decode(res.value.joke)}**`);
 	}
 
 };

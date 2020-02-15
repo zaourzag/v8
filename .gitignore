@@ -6,3 +6,5 @@ config.json
 yarn.lock
 .env*
 *.env
+test*
+*.DS_STORE

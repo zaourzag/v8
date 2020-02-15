@@ -5,9 +5,10 @@ module.exports = class extends Event {
 
 	async run(msg, command) {
 		if (!msg.guild) return null;
-		const emote = msg.guild.settings.get('tags').find(([name]) => name === command.toLowerCase());
-		if (!emote) return null;
-		const parsedTag = await this.parser.parse(emote[1], {
+		const tag = msg.guild.settings.get('tags').find(([name]) => name === command.toLowerCase());
+		if (!tag) return null;
+		const parsedTag = await this.parser.parse(tag[1], {
+			args: msg.content.slice(msg.prefixLength).trim().split(' ').slice(1),
 			user: msg.author,
 			guild: msg.guild,
 			channel: msg.channel,

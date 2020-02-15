@@ -6,9 +6,9 @@ module.exports = class extends Argument {
 		super(...args, { aliases: ['cmd'] });
 	}
 
-	run(arg, possible, message) {
+	async run(arg, possible, message) {
 		const command = this.client.commands.get(arg.toLowerCase());
-		if (command && command.permissionLevel < 9) return command;
+		if (command && await message.hasAtLeastPermissionLevel(command.permissionLevel)) return command;
 		throw message.language.get('RESOLVER_INVALID_PIECE', possible.name, 'command');
 	}
 

@@ -1,26 +1,31 @@
-const { host, port } = require('./mongodb');
-const { prefix, devPrefix, production, owners } = require('./aero');
+const { prefix, stage, owners } = require('./aero');
+const db = {
+	production: 'aero',
+	staging: 'aero-staging',
+	development: 'aero-dev'
+}[stage];
 
-const { MONGO_USER: user, MONGO_PASS: pass } = process.env;
+const { MONGO_USER: user, MONGO_PASS: pass, MONGO_HOST: host, MONGO_PORT: port } = process.env;
 
 module.exports = {
 	commandEditing: true,
 	commandLogging: true,
 	console: { useColor: true },
 	consoleEvents: {
-		debug: !production,
-		verbose: !production
+		debug: stage === 'development',
+		verbose: stage === 'development'
 	},
 	createPiecesFolders: false,
-	disabledCorePieces: ['providers'],
+	disabledCorePieces: ['providers', 'languages', 'commands'],
 	owners,
-	prefix: production ? prefix : devPrefix,
+	prefix,
 	providers: {
 		default: 'mongodb',
 		mongodb: {
 			connectionString: `mongodb://${user}:${pass}@${host}:${port}/`,
-			db: `aero${production ? '' : '-dev'}`
+			db
 		}
 	},
-	typing: true
+	typing: false,
+	readyMessage: 'Ready.'
 };

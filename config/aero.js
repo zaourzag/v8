@@ -1,6 +1,24 @@
+const { hostname } = require('os');
+const { version } = require('../package');
+const stage = process.env.NODE_ENV === 'production'
+	? hostname().includes('staging')
+		? 'staging'
+		: 'production'
+	: 'development';
+
 module.exports = {
-	owners: ['102102717165506560', '292571834770128906', '254892085000405004', '207500411907735552'],
-	prefix: 'a!',
-	devPrefix: 'ad!',
-	production: process.env.NODE_ENV === 'production'
+	prefix: {
+		production: 'a.',
+		staging: 's.',
+		development: 'd.'
+	}[stage],
+	stage,
+	version,
+	inviteURL: 'https://get.aero.bot',
+	supportServer: 'https://discord.gg/n6eZ3Z5',
+	repoURL: 'https://git.aero.bot/aero',
+	hasteURL: 'https://haste.aero.bot',
+	memegenURL: 'https://memes.aero.bot/api',
+	colorgenURL: 'https://color.aero.bot',
+	dailyPoints: 50
 };

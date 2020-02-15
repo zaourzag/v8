@@ -16,8 +16,9 @@ module.exports = class extends Command {
 	}
 
 	async run(msg, [...choices]) {
-		return msg.send(choices.length === 1 ?
-			msg.language.get('COMMAND_CHOICE_ONEOPTION') : msg.language.get('COMMAND_CHOICE_REPLY', choices));
+		return msg.send(choices.length === 1
+			? msg.language.get('COMMAND_CHOICE_ONEOPTION')
+			: msg.language.get('COMMAND_CHOICE_REPLY', choices));
 	}
 
 };

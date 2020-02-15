@@ -1,5 +1,5 @@
 const { Command } = require('klasa');
-const superagent = require('superagent');
+const req = require('@aero/centra');
 const { bold } = require('discord-md-tags');
 
 module.exports = class extends Command {
@@ -7,14 +7,13 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			aliases: ['yomama'],
-
-			description: 'Yo momma is so fat, yo.'
+			description: language => language.get('COMMAND_YOMAMMA_DESCRIPTION')
 		});
 	}
 
 	async run(msg) {
-		const { text } = await superagent.get('http://api.yomomma.info');
-		return msg.sendMessage(bold`📢 Yomomma joke: *${JSON.parse(text).joke}*`);
+		const res = await req('https://api.yomomma.info').json();
+		return msg.sendMessage(bold`📢 Yomomma joke: *${res.joke}*`);
 	}
 
 };

@@ -1,6 +1,6 @@
 const { Command, Duration, Timestamp } = require('klasa');
 const { MessageEmbed, GuildMember, User, Role, Permissions: { FLAGS } } = require('discord.js');
-const { color: { VERY_NEGATIVE, POSITIVE }, emojis: { error, success }, DServicesBans, badges } = require('../../../lib/util/constants');
+const { color: { VERY_NEGATIVE, POSITIVE }, emojis: { perms: { granted, unspecified } }, badges } = require('../../../lib/util/constants');
 const req = require('@aero/centra');
 
 module.exports = class extends Command {
@@ -109,8 +109,8 @@ module.exports = class extends Command {
 
 	async _addBaseData(user, embed) {
 		return embed
-			.setAuthor(`${user.tag} [${user.id}]`, user.avatarURL())
-			.setThumbnail(user.avatarURL());
+			.setAuthor(`${user.tag} [${user.id}]`, user.displayAvatarURL({ dynamic: true }))
+			.setThumbnail(user.displayAvatarURL({ dynamic: true }));
 	}
 
 	async _addBadges(user, embed) {
@@ -186,15 +186,14 @@ module.exports = class extends Command {
 	}
 
 	async _addSecurity(msg, user, embed) {
-		const KSoftBan = await this.client.ksoft.bans.info(user.id);
-		const DRepBan = await this.client.drep.ban(user.id);
-		const DRepScore = await this.client.drep.rep(user.id).then(res => res.reputation);
-		const fancyScore = DRepScore === 0 ? '±0' : DRepScore > 0 ? `+${DRepScore}` : DRepScore;
-		const DServicesBan = DServicesBans.get(user.id);
-		const CWProfile = await this.client.chatwatch.profile(user.id);
+		const KSoftBan = await this.client.ksoft.bans.info(user.id).catch(() => null);
+		const DRepBan = await this.client.drep.ban(user.id).catch(() => ({ banned: false }));
+		const DRepReputation = await this.client.drep.rep(user.id).catch(() => ({ reputation: 0, staff: false }));
+		const DRepProfile = `https://discordrep.com/u/${user.id}`;
+		const CWProfile = await this.client.chatwatch.profile(user.id).catch(() => ({ whitelisted: false, score: 50 }));
 		const rating = KSoftBan || CWProfile.blacklisted
 			? 'COMMAND_INFO_TRUST_VERYLOW'
-			: DRepBan.banned || DRepScore < 0 || DServicesBans.has(user.id) || CWProfile.score > 50
+			: DRepBan.banned || DRepReputation.reputation < 0 || CWProfile.score > 50
 				? 'COMMAND_INFO_TRUST_LOW'
 				: this.client.owners.has(user) || CWProfile.whitelisted
 					? 'COMMAND_INFO_TRUST_VERYHIGH'
@@ -212,18 +211,20 @@ module.exports = class extends Command {
 		embed.addField(`• Trust (${msg.language.get(rating)})`, [
 			KSoftBan
 				? msg.language.get('COMMAND_INFO_USER_KSOFTBANNED', KSoftBan.reason, KSoftBan.proof)
-				: DServicesBan
-					? msg.language.get('COMMAND_INFO_USER_DSERVICESBANNED', DServicesBan.reason, DServicesBan.proof)
-					: msg.language.get('COMMAND_INFO_USER_BANSCLEAN'),
+				: msg.language.get('COMMAND_INFO_USER_KSOFTCLEAN'),
 			msg.language.get(cwRating, CWProfile.blacklisted_reason),
 			DRepBan.banned
-				? msg.language.get('COMMAND_INFO_USER_DREPBANNED', DRepBan.reason, fancyScore)
-				: DRepScore === 0
-					? msg.language.get('COMMAND_INFO_USER_DREPNEUTRAL')
-					: msg.language.get('COMMAND_INFO_USER_DREPSCORE', fancyScore, DRepScore)
+				? msg.language.get('COMMAND_INFO_USER_DREPBANNED', DRepBan.reason)
+				: DRepReputation.reputation === 0
+					? msg.language.get('COMMAND_INFO_USER_DREPNEUTRAL', DRepProfile)
+					: DRepReputation.reputation > 0
+						? DRepReputation.staff
+							? msg.language.get('COMMAND_INFO_USER_DREPSTAFF', DRepProfile)
+							: msg.language.get('COMMAND_INFO_USER_DREPPOSITIVE', DRepProfile)
+						: msg.language.get('COMMAND_INFO_USER_DREPNEGATIVE', DRepProfile)
 		].join('\n'));
 
-		DRepBan.banned || KSoftBan || DServicesBans.has(user.id) || CWProfile.blacklisted || CWProfile.score > 80
+		DRepBan.banned || KSoftBan || CWProfile.blacklisted || CWProfile.score > 80
 			? embed.setColor(VERY_NEGATIVE)
 			: embed.setColor(POSITIVE);
 
@@ -243,14 +244,14 @@ module.exports = class extends Command {
 			.addField('• Created', `${this.timestamp.display(role.createdAt)} (${Duration.toNow(role.createdAt)} ago)`, true)
 			.addField('• Properties', [
 				role.hoist
-					? `${success} displayed seperately`
-					: `${error} not displayed seperately`,
+					? `${granted} displayed seperately`
+					: `${unspecified} not displayed seperately`,
 				role.mentionable
-					? `${success} mentionable as ${role.toString()}`
-					: `${error} not mentionable`,
+					? `${granted} mentionable as ${role.toString()}`
+					: `${unspecified} not mentionable`,
 				!role.managed
-					? `${success} configurable`
-					: `${error} managed by an integration`
+					? `${granted} configurable`
+					: `${unspecified} managed by an integration`
 			].join('\n'));
 		return msg.sendEmbed(embed);
 	}
@@ -259,12 +260,13 @@ module.exports = class extends Command {
 		const { guild } = msg;
 		const [bots, humans] = guild.members.partition(member => member.user.bot);
 		const toxicity = guild.settings.get('stats.toxicity');
+		await msg.guild.members.fetch(msg.guild.ownerID);
 		const embed = new MessageEmbed()
 			.setAuthor(`${guild.name} [${guild.id}]`, guild.iconURL())
 			.addField('• Created', `${this.timestamp.display(guild.createdAt)} (${Duration.toNow(guild.createdAt)} ago)`)
 			.addField('• Members', `${humans.size} human${humans.size === 1 ? '' : 's'}, ${bots.size} bot${bots.size === 1 ? '' : 's'}`, true)
 			.addField('• Voice region', this.regions[msg.guild.region], true)
-			.addField('• Owner', `${guild.owner.user.tag} ${guild.owner.toString()} [${guild.owner.id}]`)
+			.addField('• Owner', `${guild.owner.user.tag} ${guild.owner.toString()} [${guild.ownerID}]`)
 			.addField('• Statistics', `${guild.settings.get('stats.messages')} messages ${toxicity !== 0 ? `with an average toxicity of ${Math.round(toxicity * 100)}%` : ''} sent`)
 			.addField('• Security', [
 				`Verification level: ${this.verificationLevels[msg.guild.verificationLevel]}`,
@@ -278,7 +280,7 @@ module.exports = class extends Command {
 	botinfo(msg) {
 		if (msg.guild && !msg.guild.me.permissions.has(FLAGS.EMBED_LINKS)) return msg.sendLocale('COMMAND_INFO_BOT');
 		return msg.sendEmbed(new MessageEmbed()
-			.setAuthor(this.client.user.username, this.client.user.displayAvatarURL())
+			.setAuthor(this.client.user.username, this.client.user.displayAvatarURL({ dynamic: true }))
 			.setDescription(msg.language.get('COMMAND_INFO_BOT'))
 		);
 	}

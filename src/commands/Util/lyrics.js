@@ -31,10 +31,10 @@ module.exports = class extends Command {
 		}
 
 		for (const part of out) {
-			embed.addField(zws, part);
+			embed.addField(zws, /^\s+$/.test(part) ? zws : part);
 		}
 
-		return msg.sendEmbed(embed).catch(() => msg.responder.error(msg.language.get('COMMAND_LYRICS_FAILED', track.url)));
+		return msg.sendEmbed(embed).catch(() => msg.responder.error('COMMAND_LYRICS_FAILED', track.url));
 	}
 
 };

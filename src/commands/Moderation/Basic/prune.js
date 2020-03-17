@@ -9,7 +9,7 @@ module.exports = class extends Command {
 			requiredPermissions: ['MANAGE_MESSAGES'],
 			runIn: ['text'],
 			aliases: ['p'],
-			description: 'Prunes a certain amount of messages w/o filter.',
+			description: language => language.get('COMMAND_PRUNE_DESCRIPTION'),
 			usage: '[limit:integer] [link|invite|bots|you|me|upload|user:user]',
 			usageDelim: ' '
 		});
@@ -27,8 +27,10 @@ module.exports = class extends Command {
 		if (messages.has(msg.id)) limit++;
 		messages = messages.keyArray().slice(0, limit);
 		if (!messages.includes(msg.id)) messages.push(msg.id);
+
 		await msg.channel.bulkDelete(messages);
-		const message = await msg.responder.success(`Successfully deleted ${messages.length - 1} messages.`);
+
+		const message = await msg.responder.success('COMMAND_PRUNE_RESPONSE', messages.length - 1);
 		message.delete({ timeout: 3000 }).catch(() => null);
 	}
 

@@ -29,7 +29,7 @@ module.exports = class extends Command {
 			.path('profile')
 			.query({
 				avatarURL: user.avatarURL({ format: 'png' }),
-				bannerURL: bio.bannerURL || "",
+				bannerURL: bio.bannerURL || '',
 				username: user.username,
 				description: bio.description || 'no description',
 				birthday: bio.birthday ? this.timestamp.display(bio.birthday) : 'no birthday set',
@@ -37,13 +37,12 @@ module.exports = class extends Command {
 				occupation: bio.occupation || 'no occupation',
 				status: bio.status || 'no status',
 				bioURL: `dsc.bio/${bio.name}`,
-				gender: bio._gender || 0
+				gender: typeof bio._gender === 'number' ? bio._gender : -1
 			}).raw();
 
 		await msg.channel.sendFile(res, 'bio.png');
 
 		return loading.delete();
-
 	}
 
 };

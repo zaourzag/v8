@@ -212,7 +212,7 @@ module.exports = class extends Command {
 		const KSoftBansProfile = `${KSoftBans}?user=${user.id}`;
 
 		embed.addField(`• Trust (${msg.language.get(rating)})`, [
-			KSoftBan
+			KSoftBan?.active
 				? msg.language.get('COMMAND_INFO_USER_KSOFTBANNED', KSoftBan.reason, KSoftBan.proof, KSoftBansProfile)
 				: CWProfile.whitelisted
 					? msg.language.get('COMMAND_INFO_USER_KSOFTSTAFF', KSoftBansProfile)
@@ -231,7 +231,7 @@ module.exports = class extends Command {
 							: msg.language.get('COMMAND_INFO_USER_DREPNEGATIVE', DRepProfile)
 		].join('\n'));
 
-		DRepInfraction instanceof Ban || DRepInfraction instanceof Warn || KSoftBan || CWProfile.blacklisted || CWProfile.score > 80
+		DRepInfraction instanceof Ban || DRepInfraction instanceof Warn || KSoftBan?.active || CWProfile.blacklisted || CWProfile.score > 80
 			? embed.setColor(VERY_NEGATIVE)
 			: embed.setColor(POSITIVE);
 
@@ -265,13 +265,12 @@ module.exports = class extends Command {
 
 	async serverinfo(msg) {
 		const { guild } = msg;
-		const [bots, humans] = guild.members.partition(member => member.user.bot);
 		const toxicity = guild.settings.get('stats.toxicity');
 		await msg.guild.members.fetch(msg.guild.ownerID);
 		const embed = new MessageEmbed()
 			.setAuthor(`${guild.name} [${guild.id}]`, guild.iconURL())
 			.addField('• Created', `${this.timestamp.display(guild.createdAt)} (${Duration.toNow(guild.createdAt)} ago)`)
-			.addField('• Members', `${humans.size} human${humans.size === 1 ? '' : 's'}, ${bots.size} bot${bots.size === 1 ? '' : 's'}`, true)
+			.addField('• Members', `${guild.memberCount} (cached: ${guild.members.size})`, true)
 			.addField('• Voice region', this.regions[msg.guild.region], true)
 			.addField('• Owner', `${guild.owner.user.tag} ${guild.owner.toString()} [${guild.ownerID}]`)
 			.addField('• Statistics', `${guild.settings.get('stats.messages')} messages ${toxicity !== 0 ? `with an average toxicity of ${Math.round(toxicity * 100)}%` : ''} sent`)

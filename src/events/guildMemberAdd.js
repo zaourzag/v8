@@ -62,7 +62,7 @@ module.exports = class extends Event {
 	}
 
 	welcome(member) {
-		if (member.user.bot) return;
+		if (member.user.bot) return member;
 		const { guild } = member;
 		const channelID = guild.settings.get('welcome.channel');
 		if (!channelID) return member;
@@ -75,12 +75,15 @@ module.exports = class extends Event {
 		const parsed = this._fillTemplate(message, member);
 
 		channel.send(parsed);
+		return member;
 	}
 
 	_fillTemplate(template, member) {
 		return template
 			.replace(/{(member|user|mention)}/gi, member.toString())
-			.replace(/({name})/gi, member.user.username)
+			.replace(/{(name|username)}/gi, member.user.username)
+			.replace(/{tag}/gi, member.user.tag)
+			.replace(/{(discrim|discriminator)}/gi, member.user.discriminator)
 			.replace(/{(guild|server)}/gi, member.guild.name);
 	}
 

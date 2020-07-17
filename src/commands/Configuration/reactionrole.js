@@ -25,6 +25,7 @@ module.exports = class extends Command {
 	}
 
 	async run(msg, [action, messageID, role]) {
+		if (messageID && !role && action === 'add') role = msg.guild.roles.get(messageID);
 
 		const reactionRole = {
 			messageID,
@@ -45,7 +46,7 @@ module.exports = class extends Command {
 			const equalReactionRoles = reactionRoles.filter(item => filter(item));
 			if (equalReactionRoles.length > 0) return msg.responder.error('COMMAND_REACTIONROLE_ROLE_EXIST');
 
-			return message.react(`${emoji.name}${emoji.id ? ':' + emoji.id: ''}`)
+			return message.react(`${emoji.name}${emoji.id ? `:${emoji.id}` : ''}`)
 				.then(() => {
 					reactionRole.emoji = emoji.id ? emoji.id : emoji.name;
 					msg.guild.settings.update('mod.roles.reactionRoles', reactionRole, { arrayAction: 'add' });
@@ -54,7 +55,6 @@ module.exports = class extends Command {
 				.catch(() => {
 					throw 'COMMAND_REACTIONROLE_INVALID_EMOJI';
 				});
-
 		} else if (action === 'remove') {
 			if (!messageID) throw 'COMMAND_REACTIONROLE_MESSAGE_UNSPECIFIED';
 			const newReactionRoles = reactionRoles.filter(item => !filter(item));
@@ -64,7 +64,7 @@ module.exports = class extends Command {
 
 		return true;
 	}
-	
+
 	async queryEmoji(msg) {
 		await msg.send(msg.language.get('COMMAND_REACTIONROLE_QUERY_EMOJI'));
 		return new Promise((resolve, reject) => {
@@ -78,6 +78,7 @@ module.exports = class extends Command {
 					reject('COMMAND_REACTIONROLE_NOEMOJI');
 				}
 			});
-		})
+		});
 	}
+
 };

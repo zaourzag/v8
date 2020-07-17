@@ -8,7 +8,7 @@ WORKDIR /opt/aero/aero
 
 COPY package*.json ./
 
-ENV CXXFLAGS="-w" 
+ENV CXXFLAGS="-w"
 
 RUN npm ci
 

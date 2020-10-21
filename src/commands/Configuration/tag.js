@@ -11,16 +11,16 @@ module.exports = class extends Command {
 			description: language => language.get('COMMAND_TAG_DESCRIPTION'),
 			runIn: ['text'],
 			subcommands: true,
-			usage: '<add|remove|list|view> [tag:string] [content:string] [...]',
+			usage: '<add|remove|view|list:default> [tag:string] [content:string] [...]',
 			usageDelim: ' ',
-			aliases: ['t']
+			aliases: ['t', 'tags']
 		});
 
 		this.defaultPermissions = FLAGS.MANAGE_MESSAGES;
 	}
 
 	async add(msg, [tag, ...content]) {
-		if (!tag || !content) throw msg.language.get('COMMAND_TAG_EMPTY');
+		if (!tag || !content.length) throw msg.language.get('COMMAND_TAG_EMPTY');
 		if (msg.guild.settings.get('tags').find(tuple => tuple[0] === tag.toLowerCase())) throw msg.language.get('COMMAND_TAG_EXISTS');
 		content = content.join(this.usageDelim);
 		await msg.guild.settings.sync();

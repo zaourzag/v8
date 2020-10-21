@@ -17,7 +17,7 @@ module.exports = class extends Command {
 	}
 
 	async run(msg, [user, reason, proof]) {
-		if (this.channels.has(msg.channel.id)) return false;
+		if (this.channels.has(msg.channel.id)) return msg.responder.error('COMMAND_REPORT_ONGOING');
 		this.channels.add(msg.channel.id);
 		if (!user) {
 			user = await this.ask(msg, this.validateUser.bind(this), this.parseUser.bind(this), {
@@ -64,9 +64,12 @@ module.exports = class extends Command {
 			if (!this.validateProof(msg)) throw msg.language.get('COMMAND_REPORT_ARG_PROOF_INVALID');
 			proof = this.parseProof(msg);
 		}
-
-		proof = await this.getImgurLink(proof);
-
+		try {
+			proof = await this.getImgurLink(proof);
+		} catch {
+			this.channels.delete(msg.channel.id);
+			return msg.responder.error('COMMAND_REPORT_ERRIMGUR');
+		}
 		const ban = new Ban()
 			.setUser(user.id, user.username, user.discriminator)
 			.setModerator(msg.author.id)

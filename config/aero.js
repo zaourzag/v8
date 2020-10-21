@@ -14,11 +14,17 @@ module.exports = {
 	}[stage],
 	stage,
 	version,
-	inviteURL: 'https://get.aero.bot',
 	supportServer: 'https://discord.gg/n6eZ3Z5',
-	repoURL: 'https://git.aero.bot/aero',
+	inviteURL: 'https://get.aero.bot',
+	repoURL: 'https://git.aero.bot',
 	hasteURL: 'https://haste.aero.bot',
-	memegenURL: 'https://memes.aero.bot/api',
+	memegenURL: 'https://memes.aero.bot',
 	colorgenURL: 'https://color.aero.bot',
+	chartgenURL: 'https://charts.aero.bot',
+	pingURL: 'https://ping.aero.bot',
+	langURL: 'https://language.aero.bot',
+	shortURL: 'https://ddlc.me',
 	dailyPoints: 50
 };
+
+module.exports.cwEnabled = !['true', true].includes(process.env.CHATWATCH_DISABLED);

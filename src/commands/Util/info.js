@@ -1,8 +1,8 @@
 const { Command, Duration, Timestamp } = require('klasa');
 const { MessageEmbed, GuildMember, User, Role, Permissions: { FLAGS } } = require('discord.js');
-const { color: { VERY_NEGATIVE, POSITIVE }, emojis: { perms: { granted, unspecified } }, badges } = require('../../../lib/util/constants');
+const { color: { VERY_NEGATIVE, POSITIVE }, emojis: { perms: { granted, unspecified }, infinity }, badges, url: { KSoftBans } } = require('../../../lib/util/constants');
 const req = require('@aero/centra');
-
+const { Ban, Warn } = require('@aero/drep');
 module.exports = class extends Command {
 
 	constructor(...args) {
@@ -99,12 +99,14 @@ module.exports = class extends Command {
 	}
 
 	async userinfo(msg, user) {
+		const loading = await msg.channel.send(`${infinity} this might take a few seconds`);
 		let embed = new MessageEmbed();
 		embed = await this._addBaseData(user, embed);
 		embed = await this._addBadges(user, embed);
 		embed = await this._addMemberData(msg, user, embed);
 		embed = await this._addSecurity(msg, user, embed);
-		return msg.sendEmbed(embed);
+		await msg.sendEmbed(embed);
+		return loading.delete();
 	}
 
 	async _addBaseData(user, embed) {
@@ -181,19 +183,27 @@ module.exports = class extends Command {
 				warnings.map((warn, idx) => `${idx + 1}. ${!warn.active ? '~~' : ''}**${warn.reason}** | ${this.client.users.get(warn.moderator).tag}${!warn.active ? '~~' : ''}`)
 			);
 		}
+		const notes = member.settings.get('notes');
+		if (notes.length) {
+			for (const { moderator } of notes) await this.client.users.fetch(moderator);
+			embed.addField(
+				`• ${msg.language.get('COMMAND_INFO_USER_NOTES')} (${notes.length})`,
+				notes.map((note, idx) => `${idx + 1}. **${note.reason}** | ${this.client.users.get(note.moderator).tag}`)
+			);
+		}
 
 		return embed;
 	}
 
 	async _addSecurity(msg, user, embed) {
-		const KSoftBan = await this.client.ksoft.bans.info(user.id).catch(() => null);
-		const DRepBan = await this.client.drep.ban(user.id).catch(() => ({ banned: false }));
-		const DRepReputation = await this.client.drep.rep(user.id).catch(() => ({ reputation: 0, staff: false }));
+		const KSoftBan = await this.client.ksoft.bans?.info(user.id).catch(() => null);
+		const DRepInfraction = await this.client.drep?.infractions(user.id).catch(() => null);
+		const DRepReputation = await this.client.drep?.rep(user.id).catch(() => ({ reputation: 0, staff: false })) ?? { reputation: 0, staff: false };
 		const DRepProfile = `https://discordrep.com/u/${user.id}`;
-		const CWProfile = await this.client.chatwatch.profile(user.id).catch(() => ({ whitelisted: false, score: 50 }));
+		const CWProfile = await this.client.chatwatch?.profile?.(user.id)?.catch(() => ({ whitelisted: false, score: 50 })) ?? { whitelisted: false, score: 50 };
 		const rating = KSoftBan || CWProfile.blacklisted
 			? 'COMMAND_INFO_TRUST_VERYLOW'
-			: DRepBan.banned || DRepReputation.reputation < 0 || CWProfile.score > 50
+			: DRepInfraction instanceof Ban || DRepInfraction instanceof Warn || DRepReputation.reputation < 0 || CWProfile.score > 50
 				? 'COMMAND_INFO_TRUST_LOW'
 				: this.client.owners.has(user) || CWProfile.whitelisted
 					? 'COMMAND_INFO_TRUST_VERYHIGH'
@@ -208,23 +218,29 @@ module.exports = class extends Command {
 						? 'COMMAND_INFO_USER_CWNEUTRAL'
 						: 'COMMAND_INFO_USER_CWBAD';
 
+		const KSoftBansProfile = `${KSoftBans}?user=${user.id}`;
+
 		embed.addField(`• Trust (${msg.language.get(rating)})`, [
-			KSoftBan
-				? msg.language.get('COMMAND_INFO_USER_KSOFTBANNED', KSoftBan.reason, KSoftBan.proof)
-				: msg.language.get('COMMAND_INFO_USER_KSOFTCLEAN'),
-			msg.language.get(cwRating, CWProfile.blacklisted_reason),
-			DRepBan.banned
-				? msg.language.get('COMMAND_INFO_USER_DREPBANNED', DRepBan.reason)
-				: DRepReputation.reputation === 0
-					? msg.language.get('COMMAND_INFO_USER_DREPNEUTRAL', DRepProfile)
-					: DRepReputation.reputation > 0
-						? DRepReputation.staff
-							? msg.language.get('COMMAND_INFO_USER_DREPSTAFF', DRepProfile)
-							: msg.language.get('COMMAND_INFO_USER_DREPPOSITIVE', DRepProfile)
-						: msg.language.get('COMMAND_INFO_USER_DREPNEGATIVE', DRepProfile)
+			KSoftBan?.active
+				? msg.language.get('COMMAND_INFO_USER_KSOFTBANNED', KSoftBan.reason, KSoftBan.proof, KSoftBansProfile)
+				: CWProfile.whitelisted
+					? msg.language.get('COMMAND_INFO_USER_KSOFTSTAFF', KSoftBansProfile)
+					: msg.language.get('COMMAND_INFO_USER_KSOFTCLEAN', KSoftBansProfile),
+			msg.language.get(cwRating, KSoftBansProfile, CWProfile.blacklisted_reason),
+			DRepInfraction instanceof Ban
+				? msg.language.get('COMMAND_INFO_USER_DREPBANNED', DRepInfraction.reason)
+				: DRepInfraction instanceof Warn
+					? msg.language.get('COMMAND_INFO_USER_DREPWARNED', DRepInfraction.reason)
+					: DRepReputation.reputation === 0
+						? msg.language.get('COMMAND_INFO_USER_DREPNEUTRAL', DRepProfile)
+						: DRepReputation.reputation > 0
+							? DRepReputation.staff
+								? msg.language.get('COMMAND_INFO_USER_DREPSTAFF', DRepProfile)
+								: msg.language.get('COMMAND_INFO_USER_DREPPOSITIVE', DRepProfile)
+							: msg.language.get('COMMAND_INFO_USER_DREPNEGATIVE', DRepProfile)
 		].join('\n'));
 
-		DRepBan.banned || KSoftBan || CWProfile.blacklisted || CWProfile.score > 80
+		DRepInfraction instanceof Ban || DRepInfraction instanceof Warn || KSoftBan?.active || CWProfile.blacklisted || CWProfile.score > 80
 			? embed.setColor(VERY_NEGATIVE)
 			: embed.setColor(POSITIVE);
 
@@ -258,13 +274,12 @@ module.exports = class extends Command {
 
 	async serverinfo(msg) {
 		const { guild } = msg;
-		const [bots, humans] = guild.members.partition(member => member.user.bot);
 		const toxicity = guild.settings.get('stats.toxicity');
 		await msg.guild.members.fetch(msg.guild.ownerID);
 		const embed = new MessageEmbed()
 			.setAuthor(`${guild.name} [${guild.id}]`, guild.iconURL())
 			.addField('• Created', `${this.timestamp.display(guild.createdAt)} (${Duration.toNow(guild.createdAt)} ago)`)
-			.addField('• Members', `${humans.size} human${humans.size === 1 ? '' : 's'}, ${bots.size} bot${bots.size === 1 ? '' : 's'}`, true)
+			.addField('• Members', `${guild.memberCount} (cached: ${guild.members.size})`, true)
 			.addField('• Voice region', this.regions[msg.guild.region], true)
 			.addField('• Owner', `${guild.owner.user.tag} ${guild.owner.toString()} [${guild.ownerID}]`)
 			.addField('• Statistics', `${guild.settings.get('stats.messages')} messages ${toxicity !== 0 ? `with an average toxicity of ${Math.round(toxicity * 100)}%` : ''} sent`)

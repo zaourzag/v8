@@ -32,7 +32,7 @@ module.exports = class extends Command {
 			permission,
 			target
 		});
-		return message.responder.success(message.language.get(`COMMAND_PERMS_SUCCESS_${action.toUpperCase()}`, permission, target));
+		return message.responder.success(`COMMAND_PERMS_SUCCESS_${action.toUpperCase()}`, permission, target?.name || target?.displayName || target);
 	}
 
 	buildOverview(tree, target, lang) {
@@ -49,7 +49,7 @@ module.exports = class extends Command {
 					? granted
 					: denied
 				: unspecified
-				} ${category}`);
+			} ${category}`);
 			let i = 0;
 			const keys = Object.keys(tree[category]).length;
 			for (const key in tree[category]) {
@@ -58,7 +58,7 @@ module.exports = class extends Command {
 				out.push(`  ${i === keys ? '└──' : '├──'}${tree[category][key]
 					? granted
 					: denied
-					} ${key}`);
+				} ${key}`);
 			}
 		}
 		return out.join('\n');

@@ -1,4 +1,10 @@
-const { Command } = require('klasa');
+/*
+ * Co-Authored-By: https://github.com/dirigeants/klasa-pieces
+ * Co-Authored-By: https://github.com/kyranet
+ * License: MIT License
+ * Credit example: Copyright (c) 2019 [dirigeants](https://github.com/dirigeants), MIT License
+ */
+const { Command } = require('@aero/klasa');
 
 module.exports = class extends Command {
 

@@ -1,4 +1,4 @@
-const { Monitor } = require('klasa');
+const { Monitor } = require('@aero/klasa');
 const Parser = require('@aero/tags');
 
 module.exports = class extends Monitor {
@@ -25,8 +25,10 @@ module.exports = class extends Monitor {
 				user: msg.author,
 				guild: msg.guild,
 				channel: msg.channel,
-				member: msg.member
-			});
+				member: msg.member,
+				trigger: msg,
+				logger: this.client.console
+			}).then(result => result?.trim());
 
 			if (!parsedTag.length) continue;
 			msg.send(parsedTag);

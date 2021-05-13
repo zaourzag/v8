@@ -1,4 +1,4 @@
-const { Command } = require('klasa');
+const { Command } = require('@aero/klasa');
 const { Permissions: { FLAGS } } = require('discord.js');
 
 module.exports = class extends Command {
@@ -29,7 +29,7 @@ module.exports = class extends Command {
 	}
 
 	display(msg) {
-		const role = msg.guild.roles.get(msg.guild.settings.get('mod.roles.bots'));
+		const role = msg.guild.roles.cache.get(msg.guild.settings.get('mod.roles.bots'));
 		if (!role) return msg.responder.error('COMMAND_BOTROLE_NONE');
 		return msg.responder.success('COMMAND_BOTROLE_DISPLAY', role.name);
 	}

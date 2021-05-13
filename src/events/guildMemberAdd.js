@@ -1,4 +1,4 @@
-const { Event } = require('klasa');
+const { Event } = require('@aero/klasa');
 
 module.exports = class extends Event {
 
@@ -12,12 +12,14 @@ module.exports = class extends Event {
 	async run(member) {
 		await member.settings.sync();
 
-		// autoroles
+		// botroles
 		const autoroles = await member.guild.settings.get('mod.roles.auto');
-		if (member.user.bot) {
-			const botrole = await member.guild.settings.get('mod.roles.bots');
-			if (botrole) member.roles.add(botrole, member.guild.language.get('EVENT_BOTROLE_REASON')).catch(() => null);
-		} else if (autoroles.length) { await member.roles.add(autoroles, member.guild.language.get('EVENT_AUTOROLE_REASON')).catch(() => null); }
+		const botrole = await member.guild.settings.get('mod.roles.bots');
+		if (autoroles.length && !member.user.bot && !member.pending) {
+			await member.roles.add(autoroles, member.guild.language.get('EVENT_AUTOROLE_REASON')).catch(() => null);
+		} else if (member.user.bot && botrole) {
+			await member.roles.add(botrole, member.guild.language.get('EVENT_BOTROLE_REASON')).catch(() => null);
+		}
 
 		// persistency
 		const persistroles = member.settings.get('persistRoles').filter(id => !autoroles.includes(id));
@@ -51,7 +53,7 @@ module.exports = class extends Event {
 
 	dehoist(member) {
 		if (!member.guild.settings.get('mod.anti.hoisting')) return member;
-		if (member.displayName[0] < '0') member.dehoist();
+		if (member.hoisting) member.dehoist();
 		return member;
 	}
 
@@ -66,7 +68,7 @@ module.exports = class extends Event {
 		const { guild } = member;
 		const channelID = guild.settings.get('welcome.channel');
 		if (!channelID) return member;
-		const channel = guild.channels.get(channelID);
+		const channel = guild.channels.cache.get(channelID);
 		if (!channel) return member;
 
 		const message = guild.settings.get('welcome.message');

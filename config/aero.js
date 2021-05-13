@@ -14,7 +14,7 @@ module.exports = {
 	}[stage],
 	stage,
 	version,
-	supportServer: 'https://discord.gg/n6eZ3Z5',
+	supportServer: 'https://discord.gg/7yfaYjeN6B',
 	inviteURL: 'https://get.aero.bot',
 	repoURL: 'https://git.aero.bot',
 	hasteURL: 'https://haste.aero.bot',
@@ -23,7 +23,9 @@ module.exports = {
 	chartgenURL: 'https://charts.aero.bot',
 	pingURL: 'https://ping.aero.bot',
 	langURL: 'https://language.aero.bot',
+	carbonURL: 'https://carbonara.aero.bot',
 	shortURL: 'https://ddlc.me',
+	lgbtURL: 'https://api.ravy.lgbt',
 	dailyPoints: 50
 };
 

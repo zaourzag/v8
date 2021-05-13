@@ -1,4 +1,10 @@
-const { Command } = require('klasa');
+/*
+ * Co-Authored-By: dirigeants (https://github.com/dirigeants)
+ * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
+ * License: MIT License
+ * Credit example: Copyright (c) 2019 dirigeants, MIT License
+ */
+const { Command } = require('@aero/klasa');
 const { User } = require('discord.js');
 
 module.exports = class extends Command {
@@ -31,7 +37,7 @@ module.exports = class extends Command {
 		}
 
 		const { errors } = await this.client.settings.update([['userBlacklist', queries[0]], ['guildBlacklist', queries[1]]]);
-		if (errors.length) throw String(errors[0]);
+		if (errors?.length) throw String(errors[0]);
 
 		return message.sendLocale('COMMAND_BLACKLIST_SUCCESS', changes);
 	}

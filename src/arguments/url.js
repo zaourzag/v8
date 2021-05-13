@@ -1,4 +1,10 @@
-const { Argument } = require('klasa');
+/*
+ * Co-Authored-By: dirigeants (https://github.com/dirigeants)
+ * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
+ * License: MIT License
+ * Credit example: Copyright (c) 2019 dirigeants, MIT License
+ */
+const { Argument } = require('@aero/klasa');
 
 module.exports = class extends Argument {
 
@@ -11,7 +17,11 @@ module.exports = class extends Argument {
 		try {
 			url = new URL(arg);
 		} catch {
-			throw message.language.get('RESOLVER_INVALID_URL', possible.name);
+			try {
+				url = new URL(arg.replace(/<(.*?)>/, '$1'));
+			} catch {
+				throw message.language.get('RESOLVER_INVALID_URL', possible.name);
+			}
 		}
 
 		if (!['https:', 'http:'].includes(url.protocol)) throw message.language.get('RESOLVER_URL_BADPROTO', possible.name);

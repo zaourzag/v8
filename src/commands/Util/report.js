@@ -1,4 +1,4 @@
-const { Command } = require('klasa');
+const { Command } = require('@aero/klasa');
 const { Ban } = require('@aero/ksoft');
 const req = require('@aero/centra');
 const { url: { ImgurAPI }, regexes: { imgur: { album, image }, discord: { cdn }, cancel } } = require('../../../lib/util/constants');
@@ -108,7 +108,7 @@ module.exports = class extends Command {
 		if (!msg.content) return false;
 		if (msg.mentions.users.size > 0) return true;
 		if (/^(\d{17,19})$/.test(msg.content)) {
-			const user = await this.client.users.fetch(msg.content);
+			const user = await this.client.users.fetch(msg.content).catch(() => false);
 			return !!user;
 		}
 		return false;
@@ -126,7 +126,7 @@ module.exports = class extends Command {
 	parseUser(msg) {
 		return msg.mentions.users.size
 			? msg.mentions.users.first()
-			: msg.client.users.get(msg.content);
+			: msg.client.users.cache.get(msg.content);
 	}
 
 	parseReason(msg) {

@@ -1,6 +1,11 @@
-const { Command } = require('klasa');
-const { MessageEmbed } = require('discord.js');
+/*
+ * Co-Authored-By: Stitch07 (https://github.com/Stitch07)
+ * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
+ * Credit example: Credit goes to [Stitch07](https://github.com/Stitch07) and [ravy](https://ravy.pink). (c) [The Aero Team](https://aero.bot) 2021
+ */
+const { Command } = require('@aero/klasa');
 const req = require('@aero/centra');
+const BASE_URL = 'http://api.urbandictionary.com/v0';
 
 module.exports = class extends Command {
 
@@ -11,8 +16,7 @@ module.exports = class extends Command {
 			usageDelim: ', ',
 			cooldown: 5,
 			requiredPermissions: ['EMBED_LINKS'],
-			aliases: ['ud'],
-			nsfw: true
+			aliases: ['ud']
 		});
 
 		this
@@ -26,8 +30,10 @@ module.exports = class extends Command {
 	}
 
 	async run(msg, [search, resultNum = 0]) {
-		const url = `http://api.urbandictionary.com/v0/define?term=${search}`;
-		const body = await req(url).json();
+		const body = await req(BASE_URL)
+			.path('define')
+			.query('term', search)
+			.json();
 		if (resultNum > 1) resultNum--;
 
 		const result = body.list[resultNum];
@@ -35,14 +41,12 @@ module.exports = class extends Command {
 		const wdef = result.definition.length > 1000
 			? `${this.splitText(result.definition, 1000)}...`
 			: result.definition;
-		return msg.sendEmbed(new MessageEmbed()
-			.setTitle(result.word)
-			.setDescription(`${this.removeBrackets(wdef)}\n\n\`👍\` ${result.thumbs_up}\n\`👎\` ${result.thumbs_down}`)
-			.setURL(result.permalink)
-			.setColor(16586)
-			.setThumbnail('http://i.imgur.com/qNTzb3k.png')
-			.setFooter(`By ${result.author}`)
-			.addField('Example', `*${this.splitText(this.removeBrackets(result.example), 1000)}...*`));
+
+		const wex = result.example.length > 1000
+			? `${this.splitText(result.example, 1000)}...`
+			: result.example;
+
+		return msg.send(`${this.removeBrackets(wdef)}\n\n*${this.removeBrackets(wex)}*`);
 	}
 
 	removeBrackets(text) {

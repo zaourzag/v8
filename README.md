@@ -17,7 +17,10 @@ If you're currently using a bot like Dyno, Carl, Mee6, or any of the major multi
 On its own, Aero is pretty cool. But there's some tools we use to extend this even further. Those are:
 - [The KSoft.Si API](https://api.ksoft.si) - A swiss-army-knife for images, a huge yet transparent global ban list, and a lot of utilities
 - [ChatWatch](https://chatwat.ch) - A joint effort between the teams at Aero and KSoft.Si to prevent spam
+- [Perspective](https://www.perspectiveapi.com/) - An API using machine learning to reduce toxicity online
 - [DiscordRep](https://discordrep.com) - An online fraud prevention project
+- [Dank Memer Imgen](https://dankmemer.services/) - An image generation API for generating memes and more
+- [Carbon](https://carbon.now.sh/)/[Carbonara](https://github.com/petersolopov/carbonara) - A website to create beautiful code screenshots and the corresponding API
 
 Aero isn't built from scratch, there's a few libraries that we used to build Aero. The most important are:
 - [Klasa](https://klasa.js.org) - An object-oriented framework around discord.js which saves us from writing all the basics
@@ -33,7 +36,7 @@ Before selfhosting, please look at the LICENSE. Generally, you're allowed to do 
 If you're taking code from this project, or are working on a project inspired by Aero, you might be required to credit us. We've written up a few templates to save you some time:
 
 ### Command
-`Credit goes to [ravy](https://ravy.xyz) from [The Aero Team](https://aero.bot)` (ravy may be replaced by the contributor that wrote the command. If you don't know who did it, it was probably ravy)
+`Credit goes to [ravy](https://ravy.pink) from [The Aero Team](https://aero.bot)` (ravy may be replaced by the contributor that wrote the command. If you don't know who did it, it was probably ravy). You can also find occasional credit examples in the command code.
 
 ### Idea
 `This project was inspired by [Aero](https://aero.bot).`
@@ -47,8 +50,8 @@ Feel free to contact us about licensing at licensing@aero.bot
 ## Contributors
 
 You can find all contributors in the package.json and listed below:
-- [Ravy](https://ravy.xyz) (Project Lead, Community Architect)
-- [Rxsto](https://rxsto.me) (Infrastructure Engineer)
-- [Dragon](https://dragondev.party/) (Software Engineer)
-- [Stitch](https://github.com/Soumil07/) (Software Engineer)
-- Askara, Yuki, and NANI (Emotional Support)
+- [Ravy](https://ravy.pink) (Project Lead, Community Architecture)
+- [Rxsto](https://rxs.to) (Infrastructure Engineering)
+- [Dragon](https://dragondev.party/) (Software Engineering)
+- [Stitch](https://github.com/Soumil07/) (Software Engineering)
+- Harsh Peshwani (Software Engineering)

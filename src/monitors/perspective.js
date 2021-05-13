@@ -1,4 +1,4 @@
-const { Monitor } = require('klasa');
+const { Monitor } = require('@aero/klasa');
 const req = require('@aero/centra');
 const { PerspectiveAPI } = require('../../lib/util/constants').url;
 
@@ -36,9 +36,10 @@ module.exports = class extends Monitor {
 			msg.delete({ reason: msg.language.get('EVENT_PERSPECTIVE_DELETEREASON') });
 		}
 
+		/*
 		const TOXICITY = scores.TOXICITY.summaryScore.value;
 
-		for (const obj of [msg.member, msg.author, msg.guild]) {
+		for (const obj of [msg.member, msg.author, msg.guild].filter(i => !!i)) {
 			await obj.settings.sync();
 			const messages = obj.settings.get('stats.messages');
 			const prev = obj.settings.get('stats.toxicity');
@@ -47,6 +48,7 @@ module.exports = class extends Monitor {
 				obj.settings.update('stats.toxicity', updated);
 			}
 		}
+		*/
 	}
 
 

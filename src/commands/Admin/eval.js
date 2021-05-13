@@ -1,4 +1,10 @@
-const { Command, Stopwatch, Type, util } = require('klasa');
+/*
+ * Co-Authored-By: dirigeants (https://github.com/dirigeants)
+ * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
+ * License: MIT License
+ * Credit example: Copyright (c) 2019 dirigeants, MIT License
+ */
+const { Command, Stopwatch, Type, util } = require('@aero/klasa');
 const { inspect } = require('util');
 const req = require('@aero/centra'); /* eslint-disable-line no-unused-vars */
 
@@ -27,6 +33,7 @@ module.exports = class extends Command {
 		if (output.length > 2000) {
 			const { key } = await req(this.client.config.hasteURL, 'POST')
 				.path('documents')
+				.body(result)
 				.json();
 
 			return message.send(message.language.get('COMMAND_EVAL_SENDHASTE', time, `${this.client.config.hasteURL}/${key}`, footer));

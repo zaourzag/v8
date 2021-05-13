@@ -1,6 +1,14 @@
-// Copyright (c) 2017-2019 dirigeants. All rights reserved. MIT license.
-const { Provider, util: { mergeDefault, mergeObjects, isObject } } = require('klasa');
+/*
+ * Co-Authored-By: dirigeants (https://github.com/dirigeants)
+ * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
+ * License: MIT License
+ * Credit example: Copyright (c) 2019 dirigeants, MIT License
+ *
+ * INFORMATION: There's a lot of stuff commented out in here. All of that is debug because of persistency issues and might need to be reenabled if they ever reoccur.
+ */
+const { Provider, util: { mergeDefault, mergeObjects, isObject } } = require('@aero/klasa');
 const { MongoClient: Mongo } = require('mongodb');
+// const { inspect } = require('util');
 
 module.exports = class extends Provider {
 
@@ -47,6 +55,7 @@ module.exports = class extends Provider {
 	/* Document methods */
 
 	getAll(table, filter = []) {
+		// this.client.console.log(`[Mongo] get `, { table, filter });
 		if (filter.length) {
 			return this.db.collection(table).find({ id: { $in: filter } }, { _id: 0 })
 				.toArray();
@@ -61,7 +70,9 @@ module.exports = class extends Provider {
 	}
 
 	get(table, id) {
-		return this.db.collection(table).findOne(resolveQuery(id));
+		// this.client.console.log(`[Mongo] get `, { table, id });
+		const res = this.db.collection(table).findOne(resolveQuery(id));
+		return res;
 	}
 
 	has(table, id) {
@@ -73,19 +84,31 @@ module.exports = class extends Provider {
 	}
 
 	create(table, id, doc = {}) {
-		return this.db.collection(table).insertOne(mergeObjects(this.parseUpdateInput(doc), resolveQuery(id)));
+		const content = mergeObjects(this.parseUpdateInput(doc), resolveQuery(id));
+		// this.client.console.log(`[Mongo] create `, { table, id }, content);
+		return this.db.collection(table).insertOne(content);
 	}
 
 	delete(table, id) {
-		return this.db.collection(table).deleteOne(resolveQuery(id));
+		const query = resolveQuery(id);
+		// this.client.console.log(`[Mongo] delete `, { table, id, query });
+		return this.db.collection(table).deleteOne(query);
 	}
 
 	update(table, id, doc) {
-		return this.db.collection(table).updateOne(resolveQuery(id), { $set: isObject(doc) ? flatten(doc) : parseEngineInput(doc) });
+		const update = parseEngineInput(doc);
+		if (!Object.keys(update).length) return {};
+		const query = resolveQuery(id);
+		// if (!doc.stats) this.client.console.log(`[Mongo] update `, { table, id }, query, inspect(update, false, 10, true));
+		const res = this.db.collection(table).updateOne(query, { $set: update });
+		return res;
 	}
 
 	replace(table, id, doc) {
-		return this.db.collection(table).replaceOne(resolveQuery(id), this.parseUpdateInput(doc));
+		const query = resolveQuery(id);
+		const update = this.parseUpdateInput(doc);
+		// this.client.console.log(`[Mongo] replace `, { table, id }, query, inspect(update, false, 10, true));
+		return this.db.collection(table).replaceOne(query, update);
 	}
 
 };
@@ -93,15 +116,45 @@ module.exports = class extends Provider {
 // eslint-disable-next-line no-extra-parens
 const resolveQuery = query => isObject(query) ? query : { id: query };
 
-function flatten(obj, path = '') {
-	let output = {};
-	for (const [key, value] of Object.entries(obj)) {
-		if (isObject(value)) output = Object.assign(output, flatten(value, path ? `${path}.${key}` : key));
-		else output[path ? `${path}.${key}` : key] = value;
+/*
+function upsert(object, propertyPath, value) {
+	const spread = propertyPath.startsWith('...');
+	if (spread && typeof value !== 'object') throw new Error("Spread operator '...', can only be used with objects");
+
+	function rec(objectTail, propertyPathTail, spread) { // eslint-disable-line no-shadow
+		const propPaths = propertyPathTail.split('.');
+		const head = propPaths[0];
+		let tail = propPaths.splice(1);
+		tail = tail.join('.');
+
+		if (typeof objectTail[head] !== 'object') {
+			objectTail[head] = {};
+		}
+
+		if (tail) {
+			objectTail[head] = rec(objectTail[head], tail, spread);
+			return objectTail;
+		} else if (!head) {
+			return value;
+		} else {
+			objectTail[head] = spread ? Object.assign({}, objectTail[head], value) : value;
+			return objectTail;
+		}
 	}
-	return output;
+
+	return rec(object, spread ? propertyPath.slice(3) : propertyPath, spread);
 }
+*/
 
 function parseEngineInput(updated) {
-	return Object.assign({}, ...updated.map(entry => ({ [entry.key]: entry.value })));
+	const output = {};
+
+	for (const item of updated) {
+		if (item.previous === item.next) continue;
+		const value = item.next;
+		const { path } = item.entry;
+		output[path] = value;
+	}
+
+	return output;
 }

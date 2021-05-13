@@ -1,6 +1,15 @@
-const { Language, util } = require('klasa');
+/*
+ * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
+ * Co-Authored-By: Stitch07 (https://github.com/Stitch07)
+ * Co-Authored-By: dirigeants (https://github.com/dirigeants)
+ * Co-Authored-By: Klasa Community Plugins (https://github.com/KlasaCommunityPlugins)
+ * Co-Authored-By: Skyra Project (https://github.com/skyra-project)
+ * Co-Authored-By: Harsh Peshwani
+ * Credit example: (c) [The Aero Team](https://aero.bot) 2021
+ */
+const { Language, util } = require('@aero/klasa');
 const { bold, code } = require('discord-md-tags');
-const { success, trusted, banned, nodata, perms: { granted, unspecified }, covid: { cases, recoveries, deaths, tests } } = require('../../lib/util/constants').emojis;
+const { success, infinity, trusted, banned, nodata, perms: { granted, unspecified }, covid: { cases, recoveries, deaths, tests } } = require('../../lib/util/constants').emojis;
 
 module.exports = class extends Language {
 
@@ -13,7 +22,7 @@ module.exports = class extends Language {
 			PREFIX_REMINDER: (prefix = `@${this.client.user.tag}`) => `The prefix${Array.isArray(prefix)
 				? `es for this guild are: ${prefix.map(pre => `\`${pre}\``).join(', ')}`
 				: ` in this guild is set to: \`${prefix}\``
-				}`,
+				}`, /* eslint-disable-line indent */
 
 			ERROR_GENERIC: (err) => `An error occurred: ${err}`,
 			ERROR_SHORT: (err) => err,
@@ -62,6 +71,7 @@ module.exports = class extends Language {
 			],
 			COMMAND_LOG_REASON: 'Initializing logging',
 			COMMAND_LOG_SUCCESS: (type, channel) => `Now logging ${bold`${type}`} in ${channel}.`,
+			COMMAND_LOG_NOWEBHOOKPERMS: 'I don\'t have permission to create a webhook for that channel.',
 			COMMAND_LOG_DISPLAY_NOCHANNEL: type => `Not logging ${bold`${type}`}.`,
 			COMMAND_LOG_DISPLAY_ONE: (type, channel) => `Currently logging ${bold`${type}`} in ${channel}.`,
 			COMMAND_ANTI_DESCRIPTION: 'Configures auto moderation settings.',
@@ -72,7 +82,11 @@ module.exports = class extends Language {
 			COMMAND_ANTI_DISPLAY_DIVIDER_USERS: '__Username issues:__',
 			COMMAND_ANTI_NOTYPE: 'No auto moderation type specified.',
 			COMMAND_ANTI_SUCCESS: (type, enabled, users) => `Successfully **${enabled ? 'enabled' : 'disabled'}** filtering **${type}**${users ? ' usernames' : ''}.`,
+			COMMAND_AUTOPUBLISH_DESCRIPTION: 'Automatically publishes/crossposts messages in a channel',
+			COMMAND_AUTOPUBLISH_ADDED: (name) => `Added ${name} to automatically published channels.`,
+			COMMAND_AUTOPUBLISH_REMOVED: (name) => `Removed ${name} from automatically published channels.`,
 			COMMAND_EXEMPT_DESCRIPTION: 'Exempt a user/role/channel from being filtered by automod.',
+			COMMAND_EXEMPT_DUPLICATE: (name, typePlural) => `${name} is already in the list of exempt ${typePlural}`,
 			COMMAND_UNEXEMPT_DESCRIPTION: 'Remove the exemption of a user/role/channel from automod.',
 			COMMAND_RAID_DESCRIPTION: 'Configures raid prevention settings.',
 			COMMAND_RAID_HOWTO: (username, prefix) => [
@@ -103,6 +117,9 @@ module.exports = class extends Language {
 			COMMAND_BOTROLE_DISABLE: 'No longer automatically assigning a role to bots.',
 			COMMAND_BOTROLE_NONE: 'No bot role set up',
 			COMMAND_BOTROLE_DISPLAY: name => `Bots are currently automatically assigned ${bold`${name}`} upon joining.`,
+			COMMAND_CARBON_DESCRIPTION: 'Toggle automatically making an image from your code using [carbonara](https://github.com/petersolopov/carbonara)',
+			COMMAND_CARBON_ENABLED: 'Enabled automatic codeblock conversion.',
+			COMMAND_CARBON_DISABLED: 'Disabled automatic codeblock conversion.',
 			COMMAND_WELCOME_DESCRIPTION: 'Sets a welcome message for new members. How friendly.',
 			COMMAND_WELCOME_NOTEXT: 'Please specify a welcome message',
 			COMMAND_WELCOME_SHOW_NONE: 'No welcome message configured',
@@ -152,6 +169,8 @@ module.exports = class extends Language {
 			COMMAND_COLOR_NOCOLOR: 'You need to provide a valid color to display.',
 			COMMAND_COLOR_INVALIDCOLOR: 'You provided an invalid color!',
 			COMMAND_COLOR_DESCRIPTION: 'Outputs the chosen color from hex.',
+			COMMAND_CONVERT_DESCRIPTION: 'Converts one currency to another',
+			COMMAND_CONVERT_SUCCESS: (from, to) => `${from} = ${to}`,
 			COMMAND_CUDDLE_SELF: user => `${user} cuddled themselves. How is that even possible.`,
 			COMMAND_CUDDLE_SOMEONE: (from, to) => `${from} cuddled ${to}. How cute. 💕`,
 			COMMAND_CUDDLE_DESCRIPTION: `Cuddle with someone! Please!`,
@@ -188,6 +207,15 @@ module.exports = class extends Language {
 			COMMAND_YOMAMMA_DESCRIPTION: 'Yo momma is so fat, yo.',
 			COMMAND_JOKE_DESCRIPTION: 'Fetch a *very* funny joke.',
 			COMMAND_TOPIC_DESCRIPTION: 'Suggests a random topic as a conversation starter.',
+			COMMAND_TRANS_DESCRIPTION: 'Adds a trans-pride-flag colored circle around a user\'s avatar.',
+			COMMAND_GENDERFLUID_DESCRIPTION: 'Adds a genderfluid-pride-flag colored circle around a user\'s avatar.',
+			COMMAND_AGENDER_DESCRIPTION: 'Adds an agender-pride-flag colored circle around a user\'s avatar.',
+			COMMAND_ASEXUAL_DESCRIPTION: 'Adds an asexual-pride-flag colored circle around a user\'s avatar.',
+			COMMAND_BISEXUAL_DESCRIPTION: 'Adds a bisexual-pride-flag colored circle around a user\'s avatar.',
+			COMMAND_LESBIAN_DESCRIPTION: 'Adds a lesbian-pride-flag colored circle around a user\'s avatar.',
+			COMMAND_NONBINARY_DESCRIPTION: 'Adds a nonbinary-pride-flag colored circle around a user\'s avatar.',
+			COMMAND_PANSEXUAL_DESCRIPTION: 'Adds a pansexual-pride-flag colored circle around a user\'s avatar.',
+			COMMAND_PRIDE_DESCRIPTION: 'Adds a pride-flag colored circle around a user\'s avatar.',
 			COMMAND_ROLL_DESCRIPTION: 'Roll one or more die.',
 
 			// games
@@ -220,6 +248,7 @@ module.exports = class extends Language {
 
 			// misc commands
 			COMMAND_INFO_DESCRIPTION: 'Get information about a user, role, the server, or this bot.',
+			COMMAND_INFO_INVALIDID: 'The ID you provided doesn\'t match any user or role. Maybe you copied a DM channel ID?',
 			COMMAND_INFO_USER_DISCORDJOIN: (joinedAt, joinDuration) => `Joined Discord on ${joinedAt} (${joinDuration} ago)`,
 			COMMAND_INFO_USER_GUILDJOIN: (guild, joinedAt, joinDuration) => `Joined ${guild} on ${joinedAt} (${joinDuration} ago)`,
 			COMMAND_INFO_USER_GUILDRCEATE: (guild, createdAt, createdDuration) => `Created ${guild} on ${createdAt} (${createdDuration} ago)`,
@@ -256,12 +285,18 @@ module.exports = class extends Language {
 			COMMAND_INFO_TRUST_VERYHIGH: 'very high',
 			COMMAND_HASTEBIN_DESCRIPTION: 'Upload code or text to hastebin.',
 			COMMAND_REMIND_DESCRIPTION: 'Create a reminder.',
-			COMMAND_REMIND_REPLY: when => `I will remind you in ${when}.`,
+			COMMAND_REMIND_REPLY: (when, id) => `I will remind you in ${when}. (id: ${id})`,
+			COMMAND_REMINDLIST_DESCRIPTION: 'See all your active reminders.',
+			COMMAND_REMINDLIST_NOREMINDERS: 'You don\'t have any active reminders',
+			COMMAND_UNREMIND_NOEXIST: 'This reminder doesn\'t exist.',
+			COMMAND_UNREMIND_NOOWNER: 'This reminder isn\'t yours.',
 			COMMAND_REDEEMKEY_NOEXIST: "This key doesn't exist or has already been redeemed.",
 			COMMAND_REDEEMKEY_DESCRIPTION: 'Redeem a key for a badge.',
 			COMMAND_CREATEKEY_DESCRIPTION: 'Create a key to redeem for a badge',
+			COMMAND_CREATEKEY_INVALID: 'There is no badge with this id.',
 			COMMAND_LYRICS_FAILED: url => `Too many characters to display, check out the lyrics on KSoft: ${url}`,
 			COMMAND_LYRICS_DESCRIPTION: 'Fetches lyrics for a song from api.ksoft.si',
+			COMMAND_MEASURE_DESCRIPTION: 'Get a website\'s performance using lighthouse analytics',
 			COMMAND_POLL_DESCRIPTION: 'Creates a poll that people can vote on. Seperate options using commas.',
 			COMMAND_POLL_TOO_MANY_OPTIONS: 'The maximum amount of options is **10**',
 			COMMAND_POLL_TOO_FEW_OPTIONS: 'The minimum amount of options required is **2**',
@@ -269,6 +304,8 @@ module.exports = class extends Language {
 			COMMAND_REDEEM_SUCCESS: (icon, title) => `Successfully redeemed ${icon} ${title}`,
 			COMMAND_REPORT_SUBMITERR: (err) => `An issue occurred when submitting the ban: ${err}`,
 			COMMAND_AVATAR_DESCRIPTION: 'Get the avatar from a user.',
+			COMMAND_BADGES_DESCRIPTION: 'Calculates estimates on how many members in a guild have which profile badges.',
+			COMMAND_BADGES_GUILDSIZE: 'Requesting badges from this guild is not possible due to an issue with large guilds in discord.js.',
 			COMMAND_REVERSEAVATAR_DESCRIPTION: "Perform a reverse image search for a user's avatar.",
 			COMMAND_CORONA_DESCRIPTION: 'Get current statistics of the COVID-19 pandemic.',
 			COMMAND_CORONA_UNAVAILABLE: 'Fetching current data from disease.sh failed, please retry later',
@@ -289,8 +326,11 @@ module.exports = class extends Language {
 			COMMAND_CORONA_ABSOLUTE_TESTS_RATE: 'of population tested',
 			COMMAND_CORONAGRAPH_DESCRIPTION: 'Graphs relevant COVID-19 stats for a country.',
 			COMMAND_CORONAGRAPH_INVALID: 'Invalid country name',
+			COMMAND_DEFINE_DESCRIPTION: 'Defines a term using the Merriam-Webster Dictionary API',
+			COMMAND_DEFINE_NOTFOUND: 'No word matching your query was found.',
 			COMMAND_WOLFRAM_DESCRIPTION: 'Gets a result from Wolfram|Alpha.',
 			COMMAND_WOLFRAM_ERROR: 'Your query did not return any result.',
+			COMMAND_WOLFRAM_LENGTH: url => `Failed to display the response due to too many characters. Try searching manually at: <${url}>`,
 
 			// social commands
 			COMMAND_DAILY_DESCRIPTION: 'Claim your daily points! Add --reminder to be reminded in 12h.',
@@ -323,6 +363,7 @@ module.exports = class extends Language {
 				"Specify s[oft] before the reason to purge the user(s)'s last 24h of messages and unban them again (commonly referred to as a softban)."
 			],
 			COMMAND_BAN_NOPERMS: multiple => `You cannot ban ${multiple ? 'any of the specified users' : 'the specified user'}.`,
+			COMMAND_BAN_ERROR: (user, issue) => `Failed to ban ${user}: ${issue}`,
 			COMMAND_BAN_SOFTBANRELEASED: 'softban released',
 			COMMAND_BAN_CONFLICT: "You can't softban and tempban at the same time.",
 			COMMAND_BAN_NOREASON: 'no reason specified',
@@ -510,6 +551,7 @@ module.exports = class extends Language {
 			COMMAND_REPORT_ERRIMGUR: 'The imgur API returned an error.',
 			COMMAND_KSOFT_POWEREDBY: 'powered by api.ksoft.si',
 			COMMAND_MEME_DESCRIPTION: 'Fetches a random meme from reddit.',
+			COMMAND_OWOIFY_DESCRIPTION: 'Transforms your text into the owo language.',
 			COMMAND_VOICEKICK_DESCRIPTION: 'Voice kicks the mentioned member.',
 
 			// events
@@ -540,6 +582,7 @@ module.exports = class extends Language {
 			RESOLVER_MULTI_TOO_FEW: (name, min = 1) => `Provided too few ${name}s. At least ${min} ${min === 1 ? 'is' : 'are'} required.`,
 			RESOLVER_INVALID_BOOL: (name) => `\`${name}\` must be true or false.`,
 			RESOLVER_INVALID_CHANNEL: (name) => `\`${name}\` must be a channel tag or valid channel id.`,
+			RESOLVER_INVALID_NEWSCHANNEL: (name) => `\`${name}\` must be a news channel tag or id.`,
 			RESOLVER_INVALID_CUSTOM: (name, type) => `\`${name}\` must be a valid ${type}.`,
 			RESOLVER_INVALID_DATE: (name) => `\`${name}\` must be a valid date.`,
 			RESOLVER_INVALID_DURATION: (name) => `\`${name}\` must be a valid duration string.`,
@@ -587,6 +630,141 @@ module.exports = class extends Language {
 			INHIBITOR_DEPRECATED: (reason) => `**This command is currently globally disabled:** ${reason}`,
 			INHIBITOR_PERM_NODES: (node) => `You do not have permission to use this command. You need the \`${node}\` permission.`,
 
+			default: ({ key }) => `${key} has not been localized for en-US yet.`,
+			defaultLanguage: 'Default Language',
+			globalYes: 'Yes',
+			globalNo: 'No',
+			globalNone: 'None',
+			globalIs: 'is',
+			globalAnd: 'and',
+			globalOr: 'or',
+			globalUnknown: 'Unknown',
+			settingGatewayKeyNoext: ({ key }) => `The key "${key}" does not exist in the data schema.`,
+			settingGatewayChooseKey: ({ keys }) => `You cannot edit a settings group, pick any of the following: "${keys}"`,
+			settingGatewayUnconfigurableFolder: 'This settings group does not have any configurable sub-key.',
+			settingGatewayUnconfigurableKey: ({ key }) => `The settings key "${key}" has been marked as non-configurable by the bot owner.`,
+			settingGatewayMissingValue: ({ path, value }) => `The value "${value}" cannot be removed from the key "${path}" because it does not exist.`,
+			settingGatewayDuplicateValue: ({ path, value }) => `The value "${value}" cannot be added to the key "${path}" because it was already set.`,
+			settingGatewayInvalidFilteredValue: ({ path, value }) => `The settings key "${path}" does not accept the value "${value}".`,
+			resolverMultiTooFew: ({ name, min, conjunctionWord }) => `Provided too few ${name}s. At least ${min} ${conjunctionWord} required.`,
+			resolverInvalidBool: ({ name }) => `${name} must be true or false.`,
+			resolverInvalidChannel: ({ name }) => `${name} must be a channel tag or valid channel id.`,
+			resolverInvalidCustom: ({ name, type }) => `${name} must be a valid ${type}.`,
+			resolverInvalidDate: ({ name }) => `${name} must be a valid date.`,
+			resolverInvalidDuration: ({ name }) => `${name} must be a valid duration string.`,
+			resolverInvalidEmoji: ({ name }) => `${name} must be a custom emoji tag or valid emoji id.`,
+			resolverInvalidFloat: ({ name }) => `${name} must be a valid number.`,
+			resolverInvalidGuild: ({ name }) => `${name} must be a valid guild id.`,
+			resolverInvalidInt: ({ name }) => `${name} must be an integer.`,
+			resolverInvalidInvite: ({ name }) => `${name} must be a valid invite link.`,
+			resolverInvalidLiteral: ({ name }) => `Your option did not match the only possibility: ${name}`,
+			resolverInvalidMember: ({ name }) => `${name} must be a mention or valid user id.`,
+			resolverInvalidMessage: ({ name }) => `${name} must be a valid message id.`,
+			resolverInvalidPiece: ({ name, piece }) => `${name} must be a valid ${piece} name.`,
+			resolverInvalidRegexMatch: ({ name, pattern }) => `${name} must follow this regex pattern \`${pattern}\`.`,
+			resolverInvalidRole: ({ name }) => `${name} must be a role mention or role id.`,
+			resolverInvalidString: ({ name }) => `${name} must be a valid string.`,
+			resolverInvalidTime: ({ name }) => `${name} must be a valid duration or date string.`,
+			resolverInvalidUrl: ({ name }) => `${name} must be a valid url.`,
+			resolverInvalidUser: ({ name }) => `${name} must be a mention or valid user id.`,
+			resolverInvalidSnowflake: ({ name }) => `${name} must be a valid Discord snowflake.`,
+			resolverInvalidStore: ({ store }) => `${store} must be a valid Store.`,
+			resolverStringSuffix: ' characters',
+			resolverMinmaxExactlyInclusive: ({ name, min }) => `${name} must be exactly ${min}.`,
+			resolverMinmaxExactlyExclusive: ({ name, min }) => `${name} must be exactly ${min}.`,
+			resolverMinmaxBothInclusive: ({ name, min, max }) => `${name} must be between ${min} and ${max} inclusively.`,
+			resolverMinmaxBothExclusive: ({ name, min, max }) => `${name} must be between ${min} and ${max} exclusively.`,
+			resolverMinmaxMinInclusive: ({ name, min }) => `${name} must be greater than ${min} inclusively.`,
+			resolverMinmaxMinExclusive: ({ name, min }) => `${name} must be greater than ${min} exclusively.`,
+			resolverMinmaxMaxInclusive: ({ name, max }) => `${name} must be less than ${max} inclusively`,
+			resolverMinmaxMaxExclusive: ({ name, max }) => `${name} must be less than ${max} exclusively.`,
+			reactionhandlerPrompt: 'Which page would you like to jump to?',
+			// used for help command
+			systemHelpTitles: {
+				explainedUsage: '⚙ | ***Explained usage***',
+				possibleFormats: '🔢 | ***Possible formats***',
+				examples: '🔗 | ***Examples***',
+				reminders: '⏰ | ***Reminder***'
+			},
+			commandmessageMissing: 'Missing one or more required arguments after end of input.',
+			commandmessageMissingRequired: ({ name }) => `${name} is a required argument.`,
+			commandmessageMissingOptionals: ({ possibles }) => `Missing a required option: (${possibles})`,
+			commandmessageNomatch: ({ possibles }) => `Your option didn't match any of the possibilities: (${possibles})`,
+			monitorCommandHandlerReprompt: ({ tag, name, time, cancelOptions }) =>
+				`${tag} | **${name}** | You have **${time}** seconds to respond to this prompt with a valid argument. Type **${cancelOptions}** to abort this prompt.`,
+			monitorCommandHandlerRepeatingReprompt: ({ tag, name, time, cancelOptions }) =>
+				`${tag} | **${name}** is a repeating argument | You have **${time}** seconds to respond to this prompt with additional valid arguments. Type **${cancelOptions}** to cancel this prompt.`,
+			monitorCommandHandlerAborted: 'Aborted',
+			inhibitorCooldown: ({ remaining }) => `You have just used this command. You can use this command again in ${remaining}.`,
+			inhibitorMissingBotPerms: ({ missing }) => `I don't have sufficient permissions! I'm missing: ${missing}`,
+			inhibitorNsfw: 'You may not use NSFW commands in this channel!',
+			inhibitorPermissions: 'You do not have permission to use this command!',
+			inhibitorRequiredSettings: ({ settings }) => `The guild is missing the **${settings}** guild setting and thus the command cannot run.`,
+			inhibitorRequiredSettingsPlural: ({ settings }) => `The guild is missing the **${settings}** guild settings and thus the command cannot run.`,
+			inhibitorRunin: ({ type }) => `This command is only available in ${type} channels.`,
+			inhibitorRuninNone: ({ name }) => `The ${name} command is not configured to run in any channel.`,
+			inhibitorDisabledGuild: 'This command has been disabled by an admin in this guild!',
+			inhibitorDisabledGlobal:
+				'This command has been globally disabled by the bot owners. Want to know why and find out when it will be back? Join the official Skyra server: <https://join.skyra.pw>',
+			commandBlocklistDescription: 'Block or allow users and guilds from using my functionalities.',
+			commandBlocklistSaveSuccess: `${success} Successfully updated blocked users and/or guilds`,
+			commandBlocklistResetSuccess: `${success} Successfully reset blocked users and guilds`,
+			commandUnload: ({ type, name }) => `${success} Unloaded ${type}: ${name}`,
+			commandUnloadDescription: 'Unloads the klasa piece.',
+			commandTransferError: 'That file has been transferred already or never existed.',
+			commandTransferSuccess: ({ type, name }) => `${success} Successfully transferred ${type}: ${name}`,
+			commandTransferFailed: ({ type, name }) => `Transfer of ${type}: ${name} to Client has failed. Please check your Console.`,
+			commandTransferDescription: 'Transfers a core piece to its respective folder',
+			commandReload: ({ type, name, time }) => `${success} Reloaded ${type}: ${name}. (Took: ${time})`,
+			commandReloadFailed: ({ type, name }) => `Failed to reload ${type}: ${name}. Please check your Console.`,
+			commandReloadAll: ({ type, time }) => `${success} Reloaded all ${type}. (Took: ${time})`,
+			commandReloadEverything: ({ time }) => `${success} Reloaded everything. (Took: ${time})`,
+			commandReloadDescription: 'Reloads a klasa piece, or all pieces of a klasa store.',
+			commandReboot: `${infinity} Rebooting...`,
+			commandRebootDescription: 'Reboots the bot.',
+			commandPing: `${infinity} Ping?`,
+			commandPingDescription: 'Runs a connection test to Discord.',
+			commandPingPong: ({ diff, ping }) => `Pong! (Roundtrip took: ${diff}ms. Heartbeat: ${ping}ms.)`,
+			commandInfoDescription: 'Provides some information about this bot.',
+			commandHelpDescription: 'Display help for a command.',
+			commandHelpNoExtended: 'No extended help available.',
+			commandHelpDm: '📥 | The list of commands you have access to has been sent to your DMs.',
+			commandHelpNodm: 'You have DMs disabled, I couldn\'t send you the commands in DMs.',
+			commandHelpAllFlag: ({ prefix }) =>
+				`Displaying one category per page. Have issues with the embed? Run \`${prefix}help --all\` for a full list in DMs.`,
+			commandHelpCommandCount: ({ count }) => `${count} command`,
+			commandHelpCommandCountPlural: ({ count }) => `${count} commands`,
+			commandEnable: ({ type, name }) => `+ Successfully enabled ${type}: ${name}`,
+			commandEnableDescription: 'Re-enables or temporarily enables a command/inhibitor/monitor/finalizer. Default state restored on reboot.',
+			commandDisable: ({ type, name }) => `+ Successfully disabled ${type}: ${name}`,
+			commandDisableDescription:
+				'Re-disables or temporarily disables a command/inhibitor/monitor/finalizer/event. Default state restored on reboot.',
+			commandDisableWarn: "You probably don't want to disable that, since you wouldn't be able to run any command to enable it again",
+			commandConfNoKey: 'You must provide a key',
+			commandConfNoValue: 'You must provide a value',
+			commandConfGuarded: ({ name }) => `${name} may not be disabled.`,
+			commandConfUpdated: ({ key, response }) => `Successfully updated the key **${key}**: \`${response}\``,
+			commandConfKeyNotArray: "This key is not array type. Use the action 'reset' instead.",
+			commandConfGetNoExt: ({ key }) => `The key **${key}** does not seem to exist.`,
+			commandConfGet: ({ key, value }) => `The value for the key **${key}** is: \`${value}\``,
+			commandConfReset: ({ key, value }) => `The key **${key}** has been reset to: \`${value}\``,
+			commandConfNochange: ({ key }) => `The value for **${key}** was already that value.`,
+			commandConfServerDescription: 'Define per-server settings.',
+			commandConfServer: ({ key, list }) => `**Server Setting ${key}**\n${list}`,
+			commandConfUserDescription: 'Define per-user settings.',
+			commandConfUser: ({ key, list }) => `**User Setting ${key}**\n${list}`,
+			commandConfSettingNotSet: 'Not Set',
+			messagePromptTimeout: 'The prompt has timed out.',
+			textPromptAbortOptions: ['abort', 'stop', 'cancel'],
+			commandLoad: ({ time, type, name }) => `✅ Successfully loaded ${type}: ${name}. (Took: ${time})`,
+			commandLoadFail: 'The file does not exist, or an error occurred while loading your file. Please check your console.',
+			commandLoadError: ({ type, name, error }) => `Failed to load ${type}: ${name}. Reason:\n\`\`\`js\n${error}\n\`\`\``,
+			commandLoadDescription: 'Load a piece from your bot.',
+
+			argumentRangeInvalid: ({ name }) => `${name} must be a number or a range of numbers.`,
+			argumentRangeMax: ({ name, maximum }) => `${name} accepts a range of maximum ${maximum} 'number'`,
+			argumentRangeMaxPlural: ({ name, maximum }) => `${name} accepts a range of maximum ${maximum} 'numbers'`,
+
 			LOG_ACTION_BAN: 'user banned',
 			LOG_ACTION_UNBAN: 'user unbanned',
 			LOG_ACTION_TEMPBAN: 'user temporarily banned',
@@ -618,6 +796,7 @@ module.exports = class extends Language {
 
 			LOG_ACTION_MEMBERJOINED: 'member joined',
 			LOG_ACTION_MEMBERLEFT: 'member left',
+			LOG_ACTION_MEMBERPASSEDGATE: 'member passed screening',
 
 			LOG_ARGS_USER: (tag, mention, id) => `**user:** ${tag} ${mention} [${id}]`,
 			LOG_ARGS_MEMBER: (name, mention, id) => `**member:** ${name} ${mention} [${id}]`,
@@ -648,30 +827,27 @@ module.exports = class extends Language {
 };
 
 const COMMAND_8BALL_ANSWERS = [
-	'Maybe.',
-	'Certainly not.',
+	'Yes!',
 	'I hope so.',
-	'Not in your wildest dreams.',
 	'There is a good chance.',
 	'Quite likely.',
 	'I think so.',
+	'Hell, yes.',
+	'For sure!',
+	'Almost certainly.',
+
+	'Maybe.',
+	'There is a small chance.',
+	'Possibly.',
+	
+	'Never, ever, ever.',
+	'No!',
+	'Certainly not.',
+	'Not in your wildest dreams.',
 	'I hope not.',
-	'I hope so.',
 	'Never!',
 	'Fuhgeddaboudit.',
-	'Ahaha! Really?!?',
-	'Pfft.',
-	'Sorry, bucko.',
-	'Hell, yes.',
-	'Hell to the no.',
-	'The future is bleak.',
-	'The future is uncertain.',
-	'I would rather not say.',
-	'Who cares?',
-	'Possibly.',
-	'Never, ever, ever.',
-	'There is a small chance.',
-	'Yes!'
+	'Hell to the no.'
 ];
 
 

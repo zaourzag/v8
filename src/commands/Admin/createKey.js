@@ -1,4 +1,4 @@
-const { Command } = require('klasa');
+const { Command } = require('@aero/klasa');
 const { randomBytes } = require('crypto');
 const { base32 } = require('../../../lib/util/util');
 const { badges } = require('../../../lib/util/constants');
@@ -17,6 +17,7 @@ module.exports = class extends Command {
 
 	async run(msg, [id]) {
 		const out = [];
+		if (!badges[id]) return msg.responder.error('COMMAND_CREATEKEY_INVALID');
 		for (let i = 0; i < 3; i++) {
 			const str = base32(randomBytes(3).readUIntLE(0, 3));
 			out.push(str);

@@ -1,4 +1,9 @@
-const { Command } = require('klasa');
+/*
+ * Co-Authored-By: Stitch07 (https://github.com/Stitch07)
+ * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
+ * Credit example: Credit goes to [Stitch07](https://github.com/Stitch07) and [ravy](https://ravy.pink). (c) [The Aero Team](https://aero.bot) 2021
+ */
+const { Command } = require('@aero/klasa');
 
 module.exports = class extends Command {
 
@@ -110,7 +115,7 @@ module.exports = class extends Command {
 const awaitReaction = async (user, message) => {
 	await message.react('🇾');
 	await message.react('🇳');
-	const data = await message.awaitReactions(reaction => reaction.users.has(user.id), { time: 30000, max: 1 });
+	const data = await message.awaitReactions(reaction => reaction.users.cache.has(user.id), { time: 30000, max: 1 });
 	if (data.firstKey() === '🇾') return true;
 	return false;
 };

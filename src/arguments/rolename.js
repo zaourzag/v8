@@ -1,12 +1,17 @@
-// Derived from klasa-pieces (c) 2017-2019 dirigeants / MIT license.
-const { Argument, util: { regExpEsc } } = require('klasa');
+/*
+ * Co-Authored-By: dirigeants (https://github.com/dirigeants)
+ * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
+ * License: MIT License
+ * Credit example: Copyright (c) 2019 dirigeants, MIT License
+ */
+const { Argument, util: { regExpEsc } } = require('@aero/klasa');
 const { Role } = require('discord.js');
 
 const ROLE_REGEXP = Argument.regex.role;
 
 function resolveRole(query, guild) {
-	if (query instanceof Role) return guild.roles.has(query.id) ? query : null;
-	if (typeof query === 'string' && ROLE_REGEXP.test(query)) return guild.roles.get(ROLE_REGEXP.exec(query)[1]);
+	if (query instanceof Role) return guild.roles.cache.has(query.id) ? query : null;
+	if (typeof query === 'string' && ROLE_REGEXP.test(query)) return guild.roles.cache.get(ROLE_REGEXP.exec(query)[1]);
 	return null;
 }
 
@@ -20,7 +25,7 @@ module.exports = class extends Argument {
 
 		const results = [];
 		const reg = new RegExp(regExpEsc(arg), 'i');
-		for (const role of msg.guild.roles.values()) { if (reg.test(role.name)) results.push(role); }
+		for (const role of msg.guild.roles.cache.values()) { if (reg.test(role.name)) results.push(role); }
 
 		let querySearch;
 		if (results.length > 0) {

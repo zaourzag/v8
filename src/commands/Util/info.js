@@ -1,4 +1,4 @@
-const { Command, Duration, Timestamp } = require('klasa');
+const { Command, Duration, Timestamp } = require('@aero/klasa');
 const { MessageEmbed, GuildMember, User, Role, Permissions: { FLAGS } } = require('discord.js');
 const { color: { VERY_NEGATIVE, POSITIVE }, emojis: { perms: { granted, unspecified }, infinity }, badges, url: { KSoftBans } } = require('../../../lib/util/constants');
 const req = require('@aero/centra');
@@ -69,31 +69,32 @@ module.exports = class extends Command {
 			russia: 'Russia'
 		};
 
-		this.verificationLevels = [
-			'None',
-			'Low',
-			'Medium',
-			'(╯°□°）╯︵ ┻━┻',
-			'┻━┻ ﾐヽ(ಠ益ಠ)ノ彡┻━┻'
-		];
+		this.verificationLevels = {
+			NONE: 'None',
+			LOW: 'Low',
+			MEDIUM: 'Medium',
+			HIGH: '(╯°□°）╯︵ ┻━┻',
+			VERY_HIGH: '┻━┻ ﾐヽ(ಠ益ಠ)ノ彡┻━┻'
+		};
 
-		this.filterLevels = [
-			"Don't scan any messages",
-			'Scan messages from members without a role',
-			'Scan messages by all members'
-		];
+		this.filterLevels = {
+			DISABLED: "Don't scan any messages",
+			MEMBERS_WITHOUT_ROLES: 'Scan messages from members without a role',
+			ALL_MEMBERS: 'Scan messages by all members'
+		};
 	}
 
 	async run(msg, [arg = msg.author]) {
-		if (/^\d{17,18}$/.test(arg)) arg = await this.client.users.fetch(arg);
+		if (/^\d{17,18}$/.test(arg)) arg = await this.client.users.fetch(arg).catch(() => null);
 
 		if (arg === this.client.user.id) return this.botinfo(msg);
-		if (arg.id === this.client.user.id) return this.botinfo(msg);
+		if (arg?.id === this.client.user.id) return this.botinfo(msg);
 		if (arg instanceof User) return this.userinfo(msg, arg);
 		if (arg instanceof GuildMember) return this.userinfo(msg, arg.user);
 		if (arg instanceof Role) return this.roleinfo(msg, arg);
 		if (msg.guild && arg === 'server') return this.serverinfo(msg);
 		if (msg.guild && arg === msg.guild.id) return this.serverinfo(msg);
+		if (!arg) return msg.responder.error('COMMAND_INFO_INVALIDID');
 
 		return false;
 	}
@@ -150,7 +151,7 @@ module.exports = class extends Command {
 		embed.addField(`• ${msg.language.get('COMMAND_INFO_USER_STATISTICS')}`, statistics.join('\n'));
 		if (!member) return embed;
 
-		const roles = member.roles.sorted((a, b) => b.position - a.position);
+		const roles = member.roles.cache.sort((a, b) => b.position - a.position);
 		let spacer = false;
 		const roleString = roles
 			.array()
@@ -180,7 +181,7 @@ module.exports = class extends Command {
 			for (const { moderator } of warnings) await this.client.users.fetch(moderator);
 			embed.addField(
 				`• ${msg.language.get('COMMAND_INFO_USER_WARNINGS')} (${warnings.filter(warn => warn.active).length})`,
-				warnings.map((warn, idx) => `${idx + 1}. ${!warn.active ? '~~' : ''}**${warn.reason}** | ${this.client.users.get(warn.moderator).tag}${!warn.active ? '~~' : ''}`)
+				warnings.map((warn, idx) => `${idx + 1}. ${!warn.active ? '~~' : ''}**${warn.reason}** | ${this.client.users.cache.get(warn.moderator).tag}${!warn.active ? '~~' : ''}`)
 			);
 		}
 		const notes = member.settings.get('notes');
@@ -188,7 +189,7 @@ module.exports = class extends Command {
 			for (const { moderator } of notes) await this.client.users.fetch(moderator);
 			embed.addField(
 				`• ${msg.language.get('COMMAND_INFO_USER_NOTES')} (${notes.length})`,
-				notes.map((note, idx) => `${idx + 1}. **${note.reason}** | ${this.client.users.get(note.moderator).tag}`)
+				notes.map((note, idx) => `${idx + 1}. **${note.reason}** | ${this.client.users.cache.get(note.moderator).tag}`)
 			);
 		}
 
@@ -279,7 +280,7 @@ module.exports = class extends Command {
 		const embed = new MessageEmbed()
 			.setAuthor(`${guild.name} [${guild.id}]`, guild.iconURL())
 			.addField('• Created', `${this.timestamp.display(guild.createdAt)} (${Duration.toNow(guild.createdAt)} ago)`)
-			.addField('• Members', `${guild.memberCount} (cached: ${guild.members.size})`, true)
+			.addField('• Members', `${guild.memberCount} (cached: ${guild.members.cache.size})`, true)
 			.addField('• Voice region', this.regions[msg.guild.region], true)
 			.addField('• Owner', `${guild.owner.user.tag} ${guild.owner.toString()} [${guild.ownerID}]`)
 			.addField('• Statistics', `${guild.settings.get('stats.messages')} messages ${toxicity !== 0 ? `with an average toxicity of ${Math.round(toxicity * 100)}%` : ''} sent`)

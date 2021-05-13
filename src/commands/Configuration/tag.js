@@ -1,6 +1,10 @@
-// Copyright (c) 2019 KlasaCommunityPlugins, MIT License
-// derived from https://github.com/KlasaCommunityPlugins/tags
-const { Command, util } = require('klasa');
+/*
+ * Co-Authored-By: Klasa Community Plugins (https://github.com/KlasaCommunityPlugins)
+ * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
+ * License: MIT License
+ * Credit example: Copyright (c) 2019 KlasaCommunityPlugins, MIT License
+ */
+const { Command, util } = require('@aero/klasa');
 const { trimString } = require('../../../lib/util/util');
 const { util: djsUtil, Permissions: { FLAGS } } = require('discord.js');
 

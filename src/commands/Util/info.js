@@ -1,6 +1,6 @@
 const { Command, Duration, Timestamp } = require('@aero/klasa');
 const { MessageEmbed, GuildMember, User, Role, Permissions: { FLAGS } } = require('discord.js');
-const { color: { VERY_NEGATIVE, POSITIVE }, emojis: { perms: { granted, unspecified }, infinity }, badges, url: { KSoftBans } } = require('../../../lib/util/constants');
+const { color: { VERY_NEGATIVE, POSITIVE }, emojis: { perms: { granted, unspecified }, infinity }, badges, url: { KSoftBans }, pronounDB } = require('../../../lib/util/constants');
 const req = require('@aero/centra');
 const { Ban, Warn } = require('@aero/drep');
 module.exports = class extends Command {
@@ -111,8 +111,18 @@ module.exports = class extends Command {
 	}
 
 	async _addBaseData(user, embed) {
+		let authorString = `${user.tag} [${user.id}]`;
+		const pdbRes = await req('https://pronoundb.org/api/v1')
+			.path('/lookup')
+			.query({
+				platform: 'discord',
+				id: user.id
+			})
+			.json();
+		if (pdbRes.pronouns && pronounDB[pdbRes.pronouns]) authorString += ` (${pronounDB[pdbRes.pronouns]})`;
 		return embed
-			.setAuthor(`${user.tag} [${user.id}]`, user.displayAvatarURL({ dynamic: true }))
+			.setAuthor(authorString
+				, user.displayAvatarURL({ dynamic: true }))
 			.setThumbnail(user.displayAvatarURL({ dynamic: true }));
 	}
 
@@ -202,6 +212,8 @@ module.exports = class extends Command {
 		const DRepReputation = await this.client.drep?.rep(user.id).catch(() => ({ reputation: 0, staff: false })) ?? { reputation: 0, staff: false };
 		const DRepProfile = `https://discordrep.com/u/${user.id}`;
 		const CWProfile = await this.client.chatwatch?.profile?.(user.id)?.catch(() => ({ whitelisted: false, score: 50 })) ?? { whitelisted: false, score: 50 };
+		const RiversideWhitelisted = await this.client.riverside.whitelist().then(whitelist => whitelist.includes(user.id));
+		const RiversideProfile = await this.client.riverside.check(user.id);
 		const rating = KSoftBan || CWProfile.blacklisted
 			? 'COMMAND_INFO_TRUST_VERYLOW'
 			: DRepInfraction instanceof Ban || DRepInfraction instanceof Warn || DRepReputation.reputation < 0 || CWProfile.score > 50
@@ -218,8 +230,14 @@ module.exports = class extends Command {
 					: CWProfile.score === 50
 						? 'COMMAND_INFO_USER_CWNEUTRAL'
 						: 'COMMAND_INFO_USER_CWBAD';
+		const riversideRating = RiversideProfile.score === 0
+			? 'COMMAND_INFO_USER_RIVERSIDEGOOD'
+			: RiversideProfile.score < 50
+				? 'COMMAND_INFO_USER_RIVERSIDESUSPICIOUS'
+				: 'COMMAND_INFO_USER_RIVERSIDEBAD';
 
 		const KSoftBansProfile = `${KSoftBans}?user=${user.id}`;
+		const RiversideLink = `https://discord.riverside.rocks/check?id=${user.id}&ref=aero`
 
 		embed.addField(`• Trust (${msg.language.get(rating)})`, [
 			KSoftBan?.active
@@ -238,7 +256,10 @@ module.exports = class extends Command {
 							? DRepReputation.staff
 								? msg.language.get('COMMAND_INFO_USER_DREPSTAFF', DRepProfile)
 								: msg.language.get('COMMAND_INFO_USER_DREPPOSITIVE', DRepProfile)
-							: msg.language.get('COMMAND_INFO_USER_DREPNEGATIVE', DRepProfile)
+							: msg.language.get('COMMAND_INFO_USER_DREPNEGATIVE', DRepProfile),
+			RiversideWhitelisted
+				? msg.language.get('COMMAND_INFO_USER_RIVERSIDEWHITELISTED', RiversideLink)
+				: msg.language.get(riversideRating, RiversideProfile.reportCount, RiversideLink)
 		].join('\n'));
 
 		DRepInfraction instanceof Ban || DRepInfraction instanceof Warn || KSoftBan?.active || CWProfile.blacklisted || CWProfile.score > 80

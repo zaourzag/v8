@@ -21,10 +21,10 @@ module.exports = class extends Command {
 
 		const definition = res[0];
 
-		if (!definition) throw 'COMMAND_DEFINE_NOTFOUND';
+		if (!definition || !definition.hwi) throw 'COMMAND_DEFINE_NOTFOUND';
 
 		msg.send([
-			`(${[definition.fl, ...(definition?.lbs || []) ].join(', ')}) **${definition.hwi.hw}** [${definition.hwi.prs[0].mw}]`,
+			`(${[definition.fl, ...(definition?.lbs || []) ].join(', ')}) **${definition.hwi.hw.replace(/\*/g, '\\*')}** [${definition.hwi.prs[0].mw}]`,
 			definition.def
 				.map(def => def.sseq.flat(1)
 					.map(sseq => sseq[1])

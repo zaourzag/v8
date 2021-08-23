@@ -120,7 +120,7 @@ module.exports = class extends Language {
 			COMMAND_CARBON_DESCRIPTION: 'Toggle automatically making an image from your code using [carbonara](https://github.com/petersolopov/carbonara)',
 			COMMAND_CARBON_ENABLED: 'Enabled automatic codeblock conversion.',
 			COMMAND_CARBON_DISABLED: 'Disabled automatic codeblock conversion.',
-			COMMAND_WELCOME_DESCRIPTION: 'Sets a welcome message for new members. How friendly.',
+			COMMAND_WELCOME_DESCRIPTION: 'Sets a welcome message for new members. How friendly.\nVariables: {mention} {username} {discrim} {tag} {guild}',
 			COMMAND_WELCOME_NOTEXT: 'Please specify a welcome message',
 			COMMAND_WELCOME_SHOW_NONE: 'No welcome message configured',
 			COMMAND_WELCOME_SHOW: (channel, text) => `Currently welcoming members in ${channel} with: ${code`${text}`}`,
@@ -279,6 +279,10 @@ module.exports = class extends Language {
 			COMMAND_INFO_USER_CWNEUTRAL: profile => `${nodata} No data from [ChatWatch](${profile}) yet`,
 			COMMAND_INFO_USER_CWBAD: profile => `${banned} **Likely to spam** (according to [ChatWatch](${profile}))`,
 			COMMAND_INFO_USER_CWBANNED: (profile, reason) => `${banned} ${bold`Blacklisted`} on [ChatWatch](${profile}) for ${code`${reason}`}`,
+			COMMAND_INFO_USER_RIVERSIDEWHITELISTED: (profile) => `${trusted} Very unlikely to be dangerous (according to Riverside's [Dangerous Discord User Database](${profile}))`,
+			COMMAND_INFO_USER_RIVERSIDEGOOD: (reportCount, profile) => `${trusted} Unlikely to be dangerous (according to Riverside Rocks' [Dangerous Discord User Database](${profile})) (${reportCount} reports)`,
+			COMMAND_INFO_USER_RIVERSIDESUSPICIOUS: (reportCount, profile) => `${nodata} Possibly dangerous (according to Riverside Rocks' [Dangerous Discord User Database](${profile})) (${reportCount} reports)`,
+			COMMAND_INFO_USER_RIVERSIDEBAD: (reportCount, profile) => `${banned} **Likely to be dangerous** (according to Riverside Rocks' [Dangerous Discord User Database](${profile})) (${reportCount} reports)`,
 			COMMAND_INFO_TRUST_VERYLOW: 'very low',
 			COMMAND_INFO_TRUST_LOW: 'low',
 			COMMAND_INFO_TRUST_HIGH: 'high',
@@ -331,6 +335,7 @@ module.exports = class extends Language {
 			COMMAND_WOLFRAM_DESCRIPTION: 'Gets a result from Wolfram|Alpha.',
 			COMMAND_WOLFRAM_ERROR: 'Your query did not return any result.',
 			COMMAND_WOLFRAM_LENGTH: url => `Failed to display the response due to too many characters. Try searching manually at: <${url}>`,
+			COMMAND_YOUTUBETOGETHER_DESCRIPTION: 'Invite users to a voice channel to watch YouTube together.',
 
 			// social commands
 			COMMAND_DAILY_DESCRIPTION: 'Claim your daily points! Add --reminder to be reminded in 12h.',
@@ -569,7 +574,7 @@ module.exports = class extends Language {
 			EVENT_GLOBALBAN_REASON: 'Globally banned user.',
 			EVENT_AUTOROLE_REASON: 'Autorole - configured to be automatically assigned to each member upon joining.',
 			EVENT_BOTROLE_REASON: 'Botrole - configured to be automatically assigned to each bot upon joining.',
-			EVENT_PERSPECTIVE_DELETEREASON: 'Identified as toxic by Perspective.',
+			EVENT_PERSPECTIVE_DELETEREASON: 'Identified as unwanted by Perspective.',
 
 			SETTING_GATEWAY_EXPECTS_GUILD: 'The parameter <Guild> expects either a Guild or a Guild Object.',
 			SETTING_GATEWAY_VALUE_FOR_KEY_NOEXT: (data, key) => `The value ${data} for the key ${key} does not exist.`,
@@ -605,7 +610,7 @@ module.exports = class extends Language {
 			RESOLVER_MINMAX_BOTH: (name, min, max, suffix) => `\`${name}\` must be between ${min} and ${max}${suffix}.`,
 			RESOLVER_MINMAX_MIN: (name, min, suffix) => `\`${name}\` must be greater than ${min}${suffix}.`,
 			RESOLVER_MINMAX_MAX: (name, max, suffix) => `\`${name}\` must be less than ${max}${suffix}.`,
-			RESOLVER_URL_BADPROTO: (name) => `\`${name}\` uses be protocol that isn't supported.`,
+			RESOLVER_URL_BADPROTO: (name) => `\`${name}\` uses a protocol that isn't supported.`,
 			RESOLVER_URL_NOAUTH: (name) => `\`${name}\` uses url authentication which isn't supported`,
 			REACTIONHANDLER_PROMPT: 'Which page would you like to jump to?',
 			COMMANDMESSAGE_MISSING: 'Missing one or more required arguments after end of input.',
@@ -617,6 +622,8 @@ module.exports = class extends Language {
 			// eslint-disable-next-line max-len
 			MONITOR_COMMAND_HANDLER_REPEATING_REPROMPT: (tag, name, time, cancelOptions) => `${tag} | **${name}** is a repeating argument | You have **${time}** seconds to respond to this prompt with additional valid arguments. Type **${cancelOptions.join('**, **')}** to cancel this prompt.`,
 			MONITOR_COMMAND_HANDLER_ABORTED: `${success} aborted.`,
+			MONITOR_ANTI_SCAMS: (message) => `Marked as fraudulent by anti-scams module: ${message}`,
+			MONITOR_ANTI_MASSMENTIONS: (threshold) => `Anti-massmention: sent more than ${threshold} mentions in a short timeframe.`,
 			// eslint-disable-next-line max-len
 			INHIBITOR_COOLDOWN: (remaining, guildCooldown) => `${guildCooldown ? 'Someone has' : 'You have'} already used this command. You can use this command again in ${remaining}.`,
 			INHIBITOR_DISABLED_GUILD: 'This command has been disabled by an admin in this guild.',

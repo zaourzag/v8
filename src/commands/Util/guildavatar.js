@@ -13,6 +13,10 @@ module.exports = class extends Command {
 	}
 
 	async run(msg, [member = msg.member]) {
+		if (!member.customAvatar) {
+			member.customAvatarURL = member.displayAvatarURL;
+		}
+
 		const embed = new MessageEmbed()
 			.setAuthor(member.user.tag, member.customAvatarURL())
 			.setImage(member.customAvatarURL({ size: 2048, dynamic: true }))

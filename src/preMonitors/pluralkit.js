@@ -1,6 +1,7 @@
 const { Monitor } = require('@aero/framework');
 const req = require('@aero/http');
 const PK_BASE = 'https://api.pluralkit.me/v2/';
+const PK_ID = '466378653216014359';
 
 module.exports = class extends Monitor {
 
@@ -14,37 +15,45 @@ module.exports = class extends Monitor {
 		});
 
 		this.cache = new Map();
+		this.gCache = new Map();
 	}
 
 	async run(msg) {
-		if (!msg.pk || !msg.webhookID || !msg.guild) return;
+		if (!msg.webhookID || !msg.guild) return;
 
-		let senderId;
+		let hasPk;
 
-		if (this.cache.has(msg.author.id)) senderId = this.cache.get(msg.author.id);
+		if (this.gCache.has(msg.guild.id)) hasPk = this.gCache.get(msg.guild.id);
+		else {
+			hasPk = await msg.guild.members.fetch(PK_ID).catch(() => false) && true;
+			this.gCache.set(msg.guild.id, hasPk);
+		}
+
+		let sender;
+
+		if (this.cache.has(msg.author.id)) sender = this.cache.get(msg.author.id)
 		else {
 			const res = await req(PK_BASE)
 				.path('/messages', msg.id)
 				.json()
 				.catch(() => ({}));
 
-			this.cache.set(msg.author.id, res.sender);
+			this.cache.set(msg.author.id, res.sender ?? false);
 
 			if (!res.sender) {
 				this.client.console.log(`[PluralKit] not converting ${msg.author.id} [${msg.guild.id}]: ${res.message}`);
 				return;
 			}
-
-			/* eslint-disable-next-line prefer-destructuring */
-			senderId = res.sender;
 		}
 
-		this.client.console.log(`[PluralKit] converting ${msg.author.id} --> ${senderId}`);
+		if (sender === false) return;
+
+		this.client.console.log(`[PluralKit] converting ${msg.author.id} --> ${sender}`);
 
 		/* eslint-disable require-atomic-updates */
 		msg.originalAuthor = msg.author;
 		msg.webhookID = null;
-		msg.author = await this.client.users.fetch(senderId);
+		msg.author = await this.client.users.fetch(sender);
 		/* eslint-enable require-atomic-updates */
 
 		return;

@@ -1,4 +1,4 @@
-const { Command } = require('@aero/framework');
+const { Command } = require('@aero/klasa');
 const { Permissions: { FLAGS } } = require('discord.js');
 
 module.exports = class extends Command {
@@ -6,7 +6,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['GUILD_TEXT'],
+			runIn: ['text'],
 			requiredPermissions: ['MANAGE_ROLES'],
 			aliases: ['mr'],
 			description: language => language.get('COMMAND_MUTEROLE_DESCRIPTION'),

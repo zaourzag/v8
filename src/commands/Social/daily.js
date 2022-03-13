@@ -24,7 +24,7 @@ module.exports = class extends Command {
 
 		const balance = this.client.config.dailyPoints;
 		await msg.member.settings.sync();
-		await msg.member.settings.update([['balance', msg.member.settings.get('balance') + balance], ['lastDailyTimestamp', Date.now()]]);
+		await msg.member.settings.update([['points', msg.member.settings.get('points') + balance], ['lastDailyTimestamp', Date.now()]]);
 		if (msg.flagArgs.remind || msg.flagArgs.reminder || msg.flagArgs.remindme) {
 			await this.client.schedule.create('reminder', Date.now() + (TIME.HOUR * 12), {
 				data: {

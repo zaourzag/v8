@@ -15,7 +15,7 @@ module.exports = class extends Command {
 			aliases: ['user', 'role', 'i'],
 			description: language => language.get('COMMAND_INFO_DESCRIPTION'),
 			requiredPermissions: ['EMBED_LINKS', 'VIEW_AUDIT_LOG'],
-			usage: '[server|user:membername|role:rolename|userID:str{17,18}]'
+			usage: '[server|member:membername|role:rolename|user:user|userID:str{17,18}]'
 		});
 
 		this.timestamp = new Timestamp('MMMM d YYYY');

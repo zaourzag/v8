@@ -17,7 +17,7 @@ module.exports = class extends Event {
 			/(hype\s*squad|discord)\s+(events?|academy)/i,
 			/discord\s+(developers|api|bots|message)?/i,
 			/^discord\s+moderator$/i,
-			/^academy\s+staff/i
+			/^academy\s+(staff|moderator)/i
 		];
 	}
 

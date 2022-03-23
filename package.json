@@ -33,7 +33,7 @@
 		"@aero/sanitizer": "^1.2.0",
 		"@aero/statuspage": "^1.1.0",
 		"@aero/tags": "^3.0.11",
-		"@aero/xkcd": "^1.1.0",
+		"@aero/xkcd": "^1.1.1",
 		"@sentry/node": "^5.15.4",
 		"canvas": "^2.8.0",
 		"canvas-constructor": "^3.2.0",

@@ -8,3 +8,13 @@ yarn.lock
 *.env
 test*
 *.DS_STORE
+
+# ethans weird yarn stuff 
+.pnp.*
+.yarn
+.yarnrc.yml
+# !.yarn/patches
+# !.yarn/plugins
+# !.yarn/releases
+# !.yarn/sdks
+# !.yarn/versions

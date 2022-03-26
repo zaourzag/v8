@@ -15,7 +15,7 @@ module.exports = class extends Command {
 
 	async run(msg, [code]) {
 		const res = await req(BASE_URL)
-			.path(code.toString())
+			.path(`${code.toString()}.jpg`)
 			.send();
 
 		if (res.statusCode !== 200) throw 'COMMAND_HTTPDOG_INVALID';

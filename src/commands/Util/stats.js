@@ -32,11 +32,11 @@ module.exports = class extends Command {
 			this.client.options.shardCount
 		).join('\n');
 		const embed = new MessageEmbed()
-			.setAuthor(
-				`${this.client.user.username} v${aeroVersion} [${this.client.config.commitHash}]`,
-				this.client.user.displayAvatarURL({ format: 'png', size: 2048 }),
-				this.client.config.repoURL
-			)
+			.setAuthor({
+				name: `${this.client.user.username} v${aeroVersion} [${this.client.config.commitHash}]`,
+				iconURL: this.client.user.displayAvatarURL({ format: 'png', size: 2048 }),
+				url: this.client.config.repoURL
+			})
 			.setDescription(stats)
 			.setColor((message.guild && message.guild.me.displayColor) || 'RANDOM');
 

@@ -1,7 +1,7 @@
-const { Command, version: klasaVersion, Duration } = require('@aero/klasa');
+const { Command, version: klasaVersion, Duration } = require('@aero/framework');
 const { version: discordVersion, MessageEmbed } = require('discord.js');
 const { hostname, totalmem, cpus, loadavg } = require('os');
-const { version: aeroVersion } = require('~/package');
+const { version: aeroVersion } = require('../../../package');
 
 module.exports = class extends Command {
 
@@ -40,7 +40,7 @@ module.exports = class extends Command {
 			.setDescription(stats)
 			.setColor((message.guild && message.guild.me.displayColor) || 'RANDOM');
 
-		message.send({ embed });
+		message.sendEmbed(embed);
 	}
 
 };

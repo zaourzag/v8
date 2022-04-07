@@ -1,4 +1,4 @@
-const { Command, util: { isFunction } } = require('@aero/klasa');
+const { Command, util: { isFunction } } = require('@aero/framework');
 const { MessageEmbed } = require('discord.js');
 const { code } = require('discord-md-tags');
 

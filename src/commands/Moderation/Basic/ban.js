@@ -10,7 +10,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			requiredPermissions: ['BAN_MEMBERS'],
 			aliases: ['b', 'bean', '410', 'yeet', 'banish', 'begone', 'perish'],
 			description: language => language.get('COMMAND_BAN_DESCRIPTION').join('\n'),

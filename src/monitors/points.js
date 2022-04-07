@@ -1,4 +1,4 @@
-const { Monitor } = require('@aero/klasa');
+const { Monitor } = require('@aero/framework');
 const util = require('../../lib/util/util');
 
 module.exports = class extends Monitor {

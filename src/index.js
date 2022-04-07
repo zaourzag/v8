@@ -2,14 +2,14 @@ const { join } = require('path');
 require('dotenv').config({
 	path: process.env.NODE_ENV === 'production' ? '.env' : 'dev.env'
 });
-require('@aero/require').config(process.cwd(), true);
+
 const { ShardingManager } = require('kurasuta');
-const Aero = require('~/lib/Aero');
-const { KlasaConsole } = require('@aero/klasa');
+const Aero = require('../lib/Aero');
+const { KlasaConsole } = require('@aero/framework');
 const logger = new KlasaConsole();
 const { stage: version, ipcSocket, metricsEnabled, accessPort, stageShorthand, ngrokRegion, ngrokPrefix } = require('../config/aero');
-const Aggregator = require('~/lib/Aggregator');
-const AggregatorClient = require('~/lib/AggregatorClient');
+const Aggregator = require('../lib/Aggregator');
+const AggregatorClient = require('../lib/AggregatorClient');
 const ngrok = require('ngrok');
 const express = require('express');
 

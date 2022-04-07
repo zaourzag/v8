@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { randomBytes } = require('crypto');
 const { base32 } = require('../../../lib/util/util');
 const { badges } = require('../../../lib/util/constants');

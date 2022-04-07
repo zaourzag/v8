@@ -1,13 +1,13 @@
 const Command = require('../../../../lib/structures/MultiModerationCommand');
 const { Permissions: { FLAGS } } = require('discord.js');
-const { dateDiffDays } = require('~/lib/util/util');
+const { dateDiffDays } = require('../../../../lib/util/util');
 
 module.exports = class extends Command {
 
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			requiredPermissions: ['MANAGE_ROLES'],
 			aliases: ['m', 'silence', '403', 'timeout'],
 			description: language => language.get('COMMAND_MUTE_DESCRIPTION'),

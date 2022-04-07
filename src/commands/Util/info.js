@@ -1,4 +1,4 @@
-const { Command, Duration, Timestamp } = require('@aero/klasa');
+const { Command, Duration, Timestamp } = require('@aero/framework');
 const { MessageEmbed, GuildMember, User, Role, Permissions: { FLAGS } } = require('discord.js');
 const {
 	color: { VERY_NEGATIVE, POSITIVE, INFORMATION },

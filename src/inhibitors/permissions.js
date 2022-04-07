@@ -4,7 +4,7 @@
  * License: MIT License
  * Credit example: Copyright (c) 2019 dirigeants, MIT License
  */
-const { Inhibitor } = require('@aero/klasa');
+const { Inhibitor } = require('@aero/framework');
 
 module.exports = class extends Inhibitor {
 

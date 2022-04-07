@@ -4,7 +4,7 @@
  * License: MIT License
  * Credit example: Copyright (c) 2019 dirigeants, MIT License
  */
-const { MultiArgument } = require('@aero/klasa');
+const { MultiArgument } = require('@aero/framework');
 
 module.exports = class extends MultiArgument {
 

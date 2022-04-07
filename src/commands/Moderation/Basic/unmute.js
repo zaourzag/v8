@@ -6,7 +6,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			requiredPermissions: ['MANAGE_ROLES'],
 			aliases: ['um', 'release', 'untimeout', 'cleartimeout', 'removetimeout'],
 			description: language => language.get('COMMAND_UNMUTE_DESCRIPTION'),

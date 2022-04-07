@@ -1,8 +1,8 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const req = require('@aero/http');
 const { MessageEmbed } = require('discord.js');
 const BASE_URL = 'https://lighthouse-dot-webdotdevsite.appspot.com//lh/newaudit';
-const { infinity, success, error, minus } = require('~/lib/util/constants').emojis;
+const { infinity, success, error, minus } = require('../../../lib/util/constants').emojis;
 
 module.exports = class extends Command {
 

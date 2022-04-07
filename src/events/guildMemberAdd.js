@@ -1,4 +1,4 @@
-const { Event } = require('@aero/klasa');
+const { Event } = require('@aero/framework');
 const { FLAGS } = require('discord.js').Permissions;
 
 const req = require('@aero/http');

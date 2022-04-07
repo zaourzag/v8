@@ -1,5 +1,5 @@
 // derived from klasa-pieces, (c) 2017-2019 dirigeants / MIT license.
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { Permissions: { FLAGS } } = require('discord.js');
 const req = require('@aero/http');
 const dayjs = require('dayjs');
@@ -11,7 +11,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			requiredPermissions: ['MANAGE_MESSAGES'],
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			aliases: ['p', 'purge', 'clear', 'clean'],
 			description: language => language.get('COMMAND_PRUNE_DESCRIPTION'),
 			usage: '[limit:integer] [link|invite|bots|you|me|upload|user:user]',

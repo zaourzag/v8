@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { Permissions: { FLAGS } } = require('discord.js');
 
 module.exports = class extends Command {
@@ -6,7 +6,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			aliases: ['ap'],
 			description: language => language.get('COMMAND_AUTOPUBLISH_DESCRIPTION'),
 			usage: '<channel:newsChannel>'

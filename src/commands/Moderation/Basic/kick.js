@@ -6,7 +6,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			requiredPermissions: ['KICK_MEMBERS'],
 			aliases: ['k', 'boot', '409'],
 			description: language => language.get('COMMAND_KICK_DESCRIPTION'),

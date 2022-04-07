@@ -27,7 +27,7 @@ module.exports = class extends Command {
 			Duration.toNow(Date.now() - (process.uptime() * 1000)),
 			klasaVersion, discordVersion, process.version, hostname(),
 			(message.guild
-				? message.guild.shardID
+				? this.client.shard.id
 				: 0) + 1,
 			this.client.options.shardCount
 		).join('\n');

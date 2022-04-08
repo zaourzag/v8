@@ -14,7 +14,7 @@ module.exports = class extends Command {
 
 	async run(msg, [member = msg.member]) {
 		const embed = new MessageEmbed()
-			.setAuthor(member.user.tag, member.displayAvatarURL())
+			.setAuthor({ name: member.user.tag, iconURL: member.displayAvatarURL() })
 			.setImage(member.displayAvatarURL({ size: 2048, dynamic: true }))
 			.setDescription([
 				[

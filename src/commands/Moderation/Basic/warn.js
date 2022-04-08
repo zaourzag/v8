@@ -28,7 +28,7 @@ module.exports = class extends Command {
 			member.settings.update('warnings', { reason, moderator: msg.member.id, active: true }, { arrayAction: 'add' });
 
 			const embed = new MessageEmbed()
-				.setAuthor(msg.guild.name, msg.guild.iconURL())
+				.setAuthor({ name: msg.guild.name, iconURL: msg.guild.iconURL() })
 				.setDescription(msg.language.get('COMMAND_WARN_WARNED', reason))
 				.setFooter(msg.language.get('COMMAND_WARN_MODERATOR', msg.author.tag), msg.author.avatarURL())
 				.setColor(VERY_NEGATIVE);

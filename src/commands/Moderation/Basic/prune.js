@@ -40,7 +40,7 @@ module.exports = class extends Command {
 		msg.channel.bulkDelete(messages, true)
 			.then(async () => {
 				const message = await msg.responder.success('COMMAND_PRUNE_RESPONSE', messages.length - 1);
-				message.delete({ timeout: 1500 }).catch(() => null);
+				setTimeout(() => message.delete().catch(() => null), 1500);
 			})
 			.catch(err => msg.responder.error('ERROR_SHORT', err.message));
 

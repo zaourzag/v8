@@ -11,8 +11,8 @@ module.exports = class extends Event {
 
 	async run(msg, { lemonChannel }) {
 		const lemons = this.generateReacts(msg.guild.settings.get('lemonboard.trigger'));
-		const embed = this.buildEmbed(msg, msg.guild, msg.channel.id, msg.id, lemons);
-		const lemonMessage = await lemonChannel.send({ embed });
+		const { embed, files } = this.buildEmbed(msg, msg.guild, msg.channel.id, msg.id, lemons);
+		const lemonMessage = await lemonChannel.send({ embed, files });
 		await lemonMessage.react('🍋');
 
 		const filter = lemonedMessage => lemonedMessage.id === msg.id && lemonedMessage.channel === msg.channel.id;

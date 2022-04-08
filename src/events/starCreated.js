@@ -11,8 +11,8 @@ module.exports = class extends Event {
 
 	async run(msg, { starChannel }) {
 		const stars = this.generateReacts(msg.guild.settings.get('starboard.trigger'));
-		const embed = this.buildEmbed(msg, msg.guild, msg.channel.id, msg.id, stars);
-		const starMessage = await starChannel.send({ embed });
+		const { embed, files } = this.buildEmbed(msg, msg.guild, msg.channel.id, msg.id, stars);
+		const starMessage = await starChannel.send({ embed, files });
 		await starMessage.react('⭐');
 
 		const filter = starredMessage => starredMessage.id === msg.id && starredMessage.channel === msg.channel.id;

@@ -28,7 +28,7 @@ module.exports = class extends Command {
 			};
 		}
 
-		await channel.updateOverwrite(
+		await channel.permissionOverwrites.edit(
 			msg.guild.id,
 			override,
 			msg.guild.language.get('COMMAND_LOCK_REASON')

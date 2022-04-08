@@ -35,7 +35,7 @@ module.exports = class extends Command {
 			.map(message => `--- ${message.author.tag}, ${dayjs(message.createdAt).format('Do MMM YYYY HH:mm')} ---\n${message.content}\n`)
 			.slice(0, limit);
 
-		messages = messages.keyArray().slice(0, limit);
+		messages = [...messages.keys()].slice(0, limit);
 		if (!messages.includes(msg.id)) messages.push(msg.id);
 		msg.channel.bulkDelete(messages, true)
 			.then(async () => {

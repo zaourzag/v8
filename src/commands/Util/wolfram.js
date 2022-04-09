@@ -47,9 +47,7 @@ module.exports = class extends Command {
 
 		if (statusCode !== 200) return msg.responder.error('COMMAND_WOLFRAM_ERROR');
 
-		const attachment = new MessageAttachment(body, 'wolfram.gif');
-
-		return msg.send(attachment);
+		return msg.channel.sendFile(body, 'wolfram.gif');
 	}
 
 };

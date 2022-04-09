@@ -214,7 +214,7 @@ module.exports = class extends Command {
 			);
 			embed.addField(
 				`• ${msg.language.get('COMMAND_INFO_USER_NOTES')} (${notes.length})`,
-				notes.map((note, idx) => `${idx + 1}. **${note.reason}** | ${this.client.users.cache.get(note.moderator).tag}`)
+				notes.map((note, idx) => `${idx + 1}. **${note.reason}** | ${this.client.users.cache.get(note.moderator).tag}`).join('\n')
 			);
 		}
 

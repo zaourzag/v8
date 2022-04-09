@@ -75,7 +75,7 @@ module.exports = class extends Command {
 		for (const user of users) {
 			guild.modCache.add(user.id);
 			if (!duration) this.updateSchedule(user);
-			guild.members.ban(user.id, { reason: `${duration ? `[temp]` : ''} ${moderator.tag} | ${reason || guild.language.get('COMMAND_BAN_NOREASON')}`, days: purge ? 1 : 0 })
+			await guild.members.ban(user.id, { reason: `${duration ? `[temp]` : ''} ${moderator.tag} | ${reason || guild.language.get('COMMAND_BAN_NOREASON')}`, days: purge ? 1 : 0 })
 				.then(() => {
 					if (soft) {
 						guild.modCache.add(user.id);

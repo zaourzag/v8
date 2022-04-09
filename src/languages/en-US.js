@@ -51,7 +51,7 @@ module.exports = class extends Language {
 				`Allow admins to use all commands: ${code`${prefix}perms allow @Admins *`}`,
 				`Reset all permission entries: ${code`${prefix}perms clear`}`,
 				`Remove all permission overrides from ravy ${code`${prefix}perms clear @ravy`}`
-			],
+			].join('\n'),
 			COMMAND_PERMS_MISSING: 'Invalid usage: expecting a target and a permission.',
 			COMMAND_PERMS_MISSING_TARGET: 'Invalid usage: expecting a target.',
 			COMMAND_PERMS_SHOW: name => `Permissions for **${name}**:`,

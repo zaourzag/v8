@@ -39,7 +39,7 @@ module.exports = class extends Command {
 					: msg.language.get('COMMAND_AVATAR_GUILD_WARNING')
 			);
 
-		return msg.send({ embed });
+		return msg.sendEmbed(embed);;
 	}
 
 };

@@ -282,7 +282,7 @@ module.exports = class extends Command {
 
 	async serverinfo(msg) {
 		const { guild } = msg;
-		await msg.guild.members.fetch(msg.guild.ownerID);
+		await msg.guild.members.fetch(msg.guild.ownerId);
 		const owner = await guild.fetchOwner();
 		const embed = new MessageEmbed()
 			.setAuthor({ name: `${guild.name} [${guild.id}]`, iconURL: guild.iconURL() })

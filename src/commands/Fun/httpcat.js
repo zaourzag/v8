@@ -22,7 +22,7 @@ module.exports = class extends Command {
 
 		const img = new MessageAttachment(res.body, 'cat.jpg');
 
-		return msg.send(img);
+		return msg.send({ files: [img] });
 	}
 
 };

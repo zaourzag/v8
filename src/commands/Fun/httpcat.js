@@ -20,9 +20,7 @@ module.exports = class extends Command {
 
 		if (res.statusCode !== 200) throw 'COMMAND_HTTPCAT_INVALID';
 
-		const img = new MessageAttachment(res.body, 'cat.jpg');
-
-		return msg.send({ files: [img] });
+		return msg.channel.sendFile(res.body, 'cat.jpg');
 	}
 
 };

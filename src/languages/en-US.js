@@ -79,7 +79,7 @@ module.exports = class extends Language {
 				'• messages',
 				'• moderation',
 				'• members'
-			],
+			].join('\n'),
 			COMMAND_LOG_REASON: 'Initializing logging',
 			COMMAND_LOG_SUCCESS: (type, channel) => `Now logging ${bold`${type}`} in ${channel}.`,
 			COMMAND_LOG_NOWEBHOOKPERMS: 'I don\'t have permission to create a webhook for that channel.',
@@ -108,7 +108,7 @@ module.exports = class extends Language {
 				"Though, we will never ban anyone without your okay. Thus, you'll have to define a channel where we can ask you.",
 				`This is easily done using ${code`${prefix}raid <channel>`}.`,
 				'That channel will then receive all updates and prompts upon raids.'
-			],
+			].join('\n'),
 			COMMAND_RAID_SUCCESS: channel => `Raid prevention is now **enabled**. Logging raid attempts in ${channel}.`,
 			COMMAND_RAID_DISABLE: 'Raid prevention is now **disabled**.',
 			COMMAND_PREFIX_DESCRIPTION: 'Changes the prefix.',
@@ -298,7 +298,7 @@ module.exports = class extends Language {
 				'',
 				`If you like what we're doing, please share ${this.client.user.username} with your pals!`,
 				`Thank you for using ${this.client.user.username} ♥`
-			],
+			].join('\n'),
 			COMMAND_INFO_USER_WARNINGS: 'Warnings',
 			COMMAND_INFO_USER_NOTES: 'Notes',
 			COMMAND_INFO_USER_STATISTICS: 'Statistics',
@@ -405,7 +405,7 @@ module.exports = class extends Language {
 				'Bans one or more users with an optional timeframe and reason.',
 				"Specify p[urge] before the reason to purge the user(s)'s last 24h of messages.",
 				"Specify s[oft] before the reason to purge the user(s)'s last 24h of messages and unban them again (commonly referred to as a softban)."
-			],
+			].join('\n'),
 			COMMAND_BAN_NOPERMS: multiple => `You cannot ban ${multiple ? 'any of the specified users' : 'the specified user'}.`,
 			COMMAND_BAN_ERROR: (user, issue) => `Failed to ban ${user}: ${issue}`,
 			COMMAND_BAN_SOFTBANRELEASED: 'softban released',
@@ -531,7 +531,7 @@ module.exports = class extends Language {
 					"I know not all permissions are right for every guild, so don't be afraid to uncheck any of the boxes.",
 					'If you try to use a command that requires more permissions than the bot is granted, it will let you know.'
 				].join(' '))
-			],
+			].join('\n'),
 			COMMAND_INVITE_SUCCESS: (name, invite, discord) => `[Invite ${name}](${invite}) | [Support Server](${discord})`,
 			COMMAND_INVITE_DESCRIPTION: 'Displays the invite link of the bot, to invite it to your guild.',
 			COMMAND_LOGIN_DESCRIPTION: 'Allows you to link your account with Aero Sentinel for servers that require increased security.',
@@ -557,7 +557,7 @@ module.exports = class extends Language {
 				'',
 				'Understanding the usage section of this is easy too:',
 				`curly brackets ${code`{}`} indicate a required argument, square brackets ${code`[]`} an optional argument.`
-			],
+			].join('\n'),
 			COMMAND_ENABLE: (type, name) => `+ Successfully enabled ${type}: ${name}`,
 			COMMAND_ENABLE_DESCRIPTION: 'Re-enables or temporarily enables a command/inhibitor/monitor/finalizer. Default state restored on reboot.',
 			COMMAND_DISABLE: (type, name) => `+ Successfully disabled ${type}: ${name}`,
@@ -583,7 +583,7 @@ module.exports = class extends Language {
 				"It's been running",
 				`• for ${bold`${uptime}`} on ${bold`${hostname}`} (shard ${currentShard} / ${totalShards})`,
 				`• using Node.js ${processVersion}, Discord.js v${discordVersion}, and Klasa v${klasaVersion}.`
-			],
+			].join('\n'),
 			COMMAND_STATS_DESCRIPTION: 'Provides some details about the bot and stats.',
 			COMMAND_STATUS_DESCRIPTION: 'Displays current status updates from Discord.',
 			COMMAND_REACTIONROLE_DESCRIPTION: 'Adds a reaction to a message which grants and removes a role.',

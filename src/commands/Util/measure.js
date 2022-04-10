@@ -30,7 +30,7 @@ module.exports = class extends Command {
 				.addField('Scores', lhrSlim.map(i => `${scoreToEmoji(i.score)} ${i.title}: ${Math.round(i.score * 100)}`).join('\n'))
 				.addField('Metrics', lhrToMetrics(lhr).map(audit => `${scoreToEmoji(audit.score)} ${audit.title}: ${audit.displayValue}`).join('\n'));
 
-			await msg.sendEmbed(embed);
+			await msg.sendEmbed(embed);;
 		} else
 			await msg.responder.error('ERROR_SHORT', errors);
 

@@ -19,8 +19,8 @@ module.exports = class extends Command {
 			.send();
 
 		if (res.statusCode !== 200) throw 'COMMAND_HTTPDOG_INVALID';
-
-		return msg.channel.sendFile(res.body, 'cat.jpg');
+		
+		return msg.channel.sendFile(res.body, 'cat.jpg');;
 	}
 
 };

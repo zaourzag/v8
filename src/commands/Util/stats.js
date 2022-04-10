@@ -36,16 +36,16 @@ module.exports = class extends Command {
 			`\u001b[0;30m                           #\u001b[0;36m%%%                            \u001b[0;0m`, 				`\u001b[0;30m██\u001b[0;31m██\u001b[0;32m██\u001b[0;33m██\u001b[0;34m██\u001b[0;35m██\u001b[0;36m██\u001b[0;37m██\u001b[0;0m`,
 			`\u001b[0;36m                          %%                               \u001b[0;0m`, 							`\u001b[0;40m  \u001b[0;41m  \u001b[0;42m  \u001b[0;43m  \u001b[0;44m  \u001b[0;45m  \u001b[0;46m  \u001b[0;47m  \u001b[0;0m`,
 			`\u001b[0;30m                         ,                                 \u001b[0;0m`, 							``
-		];
+		]
 
-		if (mobile)
-			output = output.filter((_, idx) => idx % 2 === 1).filter(cur => cur.length > 0).slice(0, 9).map(item => item.replace(/\u001b\[\d+;\d+m/g, ''));
-		 else {
+		if (mobile) {
+			output = output.filter((_, idx) => idx % 2 === 1).filter(cur => cur.length > 0).slice(0, 9).map(item => item.replace(/\u001b\[\d+;\d+m/g, ''));	
+		} else {
 			output = output.reduce((acc, cur, idx) => {
 				if (idx % 2 === 0) acc.push(cur);
 				else acc[acc.length - 1] += cur;
 				return acc;
-			}, []);
+			}, [])
 		}
 
 		msg.send(util.codeBlock('ansi', output.join('\n')));

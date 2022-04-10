@@ -30,7 +30,7 @@ module.exports = class extends Command {
 	async executeKicks(users, reason, guild, moderator) {
 		for (const user of users) {
 			guild.modCache.add(user.id);
-			user.kick(`${moderator.tag} | ${reason || guild.language.get('COMMAND_KICK_NOREASON')}`);
+			await user.kick(`${moderator.tag} | ${reason || guild.language.get('COMMAND_KICK_NOREASON')}`);
 		}
 	}
 

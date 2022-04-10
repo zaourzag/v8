@@ -20,7 +20,7 @@ module.exports = class extends Command {
 		if (!msg.member.permissions.has('MUTE_MEMBERS')) return msg.responder.error('COMMAND_VOICEUNMUTE_NOPERMS');
 		if (!user.voice.channelID) return msg.responder.error('COMMAND_VOICEUNMUTE_NOVOICE');
 		if (!user.voice.serverMute) return msg.responder.error('COMMAND_VOICEMUTE_ALREADY_UNMUTED');
-		user.voice.setMute(false, reason || msg.language.get('COMMAND_VOICEUNMUTE_NOREASON'));
+		await user.voice.setMute(false, reason || msg.language.get('COMMAND_VOICEUNMUTE_NOREASON'));
 		return msg.responder.success();
 	}
 

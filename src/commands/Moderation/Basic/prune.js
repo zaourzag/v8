@@ -1,5 +1,5 @@
 // derived from klasa-pieces, (c) 2017-2019 dirigeants / MIT license.
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { Permissions: { FLAGS } } = require('discord.js');
 const req = require('@aero/http');
 const dayjs = require('dayjs');
@@ -11,7 +11,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			requiredPermissions: ['MANAGE_MESSAGES'],
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			aliases: ['p', 'purge', 'clear', 'clean'],
 			description: language => language.get('COMMAND_PRUNE_DESCRIPTION'),
 			usage: '[limit:integer] [link|invite|bots|you|me|upload|user:user]',
@@ -35,12 +35,12 @@ module.exports = class extends Command {
 			.map(message => `--- ${message.author.tag}, ${dayjs(message.createdAt).format('Do MMM YYYY HH:mm')} ---\n${message.content}\n`)
 			.slice(0, limit);
 
-		messages = messages.keyArray().slice(0, limit);
+		messages = [...messages.keys()].slice(0, limit);
 		if (!messages.includes(msg.id)) messages.push(msg.id);
 		msg.channel.bulkDelete(messages, true)
 			.then(async () => {
 				const message = await msg.responder.success('COMMAND_PRUNE_RESPONSE', messages.length - 1);
-				message.delete({ timeout: 1500 }).catch(() => null);
+				setTimeout(() => message.delete().catch(() => null), 1500);
 			})
 			.catch(err => msg.responder.error('ERROR_SHORT', err.message));
 

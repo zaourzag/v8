@@ -1,4 +1,4 @@
-const { Event } = require('@aero/klasa');
+const { Event } = require('@aero/framework');
 const { noop } = require('../../lib/util/constants');
 
 module.exports = class extends Event {

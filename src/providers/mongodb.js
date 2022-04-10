@@ -6,7 +6,7 @@
  *
  * INFORMATION: There's a lot of stuff commented out in here. All of that is debug because of persistency issues and might need to be reenabled if they ever reoccur.
  */
-const { Provider, util: { mergeDefault, mergeObjects, isObject } } = require('@aero/klasa');
+const { Provider, util: { mergeDefault, mergeObjects, isObject } } = require('@aero/framework');
 const { MongoClient: Mongo } = require('mongodb');
 // const { inspect } = require('util');
 

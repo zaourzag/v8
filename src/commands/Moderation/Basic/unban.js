@@ -6,7 +6,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			requiredPermissions: ['BAN_MEMBERS'],
 			aliases: ['ub', 'unbean'],
 			description: language => language.get('COMMAND_UNBAN_DESCRIPTION'),
@@ -23,7 +23,7 @@ module.exports = class extends Command {
 
 		const moderator = msg.author;
 
-		this.executeUnbans(bannable, reason, msg.guild, moderator);
+		await this.executeUnbans(bannable, reason, msg.guild, moderator);
 		this.logActions(msg.guild, 'unban', bannable, { reason, moderator, msg });
 
 		return msg.responder.success();
@@ -32,7 +32,7 @@ module.exports = class extends Command {
 	async executeUnbans(users, reason, guild, moderator) {
 		for (const user of users) {
 			guild.modCache.add(user.id);
-			guild.members.unban(user.id, `${moderator.tag} | ${reason || guild.language.get('COMMAND_UNBAN_NOREASON')}`).catch(() => null);
+			await guild.members.unban(user.id, `${moderator.tag} | ${reason || guild.language.get('COMMAND_UNBAN_NOREASON')}`).catch(() => null);
 			this.updateSchedule(user);
 		}
 	}

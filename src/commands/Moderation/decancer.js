@@ -6,7 +6,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			requiredPermissions: ['MANAGE_NICKNAMES'],
 			description: language => language.get('COMMAND_DECANCER_DESCRIPTION'),
 			usage: '<member:member>'
@@ -17,7 +17,7 @@ module.exports = class extends Command {
 
 	async run(msg, [member]) {
 		if (!this.comparePermissions(msg.member, member)) return msg.responder.error('COMMAND_DECANCER_NOPERMS');
-		member.cleanName();
+		await member.cleanName();
 		return msg.responder.success();
 	}
 

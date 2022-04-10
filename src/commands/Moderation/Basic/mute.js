@@ -1,13 +1,13 @@
 const Command = require('../../../../lib/structures/MultiModerationCommand');
 const { Permissions: { FLAGS } } = require('discord.js');
-const { dateDiffDays } = require('~/lib/util/util');
+const { dateDiffDays } = require('../../../../lib/util/util');
 
 module.exports = class extends Command {
 
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			requiredPermissions: ['MANAGE_ROLES'],
 			aliases: ['m', 'silence', '403', 'timeout'],
 			description: language => language.get('COMMAND_MUTE_DESCRIPTION'),
@@ -34,8 +34,8 @@ module.exports = class extends Command {
 		const formattedReason = `${moderator.tag} | ${reason || guild.language.get('COMMAND_MUTE_NOREASON')}`;
 		for (const member of users) {
 			guild.modCache.add(member.id);
-			if (duration && dateDiffDays(new Date(), duration) <= 28) member.muteTimed(formattedReason, duration);
-			else member.mute(formattedReason, muterole);
+			if (duration && dateDiffDays(new Date(), duration) <= 28) await member.muteTimed(formattedReason, duration);
+			else await member.mute(formattedReason, muterole);
 
 			if (!duration) this.updateSchedule(member);
 		}

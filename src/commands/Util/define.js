@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const req = require('@aero/http');
 
 const BASE_URL = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/';

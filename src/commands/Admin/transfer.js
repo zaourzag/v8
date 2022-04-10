@@ -4,7 +4,7 @@
  * License: MIT License
  * Credit example: Copyright (c) 2019 dirigeants, MIT License
  */
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const fs = require('fs-nextra');
 const { resolve, join } = require('path');
 

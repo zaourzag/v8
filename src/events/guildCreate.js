@@ -1,4 +1,4 @@
-const { Event } = require('@aero/klasa');
+const { Event } = require('@aero/framework');
 
 module.exports = class extends Event {
 
@@ -17,13 +17,13 @@ module.exports = class extends Event {
 
 	getMessageChannel(guild) {
 		const { everyone } = guild.roles;
-		const everyoneChannel = guild.channels.cache.find(chan => chan.type === 'text' && everyone.permissionsIn(chan).has([
+		const everyoneChannel = guild.channels.cache.find(chan => chan.type === 'GUILD_TEXT' && everyone.permissionsIn(chan).has([
 			'SEND_MESSAGES', 'VIEW_CHANNEL'
 		]));
 
 		const { me } = guild;
 		if (!me) return false;
-		const meChannel = guild.channels.cache.find(chan => chan.type === 'text' && me.permissionsIn(chan).has([
+		const meChannel = guild.channels.cache.find(chan => chan.type === 'GUILD_TEXT' && me.permissionsIn(chan).has([
 			'SEND_MESSAGES', 'VIEW_CHANNEL'
 		]));
 

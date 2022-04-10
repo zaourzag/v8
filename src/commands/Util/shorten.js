@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 
 const req = require('@aero/http');
 
@@ -22,13 +22,15 @@ module.exports = class extends Command {
 			domain: new URL(this.client.config.shortURL).hostname
 		};
 		if (slug) body.customSlug = slug;
-		const { statusCode, json } = await req(this.client.config.shortURL)
+		const { statusCode, body: res } = await req(this.client.config.shortURL)
 			.path('/rest/v2/short-urls')
 			.post()
 			.header('Accept', 'application/json')
 			.header('X-Api-Key', process.env.SHLINK_TOKEN)
 			.body(body, 'json')
 			.send();
+
+		const json = await res.json();
 
 		if (statusCode !== 200)
 			return msg.responder.error('ERROR_SHORT', json.detail);

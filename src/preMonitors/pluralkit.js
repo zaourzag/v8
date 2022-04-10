@@ -31,7 +31,7 @@ module.exports = class extends Monitor {
 
 		let sender;
 
-		if (this.cache.has(msg.author.id)) sender = this.cache.get(msg.author.id)
+		if (this.cache.has(msg.author.id)) sender = this.cache.get(msg.author.id);
 		else {
 			const res = await req(PK_BASE)
 				.path('/messages', msg.id)

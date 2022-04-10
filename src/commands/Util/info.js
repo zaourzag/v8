@@ -131,8 +131,8 @@ module.exports = class extends Command {
 		let authorString = `${system?.username || user.tag} [${user.id}] ${system ? `(system of ${user.tag})` : ''}`;
 		if (pronouns !== 'unknown pronouns') authorString += ` (${pronouns})`;
 		return embed
-			.setAuthor({ name: authorString
-				, iconURL: effectiveUser.displayAvatarURL({ dynamic: true }) })
+			.setAuthor({ name: authorString,
+				 iconURL: effectiveUser.displayAvatarURL({ dynamic: true }) })
 			.setThumbnail(effectiveUser.displayAvatarURL({ dynamic: true }));
 	}
 

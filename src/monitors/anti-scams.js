@@ -22,7 +22,7 @@ module.exports = class extends Monitor {
 			'discord.com', 'discord.new', 'discord.gg', 'discord.io', 'discord.me', 'discords.com',
 			'cdn.discordapp.com', 'discordapp.com', 'media.discordapp.com', 'discord.bio',
 			'discord.js', 'discord.js.org', 'discord.py', 'discord.id', 'discordgift.site', 'discord.net',
-			'tenor.com', 'imgur.com'
+			'tenor.com', 'imgur.com', 'verified.test.phisherman.gg', 'suspicious.test.phisherman.gg'
 		];
 		this.knownBads = [
 			'stencommunity.com', 'stearncomminuty.ru', 'streancommuntiy.com', 'stearncommunytu.ru', 'steamcommunyru.com', 'csgocyber.ru',

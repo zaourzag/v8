@@ -647,8 +647,8 @@ module.exports = class extends Language {
 			EVENT_AUTOROLE_REASON: 'Autorole - configured to be automatically assigned to each member upon joining.',
 			EVENT_BOTROLE_REASON: 'Botrole - configured to be automatically assigned to each bot upon joining.',
 			EVENT_PERSPECTIVE_DELETEREASON: 'Identified as unwanted by Perspective.',
-			EVENT_SUSPICIOUS_USERNAME: 'Probable spambot, matched suspicious username.',
-			EVENT_SUSPICIOUS_AVATAR: 'Probable spambot, matched suspicious avatar [${key}].',
+			EVENT_SPAMBOT_SUSPICIOUS_USERNAME: 'Probable spambot, matched suspicious username.',
+			EVENT_SPAMBOT_SUSPICIOUS_AVATAR: 'Probable spambot, matched suspicious avatar [${key}].',
 
 			SETTING_GATEWAY_EXPECTS_GUILD: 'The parameter <Guild> expects either a Guild or a Guild Object.',
 			SETTING_GATEWAY_VALUE_FOR_KEY_NOEXT: (data, key) => `The value ${data} for the key ${key} does not exist.`,

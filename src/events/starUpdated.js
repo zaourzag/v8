@@ -11,11 +11,12 @@ module.exports = class extends Event {
 
 	async run(msg, { votes, starMessage }) {
 		const stars = this.generateReacts(votes.length);
+		await msg.member.fetch();
 		const { embed, files } = this.buildEmbed(msg, msg.guild, msg.channel.id, msg.id, stars);
 
 		if (!starMessage || !starMessage.edit) return;
 
-		starMessage.edit({ embed, files });
+		starMessage.edit({ embeds: [embed], files });
 	}
 
 };

@@ -1,8 +1,3 @@
-/*
- * Co-Authored-By: Stitch07 (https://github.com/Stitch07)
- * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
- * Credit example: Credit goes to [Stitch07](https://github.com/Stitch07) and [ravy](https://ravy.pink). (c) [The Aero Team](https://aero.bot) 2021
- */
 const { Command } = require('@aero/framework');
 
 const { error } = require('../../../lib/util/constants').reactions;
@@ -21,11 +16,6 @@ module.exports = class extends Command {
 			requiredPermissions: ['MANAGE_MESSAGES', 'ADD_REACTIONS']
 		});
 
-		this.dbl = true;
-		this.delayer = time => new Promise((resolve) => { setTimeout(() => resolve(), time); });
-
-		this.yesNo = ['✔', '✖'];
-		this.numbers = ['1⃣', '2⃣', '3⃣', '4⃣', '5⃣', '6⃣', '7⃣', '⏹'];
 		this.channels = new Map();
 	}
 

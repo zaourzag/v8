@@ -30,7 +30,7 @@ module.exports = class extends Command {
 	async executeUnmutes(users, reason, guild, moderator) {
 		for (const member of users) {
 			guild.modCache.add(member.id);
-			member.unmute(`${moderator.tag} | ${reason || guild.language.get('COMMAND_UNMUTE_NOREASON')}`);
+			await member.unmute(`${moderator.tag} | ${reason || guild.language.get('COMMAND_UNMUTE_NOREASON')}`);
 			this.updateSchedule(member);
 		}
 	}

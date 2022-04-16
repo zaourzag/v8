@@ -35,7 +35,7 @@ module.exports = class extends Command {
 		for (const member of users) {
 			guild.modCache.add(member.id);
 			if (duration && dateDiffDays(new Date(), duration) <= 28) member.muteTimed(formattedReason, duration);
-			else member.mute(formattedReason, muterole);
+			else await member.mute(formattedReason, muterole);
 
 			if (!duration) this.updateSchedule(member);
 		}

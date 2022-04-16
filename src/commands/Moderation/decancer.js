@@ -17,7 +17,7 @@ module.exports = class extends Command {
 
 	async run(msg, [member]) {
 		if (!this.comparePermissions(msg.member, member)) return msg.responder.error('COMMAND_DECANCER_NOPERMS');
-		member.cleanName();
+		await member.cleanName();
 		return msg.responder.success();
 	}
 

@@ -66,7 +66,8 @@ module.exports = class extends Command {
 				: soft
 					? 'softban'
 					: 'ban';
-		await this.logActions(msg.guild, action, bannable, { duration, reason, moderator: msg.author, msg });
+		
+    await this.logActions(msg.guild, action, bannable, { duration, reason, moderator: msg.author, msg });
 
 		return msg.responder.success();
 	}
@@ -79,7 +80,7 @@ module.exports = class extends Command {
 				.then(() => {
 					if (soft) {
 						guild.modCache.add(user.id);
-						guild.members.unban(user.id, guild.language.get('COMMAND_BAN_SOFTBANRELEASED'));
+						await guild.members.unban(user.id, guild.language.get('COMMAND_BAN_SOFTBANRELEASED'));
 					}
 				})
 				.catch((err) => msg.responder.newError('COMMAND_BAN_ERROR', user, err.message));

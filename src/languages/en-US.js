@@ -558,6 +558,7 @@ module.exports = class extends Language {
 				'Understanding the usage section of this is easy too:',
 				`curly brackets ${code`{}`} indicate a required argument, square brackets ${code`[]`} an optional argument.`
 			].join('\n'),
+			COMMAND_ICON_DESCRIPTION: 'Displays the server\'s icon.',
 			COMMAND_ENABLE: (type, name) => `+ Successfully enabled ${type}: ${name}`,
 			COMMAND_ENABLE_DESCRIPTION: 'Re-enables or temporarily enables a command/inhibitor/monitor/finalizer. Default state restored on reboot.',
 			COMMAND_DISABLE: (type, name) => `+ Successfully disabled ${type}: ${name}`,

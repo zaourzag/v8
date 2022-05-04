@@ -1,4 +1,4 @@
-const { Finalizer } = require('@aero/klasa');
+const { Finalizer } = require('@aero/framework');
 
 const { Message } = require('discord.js');
 
@@ -18,8 +18,8 @@ module.exports = class extends Finalizer {
 		if (!isNaN(timeout) && timeout < 20 && timeout > 0) timeout *= 1000;
 		else timeout = 3000;
 
-		await msg.delete({ timeout }).catch(() => null);
-		if (res instanceof Message) res.delete().catch(() => null);
+		setTimeout(() => msg.delete().catch(() => null), timeout);
+		if (res instanceof Message) setTimeout(() => res.delete().catch(() => null), timeout);
 
 		return res;
 	}

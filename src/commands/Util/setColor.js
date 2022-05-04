@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { FLAGS } = require('discord.js').Permissions;
 const tc = require('tinycolor2');
 
@@ -21,8 +21,8 @@ module.exports = class extends Command {
 		const colorData = tc(color);
 		if (colorData._format === false) return msg.responder.error('COMMAND_SETCOLOR_INVALIDCOLOR');
 		return role.setColor(colorData.toHex())
-			.catch(() => msg.responder.error('COMMAND_SETCOLOR_NOPERMS'))
-			.then(() => msg.responder.success());
+			.then(() => msg.responder.success())
+			.catch(() => msg.responder.error('COMMAND_SETCOLOR_NOPERMS'));
 	}
 
 };

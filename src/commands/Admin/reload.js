@@ -4,7 +4,7 @@
  * License: MIT License
  * Credit example: Copyright (c) 2019 dirigeants, MIT License
  */
-const { Command, Store, Stopwatch } = require('@aero/klasa');
+const { Command, Store, Stopwatch } = require('@aero/framework');
 
 module.exports = class extends Command {
 

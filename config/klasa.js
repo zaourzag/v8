@@ -2,7 +2,8 @@ const { prefix, stage, owners } = require('./aero');
 const db = {
 	production: 'aero',
 	staging: 'aero-staging',
-	development: 'aero-dev'
+	development: 'aero-dev',
+	testing: 'aero-test'
 }[stage];
 
 const { MONGO_URI: uri, MONGO_USER: user, MONGO_PASS: pass, MONGO_HOST: host, MONGO_PORT: port } = process.env;

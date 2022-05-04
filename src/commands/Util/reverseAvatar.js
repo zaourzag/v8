@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = class extends Command {
@@ -16,7 +16,7 @@ module.exports = class extends Command {
 		const embed = new MessageEmbed()
 			.setDescription(`[Search ${user.username}'s Avatar](https://images.google.com/searchbyimage?image_url=${encodeURIComponent(user.displayAvatarURL({ format: 'png', size: 2048 }))})`);
 
-		return msg.send({ embed });
+		return msg.sendEmbed(embed);;
 	}
 
 };

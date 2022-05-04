@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { Permissions: { FLAGS }, VoiceChannel } = require('discord.js');
 
 module.exports = class extends Command {
@@ -6,7 +6,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			requiredPermissions: ['MANAGE_CHANNELS'],
 			aliases: ['ul'],
 			description: language => language.get('COMMAND_UNLOCK_DESCRIPTION'),
@@ -28,7 +28,7 @@ module.exports = class extends Command {
 			};
 		}
 
-		await channel.updateOverwrite(
+		await channel.permissionOverwrites.edit(
 			msg.guild.id,
 			override,
 			msg.guild.language.get('COMMAND_UNLOCK_REASON')

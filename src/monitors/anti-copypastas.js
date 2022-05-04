@@ -1,7 +1,7 @@
 const { readdirSync, readFileSync } = require('fs');
 const { join } = require('path');
 
-const { Monitor } = require('@aero/klasa');
+const { Monitor } = require('@aero/framework');
 
 module.exports = class extends Monitor {
 

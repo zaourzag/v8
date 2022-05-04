@@ -1,4 +1,4 @@
-const { Event } = require('@aero/klasa');
+const { Event } = require('@aero/framework');
 const { noop } = require('../../lib/util/constants');
 
 module.exports = class extends Event {
@@ -16,7 +16,7 @@ module.exports = class extends Event {
 			message.guild.modCache.add(raider);
 			message.guild.members.ban(raider, { days: 1, reason: message.language.get('EVENT_RAID_BANREASON') }).catch(noop);
 		}
-		message.guild.log.bulkBan({ users: [...message.guild.raiderCache.values()], moderator, reason: 'Automatic raid prevention' });
+		message.guild.log.bulkBan({ users: [...message.guild.raiderCache.values()], moderator, reason: message.language.get('EVENT_RAID_BANREASON') });
 		message.guild.raidReset();
 	}
 

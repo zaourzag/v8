@@ -1,4 +1,4 @@
-const { Event } = require('@aero/klasa');
+const { Event } = require('@aero/framework');
 const { deconstruct } = require('discord.js').SnowflakeUtil;
 
 module.exports = class extends Event {
@@ -13,9 +13,9 @@ module.exports = class extends Event {
 	async run(member) {
 		await member.settings.sync();
 		if (member.guild.settings.get('persist')) {
-			member.settings.update('persistRoles', member.roles.cache
+			member.settings.update('persistRoles', [...member.roles.cache
 				.filter(role => !role.managed)
-				.keyArray()
+				.keys()]
 				.filter(roleID => roleID !== member.guild.id), { arrayAction: 'overwrite' });
 			if (member.nickname) member.settings.update('persistNick', member.nickname);
 		} else if (member.muted)

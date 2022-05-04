@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { Permissions: { FLAGS } } = require('discord.js');
 
 module.exports = class extends Command {
@@ -6,7 +6,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			description: language => language.get('COMMAND_LEVELROLES_DESCRIPTION'),
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			aliases: ['levelrole', 'lrole', 'lr'],
 			usage: '<add|remove|show:default> [level:integer{1,}] [role:rolename]',
 			usageDelim: ' '

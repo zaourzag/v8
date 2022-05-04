@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 
 module.exports = class extends Command {
 
@@ -13,9 +13,7 @@ module.exports = class extends Command {
 	}
 
 	async run(message) {
-		const { channelID, messageID } = message.reference;
-
-		const msg = await message.guild.channels.cache.get(channelID).messages.fetch(messageID);
+		const msg = message.fetchReference();
 
 		const emoji = [...msg.content.matchAll(this.emojiRegex)]
 			.map(match => match.groups)

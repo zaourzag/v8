@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { MessageAttachment } = require('discord.js');
 const req = require('@aero/http');
 const BASE_URL = 'http://api.wolframalpha.com/v1';
@@ -47,9 +47,7 @@ module.exports = class extends Command {
 
 		if (statusCode !== 200) return msg.responder.error('COMMAND_WOLFRAM_ERROR');
 
-		const attachment = new MessageAttachment(body, 'wolfram.gif');
-
-		return msg.send(attachment);
+		return msg.channel.sendFile(body, 'wolfram.gif');
 	}
 
 };

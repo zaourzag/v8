@@ -1,4 +1,4 @@
-const { Event } = require('@aero/klasa');
+const { Event } = require('@aero/framework');
 const req = require('@aero/http');
 const PK_BASE = 'https://api.pluralkit.me/v2/';
 const PK_ID = '466378653216014359';

@@ -6,7 +6,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			requiredPermissions: ['BAN_MEMBERS'],
 			aliases: ['un', 'ncl'],
 			description: language => language.get('COMMAND_CLEARNOTE_DESCRIPTION'),

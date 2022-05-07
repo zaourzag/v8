@@ -3,7 +3,7 @@
  * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
  * Credit example: Credit goes to Harsh Peshwani and [ravy](https://ravy.pink). (c) [The Aero Team](https://aero.bot) 2021
  */
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 
 module.exports = class extends Command {
 
@@ -18,7 +18,7 @@ module.exports = class extends Command {
 	async run(msg, [user]) {
 		if (!msg.member.permissions.has('MOVE_MEMBERS')) return msg.responder.error('COMMAND_VOICEKICK_NOPERMS');
 		if (!user.voice.channelID) return msg.responder.error('COMMAND_VOICEKICK_NOVOICE');
-		user.voice.setChannel(null);
+		await user.voice.disconnect();
 		return msg.responder.success();
 	}
 

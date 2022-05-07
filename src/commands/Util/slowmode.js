@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { Permissions: { FLAGS } } = require('discord.js');
 
 module.exports = class extends Command {
@@ -9,7 +9,7 @@ module.exports = class extends Command {
 			description: language => language.get('COMMAND_SLOWMODE_DESCRIPTION'),
 			usage: '<delay:duration|off>',
 			aliases: ['slow'],
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			requiredPermissions: ['MANAGE_CHANNELS']
 		});
 

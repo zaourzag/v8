@@ -1,4 +1,4 @@
-const { Monitor } = require('@aero/klasa');
+const { Monitor } = require('@aero/framework');
 const http = require('@aero/http');
 const leven = require('js-levenshtein');
 const sanitize = require('@aero/sanitizer');
@@ -135,7 +135,7 @@ module.exports = class extends Monitor {
 			if (process.env.PHISHERMAN_TOKEN && msg.guild) {
 				const member = await msg.guild.members.fetch(process.env.PHISHERMAN_USER).catch(() => null);
 
-				if (member && member.hasPermission('ADMINISTRATOR')) {
+				if (member && member.permissions.has('ADMINISTRATOR')) {
 					req.query('phisherman_token', process.env.PHISHERMAN_TOKEN);
 					req.query('phisherman_user', process.env.PHISHERMAN_USER);
 				}

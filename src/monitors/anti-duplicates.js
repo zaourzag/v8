@@ -1,4 +1,4 @@
-const { Monitor } = require('@aero/klasa');
+const { Monitor } = require('@aero/framework');
 const { JaroWinklerDistance: jaroWinklerDistance } = require('natural');
 
 module.exports = class extends Monitor {

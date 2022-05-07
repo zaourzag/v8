@@ -1,4 +1,4 @@
-const { Event } = require('@aero/klasa');
+const { Event } = require('@aero/framework');
 
 module.exports = class extends Event {
 
@@ -10,7 +10,7 @@ module.exports = class extends Event {
 	}
 
 	async run(channel) {
-		if (channel.partial || !channel.guild || !(channel.type === 'text')) return;
+		if (channel.partial || !channel.guild || !(channel.type === 'GUILD_TEXT')) return;
 		const id = channel.guild.settings.get('mod.roles.mute');
 		channel.initMute(id);
 	}

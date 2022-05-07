@@ -3,7 +3,7 @@
  * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
  * Credit example: Credit goes to [William Johnstone](https://endevrr.com) and [ravy](https://ravy.pink). (c) [The Aero Team](https://aero.bot) 2021
  */
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { Permissions: { FLAGS } } = require('discord.js');
 const GuildReactionCollector = require('../../../lib/extensions/GuildReactionCollector');
 
@@ -12,7 +12,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text', 'news'],
+			runIn: ['GUILD_TEXT', 'news'],
 			requiredPermissions: ['MANAGE_ROLES'],
 			aliases: ['rero'],
 			quotedStringSupport: true,

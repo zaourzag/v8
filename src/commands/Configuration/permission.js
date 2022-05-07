@@ -1,5 +1,5 @@
 const { Permissions: { FLAGS } } = require('discord.js');
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { granted, denied, unspecified } = require('../../../lib/util/constants').emojis.perms;
 
 module.exports = class extends Command {
@@ -7,7 +7,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			aliases: ['perms', 'permissions'],
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			usage: '[allow|deny|show|clear] [everyone|member:membername|roleid:role|rolename:rolename] [permission:string]',
 			usageDelim: ' ',
 			description: language => language.get('COMMAND_PERMS_DESCRIPTION')

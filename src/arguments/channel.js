@@ -4,7 +4,7 @@
  * License: MIT License
  * Credit example: Copyright (c) 2019 dirigeants, MIT License
  */
-const { Argument } = require('@aero/klasa');
+const { Argument } = require('@aero/framework');
 
 module.exports = class extends Argument {
 

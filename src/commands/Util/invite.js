@@ -1,5 +1,5 @@
 const { MessageEmbed, Permissions: { FLAGS } } = require('discord.js');
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const req = require('@aero/http');
 
 module.exports = class extends Command {
@@ -25,7 +25,7 @@ module.exports = class extends Command {
 		return !message.guild.me.permissions.has(FLAGS.EMBED_LINKS)
 			? message.sendLocale('COMMAND_INVITE', this.client.user.username, invite)
 			: message.sendEmbed(new MessageEmbed()
-				.setAuthor(this.client.user.username, this.client.user.avatarURL())
+				.setAuthor({ name: this.client.user.username, iconURL: this.client.user.avatarURL() })
 				.setDescription(`${message.guild.language.get('COMMAND_INVITE_SUCCESS', this.client.user.username, invite, this.client.config.supportServer)}`)
 			);
 	}

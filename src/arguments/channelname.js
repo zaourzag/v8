@@ -4,7 +4,7 @@
  * License: MIT License
  * Credit example: Copyright (c) 2019 dirigeants, MIT License
  */
-const { Argument, util: { regExpEsc } } = require('@aero/klasa');
+const { Argument, util: { regExpEsc } } = require('@aero/framework');
 const { Channel, Message } = require('discord.js');
 
 const CHANNEL_REGEXP = Argument.regex.channel;

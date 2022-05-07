@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { MessageEmbed } = require('discord.js');
 const { VERY_NEGATIVE } = require('../../../lib/util/constants').color;
 
@@ -21,7 +21,7 @@ module.exports = class extends Command {
 
 		const embed = this.buildEmbed(msg, stats);
 
-		return msg.send({ embed });
+		return msg.sendEmbed(embed);;
 	}
 
 	async allStats() {

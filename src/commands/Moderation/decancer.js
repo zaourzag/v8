@@ -6,7 +6,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			requiredPermissions: ['MANAGE_NICKNAMES'],
 			description: language => language.get('COMMAND_DECANCER_DESCRIPTION'),
 			usage: '<member:member>'

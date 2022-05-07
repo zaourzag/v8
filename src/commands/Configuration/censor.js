@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { Permissions: { FLAGS } } = require('discord.js');
 const sanitize = require('@aero/sanitizer');
 
@@ -7,7 +7,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			usage: '<add|remove|list:default> [term:...string]',
 			usageDelim: ' ',
 			description: language => language.get('COMMAND_CENSOR_DESCRIPTION')

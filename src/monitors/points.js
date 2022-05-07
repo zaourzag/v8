@@ -1,4 +1,4 @@
-const { Monitor } = require('@aero/klasa');
+const { Monitor } = require('@aero/framework');
 const util = require('../../lib/util/util');
 
 module.exports = class extends Monitor {
@@ -31,6 +31,7 @@ module.exports = class extends Monitor {
 
 		if (newXP >= xpNeeded) {
 			await msg.member.settings.update([['points', newXP - xpNeeded], ['level', newLevel]]);
+			await this.levelRoles(msg.member, newLevel);
 			if (msg.guild.settings.get('social.levelupMessages')) {
 				await msg.channel.send(util.randomArray(msg.language.get('LEVEL_MESSAGES'))
 					.replace(/{level}/g, newLevel).replace(/{user}/g, msg.author.username));
@@ -49,6 +50,17 @@ module.exports = class extends Monitor {
 		/* eslint-disable id-length */
 		const f = x => 100 + Math.min(Math.max(0, 2 * (10 * (((x - 5) / 10 - Math.floor(1 / 2 + (x - 5) / 10)) ** 2) + 10 * Math.floor(x / 10) + x - 2.5)), 2000);
 		return Math.ceil(f(level));
+	}
+
+	async levelRoles(member, newLevel) {
+		const roles = await member.guild.settings.get('social.roles');
+		if (!roles.length) return;
+
+		const ids = await roles.filter(role => role.level <= newLevel).map(role => role.id);
+
+		const newRoles = await ids.filter(id => !member.roles.cache.has(id));
+
+		member.addRoles(newRoles);
 	}
 
 	async init() {

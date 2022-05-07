@@ -1,4 +1,4 @@
-const { Monitor } = require('@aero/klasa');
+const { Monitor } = require('@aero/framework');
 const sanitize = require('@aero/sanitizer');
 
 module.exports = class extends Monitor {

@@ -1,4 +1,4 @@
-const { Inhibitor } = require('@aero/klasa');
+const { Inhibitor } = require('@aero/framework');
 
 module.exports = class extends Inhibitor {
 

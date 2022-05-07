@@ -4,7 +4,7 @@
  * License: MIT License
  * Credit example: Copyright (c) 2019 KlasaCommunityPlugins, MIT License
  */
-const { Command, util } = require('@aero/klasa');
+const { Command, util } = require('@aero/framework');
 const { trimString } = require('../../../lib/util/util');
 const { Util: djsUtil, Permissions: { FLAGS } } = require('discord.js');
 
@@ -13,7 +13,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			description: language => language.get('COMMAND_TAG_DESCRIPTION'),
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			subcommands: true,
 			usage: '<add|remove|view|list:default> [tag:string] [content:string] [...]',
 			usageDelim: ' ',

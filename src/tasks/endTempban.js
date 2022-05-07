@@ -1,4 +1,4 @@
-const { Task } = require('@aero/klasa');
+const { Task } = require('@aero/framework');
 
 module.exports = class extends Task {
 

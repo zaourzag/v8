@@ -4,7 +4,7 @@
  * License: MIT License
  * Credit example: Copyright (c) 2019 dirigeants, MIT License
  */
-const { Command, Stopwatch, Type, util } = require('@aero/klasa');
+const { Command, Stopwatch, Type, util } = require('@aero/framework');
 const { inspect } = require('util');
 const req = require('@aero/http'); /* eslint-disable-line no-unused-vars */
 

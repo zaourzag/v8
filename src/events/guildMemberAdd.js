@@ -1,4 +1,4 @@
-const { Event } = require('@aero/klasa');
+const { Event } = require('@aero/framework');
 const { FLAGS } = require('discord.js').Permissions;
 
 const req = require('@aero/http');
@@ -12,12 +12,12 @@ module.exports = class extends Event {
 		});
 
 		this.bannedMemberNames = [
-			/(mod(erator)?('s)?|hype\s*squad|developer)\s+(academy|message|exam)/i,
+			/(mod(erator)?('?s)?|hype\s*squad|developers?)\s+(academy|message|exam|team|events?)/i,
 			/discord\s+hype\s*squad/i,
 			/(hype\s*squad|discord)\s+(events?|academy)/i,
-			/discord\s+(developers|api|bots|message)?/i,
-			/^discord\s+moderator$/i,
-			/^academy\s+staff/i
+			/discord\s+(developers?|api|bots?|message)?/i,
+			/^discord\s+moderators?$/i,
+			/^academy\s+(staff|moderator)s?/i
 		];
 	}
 

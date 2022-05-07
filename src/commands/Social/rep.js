@@ -3,7 +3,7 @@
  * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
  * Credit example: Credit goes to [Stitch07](https://github.com/Stitch07) and [ravy](https://ravy.pink). (c) [The Aero Team](https://aero.bot) 2021
  */
-const { Command, Duration, constants: { TIME } } = require('@aero/klasa');
+const { Command, Duration, constants: { TIME } } = require('@aero/framework');
 
 module.exports = class extends Command {
 
@@ -11,7 +11,7 @@ module.exports = class extends Command {
 		super(...args, {
 			description: language => language.get('COMMAND_REP_DESCRIPTION'),
 			aliases: ['upvote'],
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			usage: '<user:username>'
 		});
 

@@ -5,7 +5,7 @@
  * License: MIT License
  * Credit example: Copyright (c) 2019 KlasaCommunityPlugins, MIT License
  */
-const { Event } = require('@aero/klasa');
+const { Event } = require('@aero/framework');
 const Parser = require('@aero/tags');
 
 module.exports = class extends Event {

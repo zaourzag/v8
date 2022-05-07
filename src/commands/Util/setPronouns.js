@@ -1,5 +1,5 @@
-const { Command } = require('@aero/klasa');
-const { pronounMapping, pronounDB } = require('~/lib/util/constants');
+const { Command } = require('@aero/framework');
+const { pronounMapping, pronounDB } = require('../../../lib/util/constants');
 const req = require('@aero/http');
 
 module.exports = class extends Command {

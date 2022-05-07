@@ -8,9 +8,9 @@
  * Authored-By: Ravy <ravy@aero.bot>
  * Credit example: Credit goes to [ravy](https://ravy.pink). (c) [The Aero Team](https://aero.bot) 2021
  */
-const { Event } = require('@aero/klasa');
-const { syncVotes: syncStarVotes } = require('~/lib/structures/StarEvent');
-const { syncVotes: syncLemonVotes } = require('~/lib/structures/LemonEvent');
+const { Event } = require('@aero/framework');
+const { syncVotes: syncStarVotes } = require('../../lib/structures/StarEvent');
+const { syncVotes: syncLemonVotes } = require('../../lib/structures/LemonEvent');
 
 module.exports = class extends Event {
 

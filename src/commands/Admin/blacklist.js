@@ -4,7 +4,7 @@
  * License: MIT License
  * Credit example: Copyright (c) 2019 dirigeants, MIT License
  */
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { User } = require('discord.js');
 
 module.exports = class extends Command {

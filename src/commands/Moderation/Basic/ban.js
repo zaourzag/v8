@@ -10,7 +10,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			requiredPermissions: ['BAN_MEMBERS'],
 			aliases: ['b', 'bean', '410', 'yeet', 'banish', 'begone', 'perish'],
 			description: language => language.get('COMMAND_BAN_DESCRIPTION').join('\n'),
@@ -75,7 +75,7 @@ module.exports = class extends Command {
 		for (const user of users) {
 			guild.modCache.add(user.id);
 			if (!duration) this.updateSchedule(user);
-			guild.members.ban(user.id, { reason: `${duration ? `[temp]` : ''} ${moderator.tag} | ${reason || guild.language.get('COMMAND_BAN_NOREASON')}`, days: purge ? 1 : 0 })
+			await guild.members.ban(user.id, { reason: `${duration ? `[temp]` : ''} ${moderator.tag} | ${reason || guild.language.get('COMMAND_BAN_NOREASON')}`, days: purge ? 1 : 0 })
 				.then(() => {
 					if (soft) {
 						guild.modCache.add(user.id);

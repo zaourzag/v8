@@ -3,7 +3,7 @@
  * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
  * Credit example: Credit goes to [Stitch07](https://github.com/Stitch07) and [ravy](https://ravy.pink). (c) [The Aero Team](https://aero.bot) 2021
  */
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { Permissions: { FLAGS } } = require('discord.js');
 
 module.exports = class extends Command {
@@ -11,7 +11,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			description: language => language.get('COMMAND_SOCIAL_DESCRIPTION'),
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			usage: '[toggle|enable|disable|levelmessages]',
 			subcommands: true
 		});

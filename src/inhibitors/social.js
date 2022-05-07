@@ -3,7 +3,7 @@
  * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
  * Credit example: Credit goes to [Stitch07](https://github.com/Stitch07) and [ravy](https://ravy.pink). (c) [The Aero Team](https://aero.bot) 2021
  */
-const { Inhibitor } = require('@aero/klasa');
+const { Inhibitor } = require('@aero/framework');
 
 module.exports = class extends Inhibitor {
 

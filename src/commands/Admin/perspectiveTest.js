@@ -1,6 +1,6 @@
-const { Command } = require('@aero/klasa');
-const { PerspectiveAPI: url } = require('~/lib/util/constants').url;
-const { ansi } = require('~/lib/util/util');
+const { Command } = require('@aero/framework');
+const { PerspectiveAPI: url } = require('../../../lib/util/constants').url;
+const { ansi } = require('../../../lib/util/util');
 const req = require('@aero/http');
 
 module.exports = class extends Command {

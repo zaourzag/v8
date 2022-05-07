@@ -1,4 +1,4 @@
-const { Monitor } = require('@aero/klasa');
+const { Monitor } = require('@aero/framework');
 const req = require('@aero/http');
 const PK_BASE = 'https://api.pluralkit.me/v2/';
 

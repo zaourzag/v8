@@ -1,7 +1,7 @@
 const { Command } = require('@aero/framework');
 const req = require('@aero/http');
 
-const BASE_URL = 'https://www.dictionaryapi.com/api/v3/references/collegiate/json/';
+const BASE_URL = 'https://api.dictionaryapi.dev/api/v2/entries/en/';
 
 module.exports = class extends Command {
 
@@ -11,43 +11,42 @@ module.exports = class extends Command {
 			description: language => language.get('COMMAND_DEFINE_DESCRIPTION'),
 			usage: '<term:string>',
 			aliases: ['def'],
-			permissionLevel: 7
+			permissionLevel: 0
 		});
 	}
 
 	async run(msg, [term]) {
-		const res = await req(BASE_URL).path(term).query('key', process.env.MERRIAM_TOKEN).json();
+		const entries = await req(BASE_URL).path(term).json();
 
-		const definition = res[0];
+		if (!entries.length) throw 'COMMAND_DEFINE_NOTFOUND';
 
-		if (!definition || !definition.hwi) throw 'COMMAND_DEFINE_NOTFOUND';
+		let out = [];
 
-		/* eslint-disable id-length */
-		msg.send([
-			`(${[definition.fl, ...definition?.lbs || []].join(', ')}) **${definition.hwi.hw.replace(/\*/g, '\\*')}** [${definition.hwi.prs[0].mw}]`,
-			definition.def
-				.map(def => def.sseq.flat(1)
-					.map(sseq => sseq[1])
-					.filter(sense => sense.dt)
-					.map(sense => {
-						const output = [];
+		let i = 1;
 
-						const definitions = sense.dt.find(t => t[0] === 'text');
-						if (definitions) {
-							const parsed = definitions[1].replace(/{.+?}/g, '');
-							if (parsed.replace(/\W+/g, '').length === 0) return false;
-							output.push(`- ${parsed}`);
-						}
+		for (const entry of entries) {
+			const { word, phonetic, meanings } = entry;
 
-						const examples = sense.dt.find(t => t[0] === 'vis');
-						if (examples) output.push(examples[1].filter(obj => obj.t).map(obj => obj.t.replace(/{.+?}/g, '')).map(obj => `  *${obj}*`).join('\n'));
+			if (i === 1) out.push(phonetic ? `**${word}** (${phonetic})\n` : `**${word}**\n`);
 
-						return output.join('\n');
-					})
-					.filter(i => !!i)
-					.join('\n')
-				).join('\n')
-		].join('\n'));
+			for (const meaning of meanings) {
+				const { partOfSpeech, definitions, synonyms, antonyms } = meaning;
+
+				out.push(`${i++}. *${partOfSpeech}*`);
+
+				for (const definitionEntry of definitions) {
+					const { definition, example } = definitionEntry;
+
+					out.push(`\t- ${definition}`)
+					if (example) out.push(`\t  *"${example}"*`);
+				}
+
+				if (synonyms?.length) out.push(`\t __synonyms:__ ${synonyms.join(', ')}`)
+				if (antonyms?.length) out.push(`\t __antonyms:__ ${antonyms.join(', ')}`)
+			}
+		}
+
+		msg.send(out.join('\n'));
 	}
 
 };

@@ -41,8 +41,8 @@ module.exports = class extends Command {
 					if (example) out.push(`\u200b\t  *"${example}"*`);
 				}
 
-				if (synonyms?.length) out.push(`\u200b\t __synonyms:__ ${synonyms.join(', ')}`)
-				if (antonyms?.length) out.push(`\u200b\t __antonyms:__ ${antonyms.join(', ')}`)
+				if (synonyms?.length) out.push(`\u200b\t__synonyms:__ ${synonyms.join(', ')}`)
+				if (antonyms?.length) out.push(`\u200b\t__antonyms:__ ${antonyms.join(', ')}`)
 			}
 		}
 

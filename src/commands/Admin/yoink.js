@@ -13,7 +13,7 @@ module.exports = class extends Command {
 	}
 
 	async run(message) {
-		const msg = message.fetchReference();
+		const msg = await message.fetchReference();
 
 		const emoji = [...msg.content.matchAll(this.emojiRegex)]
 			.map(match => match.groups)

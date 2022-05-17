@@ -17,7 +17,7 @@ module.exports = class extends Command {
 		const total = (totalmem() / 1024 / 1024 / 1024).toFixed(0);
 		const usage = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
 
-		const { mobile } = msg.flagArgs;
+		const { full } = msg.flagArgs;
 
 		let output = [
 			`\u001b[0;34m                                         ####              \u001b[0;0m`, 							``,
@@ -28,7 +28,7 @@ module.exports = class extends Command {
 			`\u001b[0;34m ####################################%%\u001b[0;30m***                 \u001b[0;0m`, 				`\u001b[0;31mKlasa\u001b[0;0m: ${klasaVersion}`,
 			`\u001b[0;30m           *////////*******\u001b[0;34m#####%%%%%%%%%                  \u001b[0;0m`, 				`\u001b[0;31mDiscord.js\u001b[0;0m: ${discordVersion}`,
 			`\u001b[0;30m                          //*\u001b[0;34m%%%%%%%%%%%%%%                \u001b[0;0m`, 				``,
-			`\u001b[0;30m                         /////\u001b[0;34m%%%%%%%%%%%%%%%              \u001b[0;0m`, 				`\u001b[0;31mCPU\u001b[0;0m: ${cpus().length}x ${cpus()[0].model.trim()} @ ${(cpus()[0].speed / 1000).toFixed(2)}GHz`,
+			`\u001b[0;30m                         /////\u001b[0;34m%%%%%%%%%%%%%%%              \u001b[0;0m`, 				`\u001b[0;31mCPU\u001b[0;0m: ${cpus().length}x ${cpus()[0].model.trim()}${cpus()[0].model.includes('@') ? '' : ` @ ${(cpus()[0].speed / 1000).toFixed(2)}GHz`}`,
 			`\u001b[0;30m                        //////\u001b[0;34m#%%%%%%%%%%%%%%%%            \u001b[0;0m`, 				`\u001b[0;31mRAM\u001b[0;0m: ${total}GB (${(usage / (total * 1024) * 100).toFixed(2)}%)`,
 			`\u001b[0;30m                      ///,    \u001b[0;34m%%%%%%\u001b[0;36m%%%%%%%%%%             \u001b[0;0m`, 	``,
 			`\u001b[0;30m                    /         \u001b[0;34m%%\u001b[0;36m%%%%%%%%                   \u001b[0;0m`, 	`\u001b[0;31mUptime\u001b[0;0m: ${Duration.toNow(Date.now() - (process.uptime() * 1000))}`,
@@ -38,7 +38,7 @@ module.exports = class extends Command {
 			`\u001b[0;30m                         ,                                 \u001b[0;0m`, 							``
 		]
 
-		if (mobile) {
+		if (!full) {
 			output = output.filter((_, idx) => idx % 2 === 1).filter(cur => cur.length > 0).slice(0, 9).map(item => item.replace(/\u001b\[\d+;\d+m/g, ''));	
 		} else {
 			output = output.reduce((acc, cur, idx) => {

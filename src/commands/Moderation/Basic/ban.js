@@ -13,7 +13,7 @@ module.exports = class extends Command {
 			runIn: ['GUILD_TEXT'],
 			requiredPermissions: ['BAN_MEMBERS'],
 			aliases: ['b', 'bean', '410', 'yeet', 'banish', 'begone', 'perish'],
-			description: language => language.get('COMMAND_BAN_DESCRIPTION').join('\n'),
+			description: language => language.get('COMMAND_BAN_DESCRIPTION'),
 			usage: '<user  or  users:users|username:membername> [duration:time] [purge|p|soft|s] [reason:...string]',
 			usageDelim: ' ',
 			examples: [

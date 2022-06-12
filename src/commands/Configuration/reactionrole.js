@@ -70,7 +70,7 @@ module.exports = class extends Command {
 		return new Promise((resolve, reject) => {
 			const filter = (_, user) => user.id === msg.author.id;
 
-			const collector = new GuildReactionCollector(msg, filter, { time: 30000, max: 1 });
+			const collector = new GuildReactionCollector(msg, { filter, time: 30000, max: 1 });
 			collector.on('end', collected => {
 				if (collected.size > 0)
 					resolve(collected.first());

@@ -12,7 +12,7 @@ module.exports = class extends Command {
 		super(...args, {
 			requiredPermissions: ['MANAGE_MESSAGES'],
 			runIn: ['GUILD_TEXT'],
-			aliases: ['p', 'purge', 'clear', 'clean'],
+			aliases: ['p', 'purge', 'clear', 'clean', '1984'],
 			description: language => language.get('COMMAND_PRUNE_DESCRIPTION'),
 			usage: '[limit:integer] [link|invite|bots|you|me|upload|user:user]',
 			usageDelim: ' '

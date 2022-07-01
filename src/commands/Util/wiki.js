@@ -26,7 +26,8 @@ module.exports = class extends Command {
         if (res1.statusCode > 299 && res1.statusCode < 400) {
             const res2 = await req(BASE_URL)
                 .path(join(BASE_PATH, res1.headers.location))
-                .json();
+                .json()
+                .catch(() => { throw 'COMMAND_WIKI_NOTFOUND' })
 
             res = res2;
         }

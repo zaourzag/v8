@@ -38,7 +38,7 @@ module.exports = class extends Command {
         if (res.type !== 'standard') throw 'COMMAND_WIKI_NOTFOUND';
 
         return msg.send([
-            `**${res.displaytitle}** — Wikipedia`,
+            `**${res.title}** — Wikipedia`,
             '',
             `${res.extract}`,
             '',

@@ -151,6 +151,8 @@ module.exports = class extends Language {
 			COMMAND_WELCOME_SHOW: (channel, text) => `Currently welcoming members in ${channel} with: ${code`${text}`}`,
 			COMMAND_WELCOME_DISABLED: 'Disabled welcoming members.',
 			COMMAND_WELCOME_ENABLED: (channel, text) => `Now welcoming members in ${channel} with: ${code`${text}`}`,
+			COMMAND_WIKI_DESCRIPTION: 'Lookup a term on wikipedia',
+			COMMAND_WIKI_NOTFOUND: 'No Wikipedia entry found for your search.',
 			COMMAND_STARBOARD_DESCRIPTION: 'Configure your starboard.',
 			COMMAND_STARBOARD_EXPLAINER: [
 				'This command is used to configure a starboard, a channel into which users can vote messages into.',

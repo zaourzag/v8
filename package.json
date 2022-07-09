@@ -31,7 +31,7 @@
 		"@aero/member-gateway": "git+https://ravy.dev/aero/libs/member-gateway.git",
 		"@aero/sanitizer": "^1.2.0",
 		"@aero/statuspage": "^1.1.0",
-		"@aero/tags": "^3.0.13",
+		"@aero/tags": "^3.0.14",
 		"@aero/xkcd": "^1.1.1",
 		"@sentry/node": "^5.15.4",
 		"canvas": "^2.8.0",

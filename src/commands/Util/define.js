@@ -20,7 +20,7 @@ module.exports = class extends Command {
 
 		if (!entries.length) throw 'COMMAND_DEFINE_NOTFOUND';
 
-		let out = [];
+		const out = [];
 
 		let i = 1;
 
@@ -37,12 +37,12 @@ module.exports = class extends Command {
 				for (const definitionEntry of definitions) {
 					const { definition, example } = definitionEntry;
 
-					out.push(`\u200b\t- ${definition}`)
+					out.push(`\u200b\t- ${definition}`);
 					if (example) out.push(`\u200b\t  *"${example}"*`);
 				}
 
-				if (synonyms?.length) out.push(`\u200b\t__synonyms:__ ${synonyms.join(', ')}`)
-				if (antonyms?.length) out.push(`\u200b\t__antonyms:__ ${antonyms.join(', ')}`)
+				if (synonyms?.length) out.push(`\u200b\t__synonyms:__ ${synonyms.join(', ')}`);
+				if (antonyms?.length) out.push(`\u200b\t__antonyms:__ ${antonyms.join(', ')}`);
 			}
 		}
 

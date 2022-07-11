@@ -11,16 +11,15 @@ module.exports = class extends Monitor {
 			ignoreOthers: false
 		});
 
-        this.circumventionPatternNameRegex = /^[A-Z][a-z]+[A-Z][a-z]+[0-9]+$/;
-        this.circumventionPatternMessageRegex = /^hi$/i;
+		this.circumventionPatternNameRegex = /^[A-Z][a-z]+[A-Z][a-z]+[0-9]+$/;
+		this.circumventionPatternMessageRegex = /^hi$/i;
 	}
 
 	async run(msg) {
 		if (!msg.guild || !msg.guild.settings.get('mod.heuristics') || msg.exempt) return;
 
-		if (this.matchesCircumventionPattern(msg)) {
-            msg.member.ban({ reason: msg.language.get('MONITOR_HEURISTICS'), days: 1 })
-        }
+		if (this.matchesCircumventionPattern(msg))
+			msg.member.ban({ reason: msg.language.get('MONITOR_HEURISTICS'), days: 1 });
 	}
 
 	matchesCircumventionPattern(msg) {

@@ -15,35 +15,35 @@ module.exports = class extends Command {
 	}
 
 	async run(msg, [term]) {
-        // this code is here because undici incorrectly follows relative location headers
+		// this code is here because undici incorrectly follows relative location headers
 		const req1 = req(BASE_URL)
-            .path(BASE_PATH, term)
-            .follow(false);
+			.path(BASE_PATH, term)
+			.follow(false);
 
-        const res1 = await req1.send();
-        let res;
+		const res1 = await req1.send();
+		let res;
 
-        if (res1.statusCode > 299 && res1.statusCode < 400) {
-            const res2 = await req(BASE_URL)
-                .path(join(BASE_PATH, res1.headers.location))
-                .json()
-                .catch(() => { throw 'COMMAND_WIKI_NOTFOUND' })
+		if (res1.statusCode > 299 && res1.statusCode < 400) {
+			const res2 = await req(BASE_URL)
+				.path(join(BASE_PATH, res1.headers.location))
+				.json()
+				.catch(() => { throw 'COMMAND_WIKI_NOTFOUND'; });
 
-            res = res2;
-        }
-        else {
-            res = await res1.body.json();
-        }
+			res = res2;
+		}
+		else
+			res = await res1.body.json();
 
-        if (res.type !== 'standard') throw 'COMMAND_WIKI_NOTFOUND';
 
-        return msg.send([
-            `**${res.title}** — Wikipedia`,
-            '',
-            `${res.extract}`,
-            '',
-            `<${res.content_urls.desktop.page}>`
-        ].join('\n'));
+		if (res.type !== 'standard') throw 'COMMAND_WIKI_NOTFOUND';
+
+		return msg.send([
+			`**${res.title}** — Wikipedia`,
+			'',
+			`${res.extract}`,
+			'',
+			`<${res.content_urls.desktop.page}>`
+		].join('\n'));
 	}
 
 };

@@ -7,7 +7,7 @@ module.exports = {
 		production: 'a.',
 		staging: 's.',
 		development: 'd.',
-		testing: 't.',
+		testing: 't.'
 	}[stage],
 	ipcSocket: {
 		production: 9991,

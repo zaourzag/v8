@@ -11,7 +11,7 @@ module.exports = class extends Monitor {
 			ignoreOthers: false
 		});
 
-		this.circumventionPatternNameRegex = /^[A-Z][a-z]+[A-Z][a-z]+[0-9]+$/;
+		this.circumventionPatternNameRegex = /^([A-Z][a-z]+)+[0-9]+$/;
 		this.circumventionPatternMessageRegex = /^hi$/i;
 	}
 

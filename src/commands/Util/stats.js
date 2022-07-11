@@ -19,6 +19,7 @@ module.exports = class extends Command {
 
 		const { full } = msg.flagArgs;
 
+		/* eslint-disable max-len */
 		let output = [
 			`\u001b[0;34m                                         ####              \u001b[0;0m`, 							``,
 			`\u001b[0;34m                                   ###############         \u001b[0;0m`, 							`\u001b[1;31m${this.client.user.username.toLowerCase().replace(/\s+/g, '-')}-${this.client.shard.id} \u001b[0;0m@ \u001b[1;31m${hostname()}\u001b[0;0m`,
@@ -37,9 +38,15 @@ module.exports = class extends Command {
 			`\u001b[0;36m                          %%                               \u001b[0;0m`, 							`\u001b[0;40m  \u001b[0;41m  \u001b[0;42m  \u001b[0;43m  \u001b[0;44m  \u001b[0;45m  \u001b[0;46m  \u001b[0;47m  \u001b[0;0m`,
 			`\u001b[0;30m                         ,                                 \u001b[0;0m`, 							``
 		];
+		/* eslint-enable max-len */
 
-		if (!full)
-			output = output.filter((_, idx) => idx % 2 === 1).filter(cur => cur.length > 0).slice(0, 9).map(item => item.replace(/\u001b\[\d+;\d+m/g, ''));
+		if (!full) {
+			output = output
+				.filter((_, idx) => idx % 2 === 1)
+				.filter(cur => cur.length > 0)
+				.slice(0, 9)
+				.map(item => item.replace(/\u001b\[\d+;\d+m/g, ''));
+		}
 		 else {
 			output = output.reduce((acc, cur, idx) => {
 				if (idx % 2 === 0) acc.push(cur);

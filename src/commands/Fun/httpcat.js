@@ -1,5 +1,4 @@
 const { Command } = require('@aero/framework');
-const { MessageAttachment } = require('discord.js');
 const req = require('@aero/http');
 const BASE_URL = 'https://http.cat';
 

@@ -26,7 +26,8 @@ module.exports = class extends Monitor {
 		return msg.content
 			&& !msg.member.prevMessageContent
 			&& this.circumventionPatternNameRegex.test(msg.author.username)
-			&& this.circumventionPatternMessageRegex.test(msg.content);
+			&& this.circumventionPatternMessageRegex.test(msg.content)
+			&& (new Date().getTime() - msg.author.createdTimestamp) < 1000 * 60 * 60 * 24 * 30 * 6; // 6 months
 	}
 
 };

@@ -47,7 +47,7 @@
 		"kurasuta": "^3.0.1",
 		"mongodb": "^3.5.7",
 		"natural": "^5.1.11",
-		"ngrok": "^4.3.0",
+		"ngrok": "^4.3.1",
 		"owoify-js": "^1.0.7",
 		"prom-client": "^14.0.1",
 		"tinycolor2": "^1.4.1",

@@ -76,8 +76,10 @@ async function main() {
 		opts.region = ngrokRegion;
 		opts.subdomain = `${ngrokPrefix}-${stageShorthand}`;
 	}
-	const url = await ngrok.connect(opts);
-	logger.log(`[ngrok] proxying :${accessPort} <- ${url}`);
+	
+	const url = await ngrok.connect(opts)
+		.then(() => logger.log(`[ngrok] proxying :${accessPort} <- ${url}`))
+		.catch(() => logger.error(`[ngrok] failed to start`));
 
 	cluster.on('message', (worker, msg) => {
 		if (msg?.type !== 'LOGIN') return;

@@ -166,8 +166,8 @@ module.exports = class extends Language {
 			].join(' '),
 			COMMAND_LEMONBOARD_NOCHANNEL: 'Please configure a channel for your lemonboard first.',
 			COMMAND_HEURISTICS_DESCRIPTION: 'Configure whether detection of common bad patterns should be used to automatically ban users.',
-			COMMAND_HEURISTICS_ENABLED: 'Enabled automatic banning of users.',
-			COMMAND_HEURISTICS_DISABLED: 'Disabled automatic banning of users.',
+			COMMAND_HEURISTICS_ENABLE: 'Enabled automatic banning of users.',
+			COMMAND_HEURISTICS_DISABLE: 'Disabled automatic banning of users.',
 
 			// fun commands
 			COMMAND_8BALL_DESCRIPTION: 'Magic 8-Ball, does exactly what the toy does.',

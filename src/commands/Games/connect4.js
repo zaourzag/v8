@@ -78,12 +78,12 @@ module.exports = class extends Command {
 
 			const column = action - 1;
 
-			if (interaction.user.id !== usr) return interaction.reply({ content: "It's not your turn.", ephemeral: true })
+			if (interaction.user.id !== usr) return interaction.reply({ content: "It's not your turn.", ephemeral: true });
 
 			// if the column is full
-			if (!c4.checkColumnPossible(column)) {
+			if (!c4.checkColumnPossible(column))
 				return interaction.reply(msg.language.get('COMMAND_C4_COLLUMNFULL', usr));
-			}
+
 
 			// if the selected move is possible
 			c4.updateTable(usr, column);
@@ -164,7 +164,7 @@ module.exports = class extends Command {
 		] });
 
 		const timeout = this.client.setTimeout(() => {
-			msg.edit({ content: `Time's up! <@${players[(choice+1) % 2]}> loses after 30 seconds of inactivity.`, components: [] })
+			msg.edit({ content: `Time's up! <@${players[(choice + 1) % 2]}> loses after 30 seconds of inactivity.`, components: [] });
 			c4.reset();
 			this.channels.delete(msg.channel.id);
 			this.removeListeners(msg);

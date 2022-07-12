@@ -1,5 +1,4 @@
 const { Command } = require('@aero/framework');
-const { MessageAttachment } = require('discord.js');
 const req = require('@aero/http');
 const BASE_URL = 'https://http.dog';
 
@@ -19,8 +18,8 @@ module.exports = class extends Command {
 			.send();
 
 		if (res.statusCode !== 200) throw 'COMMAND_HTTPDOG_INVALID';
-		
-		return msg.channel.sendFile(res.body, 'cat.jpg');;
+
+		return msg.channel.sendFile(res.body, 'cat.jpg');
 	}
 
 };

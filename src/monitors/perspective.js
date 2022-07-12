@@ -37,6 +37,7 @@ module.exports = class extends Monitor {
 			.header('user-agent', `${this.client.user.username}/${this.client.config.version}`)
 			.json()
 			.then(res => res.attributeScores);
+
 		if (!scores) return;
 		const IDENTITY_ATTACK = scores.IDENTITY_ATTACK.summaryScore.value;
 		const SEVERE_TOXICITY = scores.SEVERE_TOXICITY.summaryScore.value;
@@ -46,8 +47,8 @@ module.exports = class extends Monitor {
 		const PROFANITY = scores.PROFANITY.summaryScore.value;
 
 		if (
-			(msg.guild.settings.get('mod.anti.toxicity') && (IDENTITY_ATTACK > 0.9 || SEVERE_TOXICITY > 0.9))
-			|| (msg.guild.settings.get('mod.anti.profanity') && (SEXUALLY_EXPLICIT > 0.9 || THREAT > 0.9 || INSULT > 0.9 || PROFANITY > 0.9))
+			(msg.guild.settings.get('mod.anti.toxicity') && (IDENTITY_ATTACK > 0.8 || SEVERE_TOXICITY > 0.8))
+			|| (msg.guild.settings.get('mod.anti.profanity') && (SEXUALLY_EXPLICIT > 0.8 || THREAT > 0.8 || INSULT > 0.8 || PROFANITY > 0.8))
 		)
 			msg.delete({ reason: msg.language.get('EVENT_PERSPECTIVE_DELETEREASON') });
 

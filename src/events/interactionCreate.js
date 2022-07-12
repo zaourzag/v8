@@ -12,9 +12,9 @@ module.exports = class extends Event {
 	async run(interaction) {
 		if (!interaction.isMessageComponent()) return;
 
-        const exists = await this.client.router.run(interaction.customId, interaction);
+		const exists = await this.client.router.run(interaction.customId, interaction);
 
-        if (!exists) interaction.reply({ content: 'This interaction has expired.', ephemeral: true });
+		if (!exists) interaction.reply({ content: 'This interaction has expired.', ephemeral: true });
 	}
 
 };

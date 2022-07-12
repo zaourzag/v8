@@ -4,8 +4,8 @@ module.exports = class extends Command {
 
 	constructor(...args) {
 		super(...args, {
-			description: language => language.get('COMMAND_REMIND_DESCRIPTION'),
-			usage: '<when:time> <text:...string>',
+			description: (language) => language.get('COMMAND_REMIND_DESCRIPTION'),
+			usage: '<when:time> [text:...string]',
 			usageDelim: ' ',
 			aliases: ['remind', 'reminder']
 		});
@@ -16,10 +16,18 @@ module.exports = class extends Command {
 			data: {
 				channel: msg.channel.id,
 				user: msg.author.id,
+				message: msg.id,
+				reference: msg.reference?.messageId,
+				time: Math.floor(Date.now() / 1000),
 				text
 			}
 		});
-		return msg.responder.success('COMMAND_REMIND_REPLY', Duration.toNow(time), id);
+
+		return msg.responder.success(
+			'COMMAND_REMIND_REPLY',
+			Math.round(time.getTime() / 1000),
+			id
+		);
 	}
 
 };

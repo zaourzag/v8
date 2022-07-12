@@ -17,8 +17,6 @@ module.exports = class extends Command {
 				channel: msg.channel.id,
 				user: msg.author.id,
 				message: msg.id,
-				reference: msg.reference?.messageId,
-				time: Math.floor(Date.now() / 1000),
 				text
 			}
 		});

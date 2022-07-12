@@ -6,7 +6,7 @@ module.exports = class extends Command {
 		super(...args, {
 			description: language => language.get('COMMAND_UNREMIND_DESCRIPTION'),
 			usage: '<id:string>',
-			aliases: ['deletereminder']
+			aliases: ['deletereminder', 'removereminder']
 		});
 	}
 

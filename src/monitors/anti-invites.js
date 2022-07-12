@@ -1,4 +1,4 @@
-const { Monitor } = require('@aero/klasa');
+const { Monitor } = require('@aero/framework');
 
 module.exports = class extends Monitor {
 
@@ -21,6 +21,9 @@ module.exports = class extends Monitor {
 		const match = this.inviteRegex.exec(msg.content);
 		if (match) {
 			const invite = await msg.client.fetchInvite(match.groups.code).catch(() => null);
+
+			if (invite.guild?.id === msg.guild.id) return;
+
 			msg.invite = invite ?? 'invalid'; /* eslint-disable-line require-atomic-updates */
 			msg.delete();
 		} else if (this.thirdPartyRegex.test(msg.content) || this.botInviteRegex.test(msg.content)) {

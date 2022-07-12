@@ -1,4 +1,4 @@
-const { Monitor } = require('@aero/klasa');
+const { Monitor } = require('@aero/framework');
 
 module.exports = class extends Monitor {
 
@@ -14,7 +14,7 @@ module.exports = class extends Monitor {
 	}
 
 	async run(msg) {
-		if (!msg.guild || !(msg.channel?.type === 'news')) return false;
+		if (!msg.guild || msg.channel?.type !== 'GUILD_NEWS' || !msg.crosspostable) return false;
 
 		const possibles = msg.guild.settings.get('autopublish');
 

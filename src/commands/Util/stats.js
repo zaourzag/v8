@@ -1,46 +1,61 @@
-const { Command, version: klasaVersion, Duration } = require('@aero/klasa');
+const { Command, version: klasaVersion, Duration, util } = require('@aero/framework');
 const { version: discordVersion, MessageEmbed } = require('discord.js');
-const { hostname, totalmem, cpus, loadavg } = require('os');
-const { version: aeroVersion } = require('~/package');
+const { hostname, totalmem, cpus } = require('os');
+const { version: aeroVersion } = require('../../../package');
 
 module.exports = class extends Command {
 
 	constructor(...args) {
 		super(...args, {
 			guarded: true,
-			description: language => language.get('COMMAND_STATS_DESCRIPTION')
+			description: language => language.get('COMMAND_STATS_DESCRIPTION'),
+			aliases: ['aerofetch', 'neofetch']
 		});
 	}
 
-	async run(message) {
-		const total = (totalmem() / 1024 / 1024 / 1024).toFixed(0) * 1024;
+	async run(msg) {
+		const total = (totalmem() / 1024 / 1024 / 1024).toFixed(0);
 		const usage = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2);
 
-		const stats = message.language.get('COMMAND_STATS',
-			this.client.user.username,
-			usage.toLocaleString(),
-			total.toLocaleString(),
-			(usage / total * 100).toFixed(1),
-			(loadavg()[0] * 100).toFixed(1),
-			cpus().length,
-			(cpus()[0].speed / 1000).toFixed(1),
-			Duration.toNow(Date.now() - (process.uptime() * 1000)),
-			klasaVersion, discordVersion, process.version, hostname(),
-			(message.guild
-				? message.guild.shardID
-				: 0) + 1,
-			this.client.options.shardCount
-		).join('\n');
-		const embed = new MessageEmbed()
-			.setAuthor(
-				`${this.client.user.username} v${aeroVersion} [${this.client.config.commitHash}]`,
-				this.client.user.displayAvatarURL({ format: 'png', size: 2048 }),
-				this.client.config.repoURL
-			)
-			.setDescription(stats)
-			.setColor((message.guild && message.guild.me.displayColor) || 'RANDOM');
+		const { full } = msg.flagArgs;
 
-		message.send({ embed });
+		/* eslint-disable max-len */
+		let output = [
+			`\u001b[0;34m                                         ####              \u001b[0;0m`, 							``,
+			`\u001b[0;34m                                   ###############         \u001b[0;0m`, 							`\u001b[1;31m${this.client.user.username.toLowerCase().replace(/\s+/g, '-')}-${this.client.shard.id} \u001b[0;0m@ \u001b[1;31m${hostname()}\u001b[0;0m`,
+			`\u001b[0;34m                              ######################%%%#   \u001b[0;0m`, 							`\u200b`,
+			`\u001b[0;34m                        #######################%%%         \u001b[0;0m`, 							`\u001b[0;31mAero\u001b[0;0m: ${aeroVersion} (${this.client.config.commitHash})`,
+			`\u001b[0;34m              ##########################\u001b[0;30m///**              \u001b[0;0m`, 				`\u001b[0;31mNode\u001b[0;0m: ${process.version}`,
+			`\u001b[0;34m ####################################%%\u001b[0;30m***                 \u001b[0;0m`, 				`\u001b[0;31mKlasa\u001b[0;0m: ${klasaVersion}`,
+			`\u001b[0;30m           *////////*******\u001b[0;34m#####%%%%%%%%%                  \u001b[0;0m`, 				`\u001b[0;31mDiscord.js\u001b[0;0m: ${discordVersion}`,
+			`\u001b[0;30m                          //*\u001b[0;34m%%%%%%%%%%%%%%                \u001b[0;0m`, 				``,
+			`\u001b[0;30m                         /////\u001b[0;34m%%%%%%%%%%%%%%%              \u001b[0;0m`, 				`\u001b[0;31mCPU\u001b[0;0m: ${cpus().length}x ${cpus()[0].model.trim()}${cpus()[0].model.includes('@') ? '' : ` @ ${(cpus()[0].speed / 1000).toFixed(2)}GHz`}`,
+			`\u001b[0;30m                        //////\u001b[0;34m#%%%%%%%%%%%%%%%%            \u001b[0;0m`, 				`\u001b[0;31mRAM\u001b[0;0m: ${total}GB (${(usage / (total * 1024) * 100).toFixed(2)}%)`,
+			`\u001b[0;30m                      ///,    \u001b[0;34m%%%%%%\u001b[0;36m%%%%%%%%%%             \u001b[0;0m`, 	``,
+			`\u001b[0;30m                    /         \u001b[0;34m%%\u001b[0;36m%%%%%%%%                   \u001b[0;0m`, 	`\u001b[0;31mUptime\u001b[0;0m: ${Duration.toNow(Date.now() - (process.uptime() * 1000))}`,
+			`\u001b[0;36m                             %%%%%%                        \u001b[0;0m`, 							``,
+			`\u001b[0;30m                           #\u001b[0;36m%%%                            \u001b[0;0m`, 				`\u001b[0;30m██\u001b[0;31m██\u001b[0;32m██\u001b[0;33m██\u001b[0;34m██\u001b[0;35m██\u001b[0;36m██\u001b[0;37m██\u001b[0;0m`,
+			`\u001b[0;36m                          %%                               \u001b[0;0m`, 							`\u001b[0;40m  \u001b[0;41m  \u001b[0;42m  \u001b[0;43m  \u001b[0;44m  \u001b[0;45m  \u001b[0;46m  \u001b[0;47m  \u001b[0;0m`,
+			`\u001b[0;30m                         ,                                 \u001b[0;0m`, 							``
+		];
+		/* eslint-enable max-len */
+
+		if (!full) {
+			output = output
+				.filter((_, idx) => idx % 2 === 1)
+				.filter(cur => cur.length > 0)
+				.slice(0, 9)
+				.map(item => item.replace(/\u001b\[\d+;\d+m/g, ''));
+		}
+		 else {
+			output = output.reduce((acc, cur, idx) => {
+				if (idx % 2 === 0) acc.push(cur);
+				else acc[acc.length - 1] += cur;
+				return acc;
+			}, []);
+		}
+
+		msg.send(util.codeBlock('ansi', output.join('\n')));
 	}
 
 };

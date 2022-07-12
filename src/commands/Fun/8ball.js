@@ -4,7 +4,7 @@
  * License: MIT License
  * Credit example: Copyright (c) 2019 [dirigeants](https://github.com/dirigeants), MIT License
  */
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 
 module.exports = class extends Command {
 

@@ -3,7 +3,7 @@
  * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
  * Credit example: Credit goes to Harsh Peshwani and [ravy](https://ravy.pink). (c) [The Aero Team](https://aero.bot) 2021
  */
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 
 module.exports = class extends Command {
 
@@ -20,7 +20,7 @@ module.exports = class extends Command {
 		if (!msg.member.permissions.has('DEAFEN_MEMBERS')) return msg.responder.error('COMMAND_VOICEDEAFEN_NOPERMS');
 		if (!user.voice.channelID) return msg.responder.error('COMMAND_VOICEDEAFEN_NOVOICE');
 		if (user.voice.serverDeaf) return msg.responder.error('COMMAND_VOICEDEAFEN_ALREADY_DEAFENED');
-		user.voice.setDeaf(true, reason || msg.language.get('COMMAND_VOICEDEAFEN_NOREASON'));
+		await user.voice.setDeaf(true, reason || msg.language.get('COMMAND_VOICEDEAFEN_NOREASON'));
 		return msg.responder.success();
 	}
 

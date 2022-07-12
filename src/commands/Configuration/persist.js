@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { Permissions: { FLAGS } } = require('discord.js');
 
 module.exports = class extends Command {
@@ -6,12 +6,12 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			description: language => language.get('COMMAND_PERSIST_DESCRIPTION'),
 			usage: '<enable|disable>'
 		});
 
-		this.defaultPermissions = FLAGS.MANAGE_GUILD;
+		this.defaultPermissions = FLAGS.MANAGE_ROLES;
 	}
 
 	async run(msg, [input]) {

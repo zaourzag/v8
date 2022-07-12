@@ -1,4 +1,4 @@
-const { Event } = require('@aero/klasa');
+const { Event } = require('@aero/framework');
 
 module.exports = class extends Event {
 
@@ -9,7 +9,7 @@ module.exports = class extends Event {
 		});
 	}
 
-	async run(guild, user) {
+	async run({ guild, user }) {
 		if (guild.modCache.has(user.id)) return guild.modCache.delete(user.id);
 		const ban = await guild
 			.fetchAuditLogs({ type: 'MEMBER_BAN_ADD' })

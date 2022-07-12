@@ -1,5 +1,4 @@
-const { Command } = require('@aero/klasa');
-const { MessageAttachment } = require('discord.js');
+const { Command } = require('@aero/framework');
 const req = require('@aero/http');
 const BASE_URL = 'https://http.cat';
 
@@ -20,9 +19,7 @@ module.exports = class extends Command {
 
 		if (res.statusCode !== 200) throw 'COMMAND_HTTPCAT_INVALID';
 
-		const img = new MessageAttachment(res.body, 'cat.jpg');
-
-		return msg.send(img);
+		return msg.channel.sendFile(res.body, 'cat.jpg');
 	}
 
 };

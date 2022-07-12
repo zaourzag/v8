@@ -1,4 +1,4 @@
-const { Monitor } = require('@aero/klasa');
+const { Monitor } = require('@aero/framework');
 
 module.exports = class extends Monitor {
 
@@ -13,7 +13,9 @@ module.exports = class extends Monitor {
 	}
 
 	async run(msg) {
-		if (msg.exempt) return;
+		msg.lastMessageChannelID = msg.channel.id;
+
+		if (msg.exempt || msg.pk) return;
 
 		msg.member.prevMessageContent = msg.content;
 		msg.member.prevChannelID = msg.channel.id;

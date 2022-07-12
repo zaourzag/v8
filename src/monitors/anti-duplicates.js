@@ -1,4 +1,4 @@
-const { Monitor } = require('@aero/klasa');
+const { Monitor } = require('@aero/framework');
 const { JaroWinklerDistance: jaroWinklerDistance } = require('natural');
 
 module.exports = class extends Monitor {
@@ -8,13 +8,13 @@ module.exports = class extends Monitor {
 			enabled: true,
 			ignoreBots: true,
 			ignoreSelf: true,
-			ignoreEdits: false,
+			ignoreEdits: true,
 			ignoreOthers: false
 		});
 	}
 
 	async run(msg) {
-		if (!msg.guild || !msg.guild.settings.get('mod.anti.duplicates') || msg.exempt) return;
+		if (!msg.guild || !msg.guild.settings.get('mod.anti.duplicates') || msg.exempt || msg.pk) return;
 
 		if (!msg.member.prevMessageContent) return;
 

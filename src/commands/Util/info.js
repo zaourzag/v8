@@ -1,4 +1,4 @@
-const { Command, Duration, Timestamp } = require('@aero/klasa');
+const { Command, Duration, Timestamp } = require('@aero/framework');
 const { MessageEmbed, GuildMember, User, Role, Permissions: { FLAGS } } = require('discord.js');
 const {
 	color: { VERY_NEGATIVE, POSITIVE, INFORMATION },
@@ -15,7 +15,7 @@ module.exports = class extends Command {
 			aliases: ['user', 'role', 'i'],
 			description: language => language.get('COMMAND_INFO_DESCRIPTION'),
 			requiredPermissions: ['EMBED_LINKS', 'VIEW_AUDIT_LOG'],
-			usage: '[server|user:membername|role:rolename|userID:str{17,18}]'
+			usage: '[server|member:membername|role:rolename|user:user|userID:str{17,18}]'
 		});
 
 		this.timestamp = new Timestamp('MMMM d YYYY');
@@ -131,8 +131,8 @@ module.exports = class extends Command {
 		let authorString = `${system?.username || user.tag} [${user.id}] ${system ? `(system of ${user.tag})` : ''}`;
 		if (pronouns !== 'unknown pronouns') authorString += ` (${pronouns})`;
 		return embed
-			.setAuthor(authorString
-				, effectiveUser.displayAvatarURL({ dynamic: true }))
+			.setAuthor({ name: authorString,
+				 iconURL: effectiveUser.displayAvatarURL({ dynamic: true }) })
 			.setThumbnail(effectiveUser.displayAvatarURL({ dynamic: true }));
 	}
 
@@ -172,8 +172,8 @@ module.exports = class extends Command {
 
 		const roles = member.roles.cache.sort((a, b) => b.position - a.position);
 		let spacer = false;
-		const roleString = roles
-			.array()
+		const roleString = [...roles
+			.values()]
 			.filter(role => role.id !== msg.guild.id)
 			.reduce((acc, role, idx) => {
 				if (acc.length + role.name.length < 1010) {
@@ -203,7 +203,7 @@ module.exports = class extends Command {
 			);
 			embed.addField(
 				`• ${msg.language.get('COMMAND_INFO_USER_WARNINGS')} (${warnings.filter(warn => warn.active).length})`,
-				warnings.map((warn, idx) => `${idx + 1}. ${!warn.active ? '~~' : ''}**${warn.reason}** | ${this.client.users.cache.get(warn.moderator).tag}${!warn.active ? '~~' : ''}`)
+				warnings.map((warn, idx) => `${idx + 1}. ${!warn.active ? '~~' : ''}**${warn.reason}** | ${this.client.users.cache.get(warn.moderator).tag}${!warn.active ? '~~' : ''}`).join('\n')
 			);
 		}
 		const notes = member.settings.get('notes');
@@ -214,7 +214,7 @@ module.exports = class extends Command {
 			);
 			embed.addField(
 				`• ${msg.language.get('COMMAND_INFO_USER_NOTES')} (${notes.length})`,
-				notes.map((note, idx) => `${idx + 1}. **${note.reason}** | ${this.client.users.cache.get(note.moderator).tag}`)
+				notes.map((note, idx) => `${idx + 1}. **${note.reason}** | ${this.client.users.cache.get(note.moderator).tag}`).join('\n')
 			);
 		}
 
@@ -282,13 +282,13 @@ module.exports = class extends Command {
 
 	async serverinfo(msg) {
 		const { guild } = msg;
-		await msg.guild.members.fetch(msg.guild.ownerID);
+		await msg.guild.members.fetch(msg.guild.ownerId);
+		const owner = await guild.fetchOwner();
 		const embed = new MessageEmbed()
-			.setAuthor(`${guild.name} [${guild.id}]`, guild.iconURL())
+			.setAuthor({ name: `${guild.name} [${guild.id}]`, iconURL: guild.iconURL() })
 			.addField('• Created', `${this.timestamp.display(guild.createdAt)} (${Duration.toNow(guild.createdAt)} ago)`)
 			.addField('• Members', `${guild.memberCount} (cached: ${guild.members.cache.size})`, true)
-			.addField('• Voice region', this.regions[msg.guild.region], true)
-			.addField('• Owner', `${guild.owner.user.tag} ${guild.owner.toString()} [${guild.ownerID}]`)
+			.addField('• Owner', `${owner.user.tag} ${owner.toString()} [${owner.id}]`)
 			.addField('• Security', [
 				`Verification level: ${this.verificationLevels[msg.guild.verificationLevel]}`,
 				`Explicit filter: ${this.filterLevels[msg.guild.explicitContentFilter]}`
@@ -305,7 +305,7 @@ module.exports = class extends Command {
 			.query('image', this.client.user.displayAvatarURL({ dynamic: false, format: 'png' }))
 			.text();
 		return msg.sendEmbed(new MessageEmbed()
-			.setAuthor(this.client.user.username, this.client.user.displayAvatarURL({ dynamic: true }))
+			.setAuthor({ name: this.client.user.username, iconURL: this.client.user.displayAvatarURL({ dynamic: true }) })
 			.setDescription(msg.language.get('COMMAND_INFO_BOT'))
 			.setColor(dominant)
 		);

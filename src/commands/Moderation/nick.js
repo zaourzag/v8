@@ -6,7 +6,7 @@ module.exports = class extends Command {
 	constructor(...args) {
 		super(...args, {
 			enabled: true,
-			runIn: ['text'],
+			runIn: ['GUILD_TEXT'],
 			requiredPermissions: ['MANAGE_NICKNAMES'],
 			description: language => language.get('COMMAND_NICK_DESCRIPTION'),
 			usage: '<member:member> [name:string{1,50}]',

@@ -3,7 +3,7 @@
  * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
  * Credit example: Credit goes to Harsh Peshwani and [ravy](https://ravy.pink). (c) [The Aero Team](https://aero.bot) 2021
  */
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 
 module.exports = class extends Command {
 
@@ -20,7 +20,7 @@ module.exports = class extends Command {
 		if (!msg.member.permissions.has('MUTE_MEMBERS')) return msg.responder.error('COMMAND_VOICEMUTE_NOPERMS');
 		if (!user.voice.channelID) return msg.responder.error('COMMAND_VOICEMUTE_NOVOICE');
 		if (user.voice.serverMute) return msg.responder.error('COMMAND_VOICEMUTE_ALREADY_MUTED');
-		user.voice.setMute(true, reason || msg.language.get('COMMAND_VOICEMUTE_NOREASON'));
+		await user.voice.setMute(true, reason || msg.language.get('COMMAND_VOICEMUTE_NOREASON'));
 		return msg.responder.success();
 	}
 

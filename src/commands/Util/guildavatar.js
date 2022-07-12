@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = class extends Command {
@@ -14,7 +14,7 @@ module.exports = class extends Command {
 
 	async run(msg, [member = msg.member]) {
 		const embed = new MessageEmbed()
-			.setAuthor(member.user.tag, member.displayAvatarURL())
+			.setAuthor({ name: member.user.tag, iconURL: member.displayAvatarURL() })
 			.setImage(member.displayAvatarURL({ size: 2048, dynamic: true }))
 			.setDescription([
 				[
@@ -39,7 +39,7 @@ module.exports = class extends Command {
 					: msg.language.get('COMMAND_AVATAR_GUILD_WARNING')
 			);
 
-		return msg.send({ embed });
+		return msg.sendEmbed(embed);
 	}
 
 };

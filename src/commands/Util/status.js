@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { MessageEmbed } = require('discord.js');
 const { color: { VERY_NEGATIVE, NEGATIVE, POSITIVE, INFORMATION }, emojis: { success, error } } = require('../../../lib/util/constants');
 

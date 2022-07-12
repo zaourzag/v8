@@ -1,6 +1,6 @@
-const { Command } = require('@aero/klasa');
-const { PerspectiveAPI: url } = require('~/lib/util/constants').url;
-const { ansi } = require('~/lib/util/util');
+const { Command } = require('@aero/framework');
+const { PerspectiveAPI: url } = require('../../../lib/util/constants').url;
+const { ansi } = require('../../../lib/util/util');
 const req = require('@aero/http');
 
 module.exports = class extends Command {
@@ -31,10 +31,10 @@ module.exports = class extends Command {
 			.header('user-agent', `${this.client.user.username}/${this.client.config.version}`)
 			.json();
 
-		const content = Object.entries(res.attributeScores).map(([key, score]) => `${ansi}${score.summaryScore.value > 0.9
+		const content = Object.entries(res.attributeScores).map(([key, score]) => `${ansi}${score.summaryScore.value > 0.8
 			? ansi.bold().color('red')
 			: ansi.color('green')
-		} ${key.padEnd(17)} = ${score.summaryScore.value}`).join('\n');
+		} ${key.padEnd(17)} = ${score.summaryScore.value}${ansi.reset()}`).join('\n');
 
 		msg.send(`>>> \`\`\`ansi\n${content}\n\`\`\``);
 	}

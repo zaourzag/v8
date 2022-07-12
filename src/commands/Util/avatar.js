@@ -1,4 +1,4 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = class extends Command {
@@ -16,7 +16,7 @@ module.exports = class extends Command {
 		if (msg.flagArgs.proxy && msg.originalAuthor && user.id === msg.author.id) user = msg.originalAuthor;
 
 		const embed = new MessageEmbed()
-			.setAuthor(user.tag, user.displayAvatarURL())
+			.setAuthor({ name: user.tag, iconURL: user.displayAvatarURL() })
 			.setImage(user.displayAvatarURL({ size: 2048, dynamic: true }))
 			.setDescription([
 				[
@@ -39,7 +39,7 @@ module.exports = class extends Command {
 		const member = await msg?.guild.members.fetch(user.id).catch(() => null);
 		if (member && member.customAvatar) embed.setFooter(msg.language.get('COMMAND_AVATAR_GUILD_AVAILABLE_FOOTER', msg.guild.settings.get('prefix')));
 
-		return msg.send({ embed });
+		return msg.sendEmbed(embed);
 	}
 
 };

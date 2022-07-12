@@ -6,17 +6,20 @@ module.exports = {
 	prefix: {
 		production: 'a.',
 		staging: 's.',
-		development: 'd.'
+		development: 'd.',
+		testing: 't.'
 	}[stage],
 	ipcSocket: {
 		production: 9991,
 		staging: 9992,
+		testing: 9993,
 		development: 9999
 	}[stage],
 	stage,
 	stageShorthand: {
 		production: 'prod',
 		staging: 'beta',
+		testing: 'test',
 		development: 'dev'
 	}[stage],
 	commitHash,
@@ -44,7 +47,8 @@ module.exports = {
 	accessPort: {
 		production: 32201,
 		staging: 32202,
-		development: 32203
+		development: 32203,
+		testing: 32204
 	}[stage]
 };
 

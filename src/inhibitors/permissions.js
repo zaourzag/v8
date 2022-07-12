@@ -4,7 +4,7 @@
  * License: MIT License
  * Credit example: Copyright (c) 2019 dirigeants, MIT License
  */
-const { Inhibitor } = require('@aero/klasa');
+const { Inhibitor } = require('@aero/framework');
 
 module.exports = class extends Inhibitor {
 
@@ -22,9 +22,9 @@ module.exports = class extends Inhibitor {
 		// permission nodes don't work in DMs. the runIn inhibitor will deal with them.
 		if (!message.guild) return;
 		// only in guilds owned by a bot owner
-		if (command.permissionLevel >= 7 && !this.client.options.owners.includes(message?.guild.ownerID)) throw true;
+		if (command.permissionLevel >= 7 && !this.client.options.owners.includes(message?.guild.ownerId)) throw true;
 		// only in small guilds or ones owned by a bot owner
-		if (command.permissionLevel >= 6 && message?.guild.memberCount > 100 && !this.client.options.owners.includes(message?.guild.ownerID)) throw true;
+		if (command.permissionLevel >= 6 && message?.guild.memberCount > 100 && !this.client.options.owners.includes(message?.guild.ownerId)) throw true;
 		const check = await this.client.permissions.canUse(message, command);
 		if (!check) {
 			await message.responder.error('INHIBITOR_PERM_NODES', `${command.category.toLowerCase()}.${command.name}`);

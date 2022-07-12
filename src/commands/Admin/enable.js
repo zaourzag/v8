@@ -4,7 +4,7 @@
  * License: MIT License
  * Credit example: Copyright (c) 2019 dirigeants, MIT License
  */
-const { Command } = require('@aero/klasa');
+const { Command, util } = require('@aero/framework');
 
 module.exports = class extends Command {
 
@@ -19,7 +19,7 @@ module.exports = class extends Command {
 
 	async run(message, [piece]) {
 		piece.enable();
-		return message.sendCode('diff', message.language.get('COMMAND_ENABLE', piece.type, piece.name));
+		return message.send(util.codeBlock('diff', message.language.get('COMMAND_ENABLE', piece.type, piece.name)));
 	}
 
 };

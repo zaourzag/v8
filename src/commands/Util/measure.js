@@ -1,11 +1,10 @@
-const { Command } = require('@aero/klasa');
+const { Command } = require('@aero/framework');
 const req = require('@aero/http');
 const { MessageEmbed } = require('discord.js');
 const BASE_URL = 'https://lighthouse-dot-webdotdevsite.appspot.com//lh/newaudit';
-const { infinity, success, error, minus } = require('~/lib/util/constants').emojis;
+const { infinity, success, error, minus } = require('../../../lib/util/constants').emojis;
 
 module.exports = class extends Command {
-
 
 	constructor(...args) {
 		super(...args, {
@@ -31,7 +30,7 @@ module.exports = class extends Command {
 				.addField('Scores', lhrSlim.map(i => `${scoreToEmoji(i.score)} ${i.title}: ${Math.round(i.score * 100)}`).join('\n'))
 				.addField('Metrics', lhrToMetrics(lhr).map(audit => `${scoreToEmoji(audit.score)} ${audit.title}: ${audit.displayValue}`).join('\n'));
 
-			await msg.send({ embed });
+			await msg.sendEmbed(embed);
 		} else
 			await msg.responder.error('ERROR_SHORT', errors);
 

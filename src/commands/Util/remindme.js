@@ -12,6 +12,11 @@ module.exports = class extends Command {
 	}
 
 	async run(msg, [time, text]) {
+		this.client.schedule.tasks.filter(task =>
+			task.taskName === 'reminder'
+			&& task.data.message === msg.id
+		).forEach(task => this.client.schedule.delete(task.id));
+
 		const { id } = await this.client.schedule.create('reminder', time, {
 			data: {
 				channel: msg.channel.id,

@@ -21,7 +21,7 @@ module.exports = class extends Command {
 
 		const embed = this.buildEmbed(msg, stats);
 
-		return msg.sendEmbed(embed);;
+		return msg.sendEmbed(embed);
 	}
 
 	async allStats() {

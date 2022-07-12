@@ -12,6 +12,7 @@ const Aggregator = require('../lib/Aggregator');
 const AggregatorClient = require('../lib/AggregatorClient');
 const ngrok = require('ngrok');
 const express = require('express');
+const { spawn } = require('child_process');
 
 const cluster = require('cluster');
 
@@ -69,15 +70,24 @@ async function main() {
 	logger.log(`[express] Listening on :${accessPort}`);
 
 	const opts = {
-		addr: accessPort
+		addr: accessPort,
+		subdomain: `${ngrokPrefix}-${stageShorthand}`
 	};
+
 	if (process.env.NGROK_TOKEN) {
 		opts.authtoken = process.env.NGROK_TOKEN;
 		opts.region = ngrokRegion;
-		opts.subdomain = `${ngrokPrefix}-${stageShorthand}`;
 	}
-	const url = await ngrok.connect(opts);
-	logger.log(`[ngrok] proxying :${accessPort} <- ${url}`);
+
+	if (process.env.PGROK_ENABLED === 'true') {
+		spawn('pgrok', ['-config', join(process.cwd(), '.pgrok'), '-subdomain', opts.subdomain, opts.addr], { stdio: 'ignore' });
+		console.clear();
+		logger.log(`[pgrok] proxying :${accessPort} <- ${opts.subdomain}.ravy.sh`);
+	} else {
+		await ngrok.connect(opts)
+			.then((url) => logger.log(`[ngrok] proxying :${accessPort} <- ${url}`))
+			.catch(() => logger.error(`[ngrok] failed to start`));
+	}
 
 	cluster.on('message', (worker, msg) => {
 		if (msg?.type !== 'LOGIN') return;

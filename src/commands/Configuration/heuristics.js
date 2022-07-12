@@ -7,18 +7,18 @@ module.exports = class extends Command {
 		super(...args, {
 			enabled: true,
 			runIn: ['GUILD_TEXT'],
-			description: language => language.get('COMMAND_PERSIST_DESCRIPTION'),
+			description: language => language.get('COMMAND_HEURISTICS_DESCRIPTION'),
 			usage: '<enable|disable>'
 		});
 
-		this.defaultPermissions = FLAGS.MANAGE_ROLES;
+		this.defaultPermissions = FLAGS.BAN_MEMBERS;
 	}
 
 	async run(msg, [input]) {
 		const enabled = input === 'enable';
 		await msg.guild.settings.sync();
-		await msg.guild.settings.update('persist', enabled);
-		return msg.responder.success(`COMMAND_PERSIST_${input.toUpperCase()}`);
+		await msg.guild.settings.update('mod.heuristics', enabled);
+		return msg.responder.success(`COMMAND_HEURISTICS_${input.toUpperCase()}`);
 	}
 
 };

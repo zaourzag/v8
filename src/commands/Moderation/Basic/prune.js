@@ -38,8 +38,8 @@ module.exports = class extends Command {
 		messages = [...messages.keys()].slice(0, limit);
 		if (!messages.includes(msg.id)) messages.push(msg.id);
 		msg.channel.bulkDelete(messages, true)
-			.then(async () => {
-				const message = await msg.responder.success('COMMAND_PRUNE_RESPONSE', messages.length - 1);
+			.then(async (deletedMessages) => {
+				const message = await msg.responder.success('COMMAND_PRUNE_RESPONSE', deletedMessages.size - 1);
 				setTimeout(() => message.delete().catch(() => null), 1500);
 			})
 			.catch(err => msg.responder.error('ERROR_SHORT', err.message));

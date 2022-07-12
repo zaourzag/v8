@@ -8,7 +8,7 @@ module.exports = class extends Monitor {
 			enabled: true,
 			ignoreBots: true,
 			ignoreSelf: true,
-			ignoreEdits: false,
+			ignoreEdits: true,
 			ignoreOthers: false
 		});
 	}

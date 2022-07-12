@@ -131,8 +131,8 @@ module.exports = class extends Command {
 		let authorString = `${system?.username || user.tag} [${user.id}] ${system ? `(system of ${user.tag})` : ''}`;
 		if (pronouns !== 'unknown pronouns') authorString += ` (${pronouns})`;
 		return embed
-			.setAuthor({ name: authorString
-				, iconURL: effectiveUser.displayAvatarURL({ dynamic: true }) })
+			.setAuthor({ name: authorString,
+				 iconURL: effectiveUser.displayAvatarURL({ dynamic: true }) })
 			.setThumbnail(effectiveUser.displayAvatarURL({ dynamic: true }));
 	}
 
@@ -203,7 +203,7 @@ module.exports = class extends Command {
 			);
 			embed.addField(
 				`• ${msg.language.get('COMMAND_INFO_USER_WARNINGS')} (${warnings.filter(warn => warn.active).length})`,
-				warnings.map((warn, idx) => `${idx + 1}. ${!warn.active ? '~~' : ''}**${warn.reason}** | ${this.client.users.cache.get(warn.moderator).tag}${!warn.active ? '~~' : ''}`)
+				warnings.map((warn, idx) => `${idx + 1}. ${!warn.active ? '~~' : ''}**${warn.reason}** | ${this.client.users.cache.get(warn.moderator).tag}${!warn.active ? '~~' : ''}`).join('\n')
 			);
 		}
 		const notes = member.settings.get('notes');

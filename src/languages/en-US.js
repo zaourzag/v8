@@ -151,6 +151,8 @@ module.exports = class extends Language {
 			COMMAND_WELCOME_SHOW: (channel, text) => `Currently welcoming members in ${channel} with: ${code`${text}`}`,
 			COMMAND_WELCOME_DISABLED: 'Disabled welcoming members.',
 			COMMAND_WELCOME_ENABLED: (channel, text) => `Now welcoming members in ${channel} with: ${code`${text}`}`,
+			COMMAND_WIKI_DESCRIPTION: 'Lookup a term on wikipedia',
+			COMMAND_WIKI_NOTFOUND: 'No Wikipedia entry found for your search.',
 			COMMAND_STARBOARD_DESCRIPTION: 'Configure your starboard.',
 			COMMAND_STARBOARD_EXPLAINER: [
 				'This command is used to configure a starboard, a channel into which users can vote messages into.',
@@ -163,6 +165,9 @@ module.exports = class extends Language {
 				'To begin configuring it, just re-run this command and specify a channel.'
 			].join(' '),
 			COMMAND_LEMONBOARD_NOCHANNEL: 'Please configure a channel for your lemonboard first.',
+			COMMAND_HEURISTICS_DESCRIPTION: 'Configure whether detection of common bad patterns should be used to automatically ban users.',
+			COMMAND_HEURISTICS_ENABLE: 'Enabled automatic banning of users.',
+			COMMAND_HEURISTICS_DISABLE: 'Disabled automatic banning of users.',
 
 			// fun commands
 			COMMAND_8BALL_DESCRIPTION: 'Magic 8-Ball, does exactly what the toy does.',
@@ -697,6 +702,7 @@ module.exports = class extends Language {
 			MONITOR_COMMAND_HANDLER_ABORTED: `${success} aborted.`,
 			MONITOR_ANTI_SCAMS: (message) => `Marked as fraudulent by anti-scams module: ${message}`,
 			MONITOR_ANTI_MASSMENTIONS: (threshold) => `Anti-massmention: sent more than ${threshold} mentions in a short timeframe.`,
+			MONITOR_HEURISTICS: 'Marked as very suspicious using raid/scam heuristics. "[p]heuristics disable" to turn off.',
 			// eslint-disable-next-line max-len
 			INHIBITOR_COOLDOWN: (remaining, guildCooldown) => `${guildCooldown ? 'Someone has' : 'You have'} already used this command. You can use this command again in ${remaining}.`,
 			INHIBITOR_DISABLED_GUILD: 'This command has been disabled by an admin in this guild.',

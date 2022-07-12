@@ -8,3 +8,5 @@ yarn.lock
 *.env
 test*
 *.DS_STORE
+.pgrok
+.certs/

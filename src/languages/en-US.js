@@ -104,7 +104,7 @@ module.exports = class extends Language {
 			COMMAND_RAID_DESCRIPTION: 'Configures raid prevention settings.',
 			COMMAND_RAID_HOWTO: (username, prefix) => [
 				`${username} features **automatic raid prevention**.`,
-				'This includes a global ban system powered by <https://api.ksoft.si> and various detection techniques.',
+				'This includes a global ban system powered by <https://ravy.org/api> and various detection techniques.',
 				"Though, we will never ban anyone without your okay. Thus, you'll have to define a channel where we can ask you.",
 				`This is easily done using ${code`${prefix}raid <channel>`}.`,
 				'That channel will then receive all updates and prompts upon raids.'

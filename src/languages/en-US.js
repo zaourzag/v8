@@ -250,6 +250,7 @@ module.exports = class extends Language {
 			COMMAND_JOKE_DESCRIPTION: 'Fetch a *very* funny joke.',
 			COMMAND_TOPIC_DESCRIPTION: 'Suggests a random topic as a conversation starter.',
 			COMMAND_TRANS_DESCRIPTION: 'Adds a trans-pride-flag colored circle around a user\'s avatar.',
+			COMMAND_SAPPHIC_DESCRIPTION: 'Adds a sapphic-pride-flag colored circle around a user\'s avatar.',
 			COMMAND_GENDERFLUID_DESCRIPTION: 'Adds a genderfluid-pride-flag colored circle around a user\'s avatar.',
 			COMMAND_AGENDER_DESCRIPTION: 'Adds an agender-pride-flag colored circle around a user\'s avatar.',
 			COMMAND_ASEXUAL_DESCRIPTION: 'Adds an asexual-pride-flag colored circle around a user\'s avatar.',

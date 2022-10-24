@@ -18,7 +18,7 @@ module.exports = class extends Command {
 	}
 	async run(msg, [user, reason]) {
 		if (!msg.member.permissions.has('MUTE_MEMBERS')) return msg.responder.error('COMMAND_VOICEMUTE_NOPERMS');
-		if (!user.voice.channelID) return msg.responder.error('COMMAND_VOICEMUTE_NOVOICE');
+		if (!user.voice.channelId) return msg.responder.error('COMMAND_VOICEMUTE_NOVOICE');
 		if (user.voice.serverMute) return msg.responder.error('COMMAND_VOICEMUTE_ALREADY_MUTED');
 		await user.voice.setMute(true, reason || msg.language.get('COMMAND_VOICEMUTE_NOREASON'));
 		return msg.responder.success();

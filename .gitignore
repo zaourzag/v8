@@ -10,3 +10,4 @@ test*
 *.DS_STORE
 .pgrok
 .certs/
+.test/

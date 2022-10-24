@@ -4,9 +4,9 @@ module.exports = class extends LGBTImageCommand {
 
 
 	constructor(...args) {
-		super('pansexual', ...args, { aliases: ['pan'] });
+		super('sapphic', ...args, { aliases: ['sapphic'] });
 
-		this.name = 'pan';
+		this.name = 'wlw';
 	}
 
 };

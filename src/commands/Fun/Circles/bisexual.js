@@ -5,6 +5,8 @@ module.exports = class extends LGBTImageCommand {
 
 	constructor(...args) {
 		super('bisexual', ...args, { aliases: ['bi'] });
+
+		this.name = 'bi';
 	}
 
 };

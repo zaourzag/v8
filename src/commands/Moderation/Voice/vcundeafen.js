@@ -18,7 +18,7 @@ module.exports = class extends Command {
 	}
 	async run(msg, [user, reason]) {
 		if (!msg.member.permissions.has('DEAFEN_MEMBERS')) return msg.responder.error('COMMAND_VOICEUNDEAFEN_NOPERMS');
-		if (!user.voice.channelID) return msg.responder.error('COMMAND_VOICEUNDEAFEN_NOVOICE');
+		if (!user.voice.channelId) return msg.responder.error('COMMAND_VOICEUNDEAFEN_NOVOICE');
 		if (!user.voice.serverDeaf) return msg.responder.error('COMMAND_VOICEDEAFEN_ALREADY_UNDEAFENED');
 		await user.voice.setDeaf(false, reason || msg.language.get('COMMAND_VOICEUNDEAFEN_NOREASON'));
 		return msg.responder.success();

@@ -217,6 +217,8 @@ module.exports = class extends Language {
 			COMMAND_HTTPCAT_INVALID: 'This is not a valid status code, or doesn\'t exist on http.cat',
 			COMMAND_HTTPDOG_DESCRIPTION: 'Returns the http.dog image for a specific status code.',
 			COMMAND_HTTPDOG_INVALID: 'This is not a valid status code, or doesn\'t exist on http.dog',
+			COMMAND_HTTPCAPY_DESCRIPTION: 'Returns the http.capy.pics image for a specific status code.',
+			COMMAND_HTTPCAPY_INVALID: 'This is not a valid status code, or doesn\'t exist on http.capy.pics.',
 			COMMAND_KISS_DESCRIPTION: 'Kiss somebody you really like.',
 			COMMAND_KISS_SELF: user => `${user} kissed themselves. I have no idea how and why.`,
 			COMMAND_KISS_SOMEONE: (from, to) => `${from} gave ${to} a kiss. How cute. 💕`,

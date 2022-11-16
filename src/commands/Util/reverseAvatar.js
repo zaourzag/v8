@@ -14,7 +14,7 @@ module.exports = class extends Command {
 
 	async run(msg, [user = msg.author]) {
 		const embed = new MessageEmbed()
-			.setDescription(`[Search ${user.username}'s Avatar](https://images.google.com/searchbyimage?image_url=${encodeURIComponent(user.displayAvatarURL({ format: 'png', size: 2048 }))})`);
+			.setDescription(`[Search ${user.username}'s Avatar](https://lens.google.com/uploadbyurl?url=${encodeURIComponent(user.displayAvatarURL({ format: 'png', size: 2048 }))})`);
 
 		return msg.sendEmbed(embed);
 	}

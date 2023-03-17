@@ -61,12 +61,12 @@ module.exports = class extends Monitor {
 
 		const processedLinks = parsedLinks.map(url => url.hostname.toLowerCase());
 
-		if (this.hasKnownBad(msg)
+		if (//this.hasKnownBad(msg)
 			// || this.matchesBadLevenshtein(msg, processedLinks)
-			|| this.isSteamFraud(msg, cleanedContent, alphanumContent)
-			|| this.isNitroFraud(msg, cleanedContent, alphanumContent, processedLinks)
-			|| this.isFinancialFraud(msg, cleanedContent, alphanumContent)
-			|| await this.isFraudulentByAPI(parsedLinks, msg.author.id, msg)
+			// || this.isSteamFraud(msg, cleanedContent, alphanumContent)
+			// || this.isNitroFraud(msg, cleanedContent, alphanumContent, processedLinks)
+			// || this.isFinancialFraud(msg, cleanedContent, alphanumContent)
+			await this.isFraudulentByAPI(parsedLinks, msg.author.id, msg)
 		)
 			msg.guild.members.ban(msg.author.id, { reason: msg.language.get('MONITOR_ANTI_SCAMS', msg.content), days: 1 });
 	}

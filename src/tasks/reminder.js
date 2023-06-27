@@ -8,11 +8,23 @@ const { Task } = require('@aero/framework');
 
 module.exports = class extends Task {
 
-	async run({ channel, user, text }) {
-		if (!channel || !text || !user) return false;
-		const _channel = this.client.channels.cache.get(channel);
-		if (!_channel) return false;
-		return _channel.send(`<@${user}> You wanted me to remind you: ${text}`);
+	async run({ channel: channelId, user, message, text }) {
+		if (!channelId || !user) return false;
+
+		const channel = this.client.channels.cache.get(channelId);
+		if (!channel) return false;
+
+		return channel.send({
+			content: `You wanted me to remind you: ${text ?? '...'}`,
+			allowedMentions: {
+				repliedUser: true,
+				parse: ['users']
+			},
+			reply: {
+				failIfNotExists: false,
+				messageReference: message
+			}
+		});
 	}
 
 };

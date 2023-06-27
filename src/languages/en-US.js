@@ -319,7 +319,7 @@ module.exports = class extends Language {
 			COMMAND_INFO_USER_REP_NEUTRAL: (provider) => `${nodata} No reputation on ${provider}`,
 			COMMAND_HASTEBIN_DESCRIPTION: 'Upload code or text to hastebin.',
 			COMMAND_REMIND_DESCRIPTION: 'Create a reminder.',
-			COMMAND_REMIND_REPLY: (when, id) => `I will remind you in ${when}. (id: ${id})`,
+			COMMAND_REMIND_REPLY: (when, id) => `I will remind you <t:${when}:R>. (id: ${id})`,
 			COMMAND_REMINDLIST_DESCRIPTION: 'See all your active reminders.',
 			COMMAND_REMINDLIST_NOREMINDERS: 'You don\'t have any active reminders',
 			COMMAND_UNREMIND_NOEXIST: 'This reminder doesn\'t exist.',

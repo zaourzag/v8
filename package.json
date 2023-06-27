@@ -37,6 +37,7 @@
 		"canvas": "^2.8.0",
 		"canvas-constructor": "^3.2.0",
 		"dayjs": "^1.10.8",
+		"discord-api-types": "^0.37.43",
 		"discord-md-tags": "^0.0.6",
 		"discord.js": "github:FireDiscordBot/discord.js",
 		"dotenv": "^8.2.0",

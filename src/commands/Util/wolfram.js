@@ -16,15 +16,13 @@ module.exports = class extends Command {
 
 
 	async run(msg, [query]) {
-		if ([/\bip\b/i, /location/i, /geoip/i, /where am i/i]
-			.some(reg => reg.test(query))) return msg.responder.error('COMMAND_WOLFRAM_ERROR');
-
 		if (msg.flagArgs.graphical) return this.graphical(msg, query);
 
 		const res = await req(BASE_URL)
 			.path('result')
 			.query('appid', process.env.WOLFRAM_TOKEN)
 			.query('i', query)
+			.query('ip', '141.63.1.1')
 			.send();
 
 		const text = await res.body.text();
@@ -43,6 +41,7 @@ module.exports = class extends Command {
 			.query('background', '36393E')
 			.query('foreground', 'white')
 			.query('i', query)
+			.query('ip', '141.63.1.1')
 			.send();
 
 		if (statusCode !== 200) return msg.responder.error('COMMAND_WOLFRAM_ERROR');

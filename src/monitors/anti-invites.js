@@ -11,8 +11,8 @@ module.exports = class extends Monitor {
 			ignoreOthers: false
 		});
 
-		this.inviteRegex = /(https?:\/\/)?(.*?@)?(www\.)?(discord\.(gg)|discord(app)?\.com\/invite)\/(?<code>\w+)/ui;
-		this.thirdPartyRegex = /(https?:\/\/)?(.*?@)?(www\.)?(discord|invite)\.(gg|li|me|io)\/(?<code>\w+)/ui;
+		this.inviteRegex = /(https?:\/\/)?(.*?@)?(www\.)?(discord\.(gg)|discord(app)?\.com\/invite)\/(?<code>[\w-]+)/ui;
+		this.thirdPartyRegex = /(https?:\/\/)?(.*?@)?(www\.)?(discord|invite)\.(gg|li|me|io)\/(?<code>[\w-]+)/ui;
 		this.botInviteRegex = /(https?:\/\/)?discord\.com\/oauth2\/authorize/;
 	}
 

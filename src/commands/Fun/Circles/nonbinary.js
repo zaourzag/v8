@@ -4,7 +4,9 @@ module.exports = class extends LGBTImageCommand {
 
 
 	constructor(...args) {
-		super('nonbinary', ...args, { aliases: ['enby'] });
+		super('nonbinary', ...args, { aliases: ['enby', 'nb'] });
+
+		this.name = 'nb';
 	}
 
 };

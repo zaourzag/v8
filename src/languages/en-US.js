@@ -104,7 +104,7 @@ module.exports = class extends Language {
 			COMMAND_RAID_DESCRIPTION: 'Configures raid prevention settings.',
 			COMMAND_RAID_HOWTO: (username, prefix) => [
 				`${username} features **automatic raid prevention**.`,
-				'This includes a global ban system powered by <https://api.ksoft.si> and various detection techniques.',
+				'This includes a global ban system powered by <https://ravy.org/api> and various detection techniques.',
 				"Though, we will never ban anyone without your okay. Thus, you'll have to define a channel where we can ask you.",
 				`This is easily done using ${code`${prefix}raid <channel>`}.`,
 				'That channel will then receive all updates and prompts upon raids.'
@@ -217,6 +217,8 @@ module.exports = class extends Language {
 			COMMAND_HTTPCAT_INVALID: 'This is not a valid status code, or doesn\'t exist on http.cat',
 			COMMAND_HTTPDOG_DESCRIPTION: 'Returns the http.dog image for a specific status code.',
 			COMMAND_HTTPDOG_INVALID: 'This is not a valid status code, or doesn\'t exist on http.dog',
+			COMMAND_HTTPCAPY_DESCRIPTION: 'Returns the http.capy.pics image for a specific status code.',
+			COMMAND_HTTPCAPY_INVALID: 'This is not a valid status code, or doesn\'t exist on http.capy.pics.',
 			COMMAND_KISS_DESCRIPTION: 'Kiss somebody you really like.',
 			COMMAND_KISS_SELF: user => `${user} kissed themselves. I have no idea how and why.`,
 			COMMAND_KISS_SOMEONE: (from, to) => `${from} gave ${to} a kiss. How cute. 💕`,
@@ -250,6 +252,7 @@ module.exports = class extends Language {
 			COMMAND_JOKE_DESCRIPTION: 'Fetch a *very* funny joke.',
 			COMMAND_TOPIC_DESCRIPTION: 'Suggests a random topic as a conversation starter.',
 			COMMAND_TRANS_DESCRIPTION: 'Adds a trans-pride-flag colored circle around a user\'s avatar.',
+			COMMAND_SAPPHIC_DESCRIPTION: 'Adds a sapphic-pride-flag colored circle around a user\'s avatar.',
 			COMMAND_GENDERFLUID_DESCRIPTION: 'Adds a genderfluid-pride-flag colored circle around a user\'s avatar.',
 			COMMAND_AGENDER_DESCRIPTION: 'Adds an agender-pride-flag colored circle around a user\'s avatar.',
 			COMMAND_ASEXUAL_DESCRIPTION: 'Adds an asexual-pride-flag colored circle around a user\'s avatar.',
@@ -627,6 +630,7 @@ module.exports = class extends Language {
 			COMMAND_OWOIFY_DESCRIPTION: 'Transforms your text into the owo language.',
 			COMMAND_VOICEKICK_DESCRIPTION: 'Voice kicks the mentioned member.',
 			COMMAND_AVATAR_GUILD_WARNING: 'This user does not have a custom server avatar set - falling back to the user\'s global avatar',
+			COMMAND_SPOTIFY_DESCRIPTION: 'Search for a song on Spotify & Genius',
 
 			// events
 			EVENT_JOIN_PERSISTREASON: 'Role persistency - member had those roles before leaving.',

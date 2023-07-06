@@ -21,6 +21,10 @@ module.exports = class extends Monitor {
 		this.cache.add(key);
 		setTimeout(() => this.cache.delete(key), 45 * 1000);
 
+		// get current xp
+		const currentLevel = msg.member.settings.get("level");
+		const currentXP = msg.member.settings.get("points");
+
 		// generate new xp
 		const increment = util.random(3, 8);
 		const newXP = msg.member.settings.get('points') + increment;
@@ -28,6 +32,10 @@ module.exports = class extends Monitor {
 		const xpNeeded = this.xpNeeded(newLevel);
 
 		await msg.member.settings.sync();
+
+		// ensure user has initial level role
+		if (currentLevel === 1 && currentXP === 0)
+			await this.levelRoles(msg.member, currentLevel);
 
 		if (newXP >= xpNeeded) {
 			await msg.member.settings.update([['points', newXP - xpNeeded], ['level', newLevel]]);

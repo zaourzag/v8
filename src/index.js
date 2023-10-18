@@ -74,19 +74,21 @@ async function main() {
 		subdomain: `${ngrokPrefix}-${stageShorthand}`
 	};
 
-	if (process.env.NGROK_TOKEN) {
-		opts.authtoken = process.env.NGROK_TOKEN;
-		opts.region = ngrokRegion;
-	}
-
 	if (process.env.PGROK_ENABLED === 'true') {
 		spawn('pgrok', ['-config', join(process.cwd(), '.pgrok'), '-subdomain', opts.subdomain, opts.addr], { stdio: 'ignore' });
 		console.clear();
 		logger.log(`[pgrok] proxying :${accessPort} <- ${opts.subdomain}.ravy.sh`);
-	} else {
+	}
+	else if (process.env.NGROK_TOKEN) {
+		opts.authtoken = process.env.NGROK_TOKEN;
+		opts.region = ngrokRegion;
+
 		await ngrok.connect(opts)
 			.then((url) => logger.log(`[ngrok] proxying :${accessPort} <- ${url}`))
 			.catch(() => logger.error(`[ngrok] failed to start`));
+	}
+	else {
+		logger.log(`[ngrok] not automatically proxying :${accessPort}`);
 	}
 
 	cluster.on('message', (worker, msg) => {
@@ -136,6 +138,7 @@ function secondary() {
 	sharder.spawn();
 }
 
+logger.log(`[Aggregator] Initiating ${cluster.isPrimary ? 'primary' : 'secondary'}.`)
 if (cluster.isPrimary) main();
 else secondary();
 

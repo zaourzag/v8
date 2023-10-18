@@ -98,30 +98,30 @@ async function main() {
 		aggregator.login(worker);
 	});
 
-	cluster.on('debug', (msg) => {
-		logger.debug(msg);
-	});
-
-	cluster.on('shardReady', (id) => {
-		logger.log(`[Sharder] Shard ${id} ready.`);
-	});
-
-	cluster.on('shardDisconnect', (event, id) => {
-		logger.log(`[Sharder] Shard ${id} disconnected: ${event.reason}`);
-	});
-
-	cluster.on('shardResume', (_replayed, id) => {
-		logger.log(`[Sharder] Shard ${id} resumed.`);
-	});
-
-	cluster.on('shardReconnect', (id) => {
-		logger.log(`[Sharder] Shard ${id} reconnected.`);
-	});
-
 	const sharder = new ShardingManager(join(__dirname, 'launch'), {
 		client: Aero,
 		ipcSocket,
 		token: process.env.DISCORD_TOKEN
+	});
+
+	sharder.on('debug', (msg) => {
+		logger.debug(msg);
+	});
+
+	sharder.on('shardReady', (id) => {
+		logger.log(`[Sharder] Shard ${id} ready.`);
+	});
+
+	sharder.on('shardDisconnect', (event, id) => {
+		logger.log(`[Sharder] Shard ${id} disconnected: ${event.reason}`);
+	});
+
+	sharder.on('shardResume', (_replayed, id) => {
+		logger.log(`[Sharder] Shard ${id} resumed.`);
+	});
+
+	sharder.on('shardReconnect', (id) => {
+		logger.log(`[Sharder] Shard ${id} reconnected.`);
 	});
 
 	sharder.spawn();

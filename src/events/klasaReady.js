@@ -70,7 +70,8 @@ module.exports = class extends Event {
 			= await this.client.api.applications(this.client.user.id).rpc.get().then(res => res.install_params)
 			?? { scopes: ['applications.commands', 'bot'], permissions: '8' };
 
-		this.client.console.log(`[Aggregator] Shard ${this.client.shard.id} sending ready.`);
+		this.client.console.log(`[Aggregator] Cluster ${this.client.shard.id} sending ready.`);
+		this.client.console.log(`[Aggregator] Shards ${this.client.shard.shards.join(', ')} ready.`);
 		this.client.aggregator.ready();
 	}
 

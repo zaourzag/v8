@@ -34,7 +34,6 @@ We make use of several amazing services which support us with open-source licens
 - [JetBrains](https://jetbrains.com/) is the company behind IntelliJ, the main IDE we use to develop Aero
 - [ngrok](https://ngrok.com/) provides easy tunnels to localhost, we use them to simplify getting slash commands from Discord to Aero
 - [Cloudflare](https://cloudflare.com/) keeps our services safe from attacks and speeds up our websites
-- [GitLab](https://about.gitlab.com/) is what we use to host all of the source code, as well as run automated CI actions
 
 On its own, Aero is pretty cool. But there are some tools we use to extend this even further. Those are:
 - [The ravy.org API](https://ravy.org/api) - A swiss-army-knife for anything security-related

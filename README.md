@@ -65,7 +65,7 @@ Feel free to contact us about licensing at licensing@aero.bot
 ## Contributors
 
 You can find all contributors in the package.json and listed below:
-- [Ravy](https://ravy.pink) (Project Lead, Community Architecture)
+- [Hazel](https://ravy.org) (Project Lead, Community Architecture)
 - [Rxsto](https://rxs.to) (Infrastructure Engineering)
 - [Dragon](https://dragondev.party/) (Software Engineering)
 - [Stitch](https://github.com/Soumil07/) (Software Engineering)

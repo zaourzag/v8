@@ -66,7 +66,7 @@ module.exports = class extends Event {
 		// logging
 		await member.guild.log.memberJoined({ member });
 
-		if (member.guild.settings.get('mod.shield')) {
+		if (member.guild.settings.get('mod.shield') && !member.user.bot) {
 			// global ban check
 			const { trust, bans } = await req('https://ravy.org/api/v1/')
 				.path('/users')

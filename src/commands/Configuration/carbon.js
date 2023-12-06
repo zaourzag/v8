@@ -5,7 +5,7 @@ module.exports = class extends Command {
 
 	constructor(...args) {
 		super(...args, {
-			enabled: true,
+			enabled: false,
 			runIn: ['GUILD_TEXT'],
 			aliases: ['cns'],
 			permissionLevel: 6,

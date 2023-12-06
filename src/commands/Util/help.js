@@ -26,7 +26,7 @@ module.exports = class extends Command {
 		if (command) {
 			if (command === 'usage') {
 				return msg.sendEmbed(embed
-					.setDescription(msg.language.get('COMMAND_HELP_USAGE', msg.guild.settings.get('prefix')).join('\n'))
+					.setDescription(msg.language.get('COMMAND_HELP_USAGE', msg.guild.settings.get('prefix')))
 				);
 			}
 

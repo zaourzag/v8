@@ -128,7 +128,7 @@ module.exports = class extends Command {
 
 	async _addBaseData(user, embed, pronouns, system) {
 		const effectiveUser = system || user;
-		const username = user.discrim === '0' ? user.username : user.tag;
+		const username = user.discriminator === '0' ? user.username : user.tag;
 		let authorString = `${system?.username || username} [${user.id}] ${system ? `(system of ${username})` : ''}`;
 		if (pronouns !== 'unknown pronouns') authorString += ` (${pronouns})`;
 		return embed

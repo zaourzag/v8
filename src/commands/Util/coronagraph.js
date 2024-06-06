@@ -9,6 +9,7 @@ module.exports = class extends Command {
 			aliases: ['ncg'],
 			bucket: 2,
 			cooldown: 5,
+			enabled: false,
 			description: language => language.get('COMMAND_CORONAGRAPH_DESCRIPTION'),
 			usage: '[country:str]'
 		});

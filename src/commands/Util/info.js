@@ -250,7 +250,7 @@ module.exports = class extends Command {
 
 		if (sentinel.verified) content = [msg.language.get('COMMAND_INFO_USER_SENTINEL')].concat(content);
 
-		embed.addField(`• Trust (${trust.label})`, content.length ? content.join('\n') : msg.language.get('COMMAND_INFO_USER_NEUTRAL'));
+		embed.addField(`Trust (${trust.label})`, content.length ? content.join('\n') : msg.language.get('COMMAND_INFO_USER_NEUTRAL'));
 
 		if (trust.level === 3) embed.setColor(INFORMATION);
 		else if (trust.level < 3) embed.setColor(VERY_NEGATIVE);

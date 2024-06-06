@@ -5,6 +5,7 @@ module.exports = class extends Command {
 
 	constructor(...args) {
 		super(...args, {
+			enabled: false,
 			aliases: ['sentinel'],
 			description: language => language.get('COMMAND_LOGIN_DESCRIPTION')
 		});

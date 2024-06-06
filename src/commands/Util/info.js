@@ -128,17 +128,21 @@ module.exports = class extends Command {
 
 	async _addBaseData(user, embed, pronouns, system) {
 		const effectiveUser = system || user;
-		let authorString = `${system?.username || user.tag} [${user.id}] ${system ? `(system of ${user.tag})` : ''}`;
+		const username = user.discrim === '0' ? user.username : user.tag;
+		let authorString = `${system?.username || username} [${user.id}] ${system ? `(system of ${username})` : ''}`;
 		if (pronouns !== 'unknown pronouns') authorString += ` (${pronouns})`;
 		return embed
-			.setAuthor({ name: authorString,
-				 iconURL: effectiveUser.displayAvatarURL({ dynamic: true }) })
+			.setAuthor({
+				name: authorString,
+				iconURL: effectiveUser.displayAvatarURL({ dynamic: true })
+			})
 			.setThumbnail(effectiveUser.displayAvatarURL({ dynamic: true }));
 	}
 
 	async _addBadges(user, embed) {
 		const bitfield = user.settings.get('badges');
-		const out = badges.filter((_, idx) => bitfield & (1 << idx)); /* eslint-disable-line no-bitwise */
+		/* eslint-disable-next-line no-bitwise */
+		const out = badges.filter((b, idx) => (b !== null) && (bitfield & (1 << idx)));
 		if (!out.length) return embed;
 
 		embed.setDescription(out.map(badge => `${badge.icon} ${badge.title}`).join('\n'));
@@ -167,7 +171,7 @@ module.exports = class extends Command {
 			statistics.push(`+${totalRep} rep (${individualRep} individual upvoter${individualRep === 1 ? '' : 's'})`);
 		}
 
-		embed.addField(`• ${msg.language.get('COMMAND_INFO_USER_STATISTICS')}`, statistics.join('\n'));
+		embed.addField(msg.language.get('COMMAND_INFO_USER_STATISTICS'), statistics.join('\n'));
 		if (!member) return embed;
 
 		const roles = member.roles.cache.sort((a, b) => b.position - a.position);
@@ -190,7 +194,7 @@ module.exports = class extends Command {
 
 		if (roles.size) {
 			embed.addField(
-				`• Role${roles.size > 2 ? `s (${roles.size - 1})` : roles.size === 2 ? '' : 's'}`,
+				`Role${roles.size > 2 ? `s (${roles.size - 1})` : roles.size === 2 ? '' : 's'}`,
 				roleString.length ? roleString : msg.language.get('COMMAND_INFO_USER_NOROLES')
 			);
 		}

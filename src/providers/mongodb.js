@@ -1,11 +1,20 @@
 /*
  * Co-Authored-By: dirigeants (https://github.com/dirigeants)
- * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
  * License: MIT License
- * Credit example: Copyright (c) 2019 dirigeants, MIT License
  *
- * INFORMATION: There's a lot of stuff commented out in here. All of that is debug because of persistency issues and might need to be reenabled if they ever reoccur.
+ * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
+ * 
+ * Credit-Example:
+ * 2019 dirigeants (MIT License)
+ * 2024 [mint](https://dsc.ng) @ [Aero](https://aero.bot)
  */
+
+/* 
+ * There's a lot of stuff commented out in here.
+ * All of that is debug because of persistency issues
+ * and might need to be reenabled if they ever reoccur.
+ */
+
 const { Provider, util: { mergeDefault, mergeObjects, isObject } } = require('@aero/framework');
 const { MongoClient: Mongo } = require('mongodb');
 // const { inspect } = require('util');

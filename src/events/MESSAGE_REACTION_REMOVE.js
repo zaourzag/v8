@@ -1,13 +1,11 @@
 /*
- * rero():
+ * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
  * Co-Authored-By: William Johnstone <william@endevrr.com> (https://endevrr.com)
- * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
- * Credit example: Credit goes to [William Johnstone](https://endevrr.com) and [ravy](https://ravy.pink). (c) [The Aero Team](https://aero.bot) 2021
- *
- * run, stars, lemons():
- * Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
- * Credit example: Credit goes to [ravy](https://ravy.pink). (c) [The Aero Team](https://aero.bot) 2021
+ * 
+ * Credit-Example:
+ * [mint](https://dsc.ng), [William Johnstone](https://endevrr.com) @ [Aero](https://aero.bot)
  */
+
 const { Event } = require('@aero/framework');
 const { syncVotes: syncStarVotes } = require('../../lib/structures/StarEvent');
 const { syncVotes: syncLemonVotes } = require('../../lib/structures/LemonEvent');

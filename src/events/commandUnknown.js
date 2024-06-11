@@ -1,10 +1,15 @@
 /*
  * Co-Authored-By: Klasa Community Plugins (https://github.com/KlasaCommunityPlugins)
- * Co-Authored-By: Stitch07 (https://github.com/Stitch07)
- * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
  * License: MIT License
- * Credit example: Copyright (c) 2019 KlasaCommunityPlugins, MIT License
+ *
+ * Co-Authored-By: Stitch07 (https://github.com/Stitch07)
+ * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
+ * 
+ * Credit-Example:
+ * 2019 Klasa Community Plugins (MIT License)
+ * 2024 [Stitch07](https://github.com/Stitch07), [mint](https://dsc.ng) @ [Aero](https://aero.bot)
  */
+
 const { Event } = require('@aero/framework');
 const Parser = require('@aero/tags');
 

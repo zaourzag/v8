@@ -4,8 +4,7 @@ config.json
 *.log
 .idea
 yarn.lock
-.env*
-*.env
+.env
 test*
 *.DS_STORE
 .pgrok

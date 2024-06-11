@@ -1,8 +1,11 @@
 /*
- * Co-Authored-By: Harsh Peshwani
- * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
- * Credit example: Credit goes to Harsh Peshwani and [ravy](https://ravy.pink). (c) [The Aero Team](https://aero.bot) 2021
+ * Co-Authored-By: Havish Pallerla <hey@havi.sh> (https://havi.sh)
+ * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
+ * 
+ * Credit-Example:
+ * [Havish Pallerla](https://havi.sh), [mint](https://dsc.ng) @ [Aero](https://aero.bot)
  */
+
 const { Command } = require('@aero/framework');
 
 module.exports = class extends Command {

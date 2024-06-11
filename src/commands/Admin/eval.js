@@ -1,9 +1,14 @@
 /*
  * Co-Authored-By: dirigeants (https://github.com/dirigeants)
- * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
  * License: MIT License
- * Credit example: Copyright (c) 2019 dirigeants, MIT License
+ * 
+ * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
+ * 
+ * Credit-Example:
+ * 2019 dirigeants (MIT License)
+ * 2024 [mint](https://dsc.ng) @ [Aero](https://aero.bot)
  */
+
 const { Command, Stopwatch, Type, util } = require('@aero/framework');
 const { inspect } = require('util');
 const req = require('@aero/http'); /* eslint-disable-line no-unused-vars */

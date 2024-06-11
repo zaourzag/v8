@@ -48,25 +48,39 @@ Aero isn't built from scratch, there's a few libraries that we used to build Aer
 - [MongoDB](https://www.mongodb.com/) - A general purpose, document-based, distributed NoSQL database
 
 
-## Templates
+## giving credit
 
-### Command
-`Credit goes to [ravy](https://ravy.pink) from [The Aero Team](https://aero.bot)` (ravy may be replaced by the contributor that wrote the command. If you don't know who did it, it was probably ravy). You can also find occasional credit examples in the command code.
+for some things, like code, you might be required to give credit as per our license.
+for other things, like ideas, this is optional but very appreciated.
+below are some shortcuts to help you, that fulfill the license & make us happy!
 
-### Idea
-`This project was inspired by [Aero](https://aero.bot).`
+*none of this is legal advice. for a legally sound answer, consult the license text and applicable local laws instead, or speak to a lawyer!*
 
-### Images/Avatars/Icons/Names
-**We exclusively own the copyright to all artworks - they shall not be reused without prior written consent from the copyright holder. Further, you're not allowed to use the name of our project or its contributors to endorse your own project, except as stated in the license.**
+- code\
+  `[mint](https://dsc.ng) @ [Aero](https://aero.bot)`\
+  occasionally, there are deviating credit examples in the code, use those instead.\
+  as per the license, you're not allowed to use the name of our project or its contributors to endorse your deviations.
 
-Feel free to contact us about licensing at licensing@aero.bot
 
+- command concepts\
+  `this command was inspired by [Aero](https://aero.bot)`
+
+- images (avatars, icons, emotes)\
+  **we [usually exclusively] own the copyright to all artworks!**\
+  **don't use them without prior written consent from the copyright holder.**
+
+- names\
+  **some of our technology names are registered trademarks within the EU.**
+  **don't use them without prior written consent from the copyright holder.**
+
+if you have questions or need a license grant, feel free to reach out to readme@aero.bot
 
 ## Contributors
 
-You can find all contributors in the package.json and listed below:
-- [Hazel](https://ravy.org) (Project Lead, Community Architecture)
-- [Rxsto](https://rxs.to) (Infrastructure Engineering)
-- [Dragon](https://dragondev.party/) (Software Engineering)
-- [Stitch](https://github.com/Soumil07/) (Software Engineering)
-- Harsh Peshwani (Software Engineering)
+you can find all contributors in the package.json and listed below:
+- [mint](https://dsc.ng) (core, lead dev, community)
+- [rxsto](https://rxs.to) (core, infra engineer)
+- [Stitch07](https://github.com/Soumil07/) (dev)
+- [Havish Pallerla](https://havi.sh) (dev)
+- [William Johnstone](https://endevrr.com) (dev)
+- [SyntaxDragon](https://dragondev.party/) (dev)

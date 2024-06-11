@@ -1,9 +1,14 @@
 /*
  * Co-Authored-By: Klasa Community Plugins (https://github.com/KlasaCommunityPlugins)
- * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
  * License: MIT License
- * Credit example: Copyright (c) 2019 KlasaCommunityPlugins, MIT License
+ * 
+ * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
+ * 
+ * Credit-Example:
+ * 2019 Klasa Community Plugins (MIT License)
+ * 2024 [mint](https://dsc.ng) @ [Aero](https://aero.bot)
  */
+
 const { Command, util } = require('@aero/framework');
 const { trimString } = require('../../../lib/util/util');
 const { Util: djsUtil, Permissions: { FLAGS } } = require('discord.js');

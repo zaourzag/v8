@@ -1,8 +1,11 @@
 /*
  * Co-Authored-By: William Johnstone <william@endevrr.com> (https://endevrr.com)
- * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
- * Credit example: Credit goes to [William Johnstone](https://endevrr.com) and [ravy](https://ravy.pink). (c) [The Aero Team](https://aero.bot) 2021
+ * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
+ * 
+ * Credit-Example:
+ * [William Johnstone](https://endevrr.com), [mint](https://dsc.ng) @ [Aero](https://aero.bot)
  */
+
 const { Command } = require('@aero/framework');
 const { Permissions: { FLAGS } } = require('discord.js');
 const GuildReactionCollector = require('../../../lib/extensions/GuildReactionCollector');

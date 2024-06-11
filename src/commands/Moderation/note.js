@@ -8,7 +8,7 @@ module.exports = class extends Command {
 			enabled: true,
 			runIn: ['GUILD_TEXT'],
 			requiredPermissions: ['BAN_MEMBERS'],
-			aliases: ['n'],
+			aliases: ['nt'],
 			description: language => language.get('COMMAND_NOTE_DESCRIPTION'),
 			usage: '<user  or  users:members> [note:...string]',
 			usageDelim: ' '

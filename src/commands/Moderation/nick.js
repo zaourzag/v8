@@ -10,7 +10,8 @@ module.exports = class extends Command {
 			requiredPermissions: ['MANAGE_NICKNAMES'],
 			description: language => language.get('COMMAND_NICK_DESCRIPTION'),
 			usage: '<member:member> [name:string{1,50}]',
-			usageDelim: ' '
+			usageDelim: ' ',
+			aliases: ['n']
 		});
 
 		this.defaultPermissions = FLAGS.MANAGE_NICKNAMES;

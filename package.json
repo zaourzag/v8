@@ -1,17 +1,18 @@
 {
 	"type": "commonjs",
 	"name": "aero",
-	"version": "2.1.1",
+	"version": "8.1/2.2",
 	"description": "Aero is an intuitive Discord bot perfect for your server.",
 	"main": "src/index",
 	"repository": "https://ravy.dev/aero/v8",
 	"author": "The Aero Team <team@aero.bot> (https://aero.bot)",
 	"contributors": [
-		"Hazel <hazel@aero.bot> (https://ravy.org)",
+		"mint <mint@aero.bot> (https://dsc.ng)",
+		"rxsto <rxsto@aero.bot> (https://rxs.to)",
 		"Stitch07 (https://github.com/Stitch07)",
-		"Rxsto (https://rxs.to)",
-		"Dragon (https://dragondev.party/)",
-		"Harsh Peshwani"
+		"Havish Pallerla <hey@havi.sh> (https://havi.sh)",
+		"William Johnstone <william@endevrr.com> (https://endevrr.com)",
+		"SyntaxDragon <dragon@dragondev.party> (https://dragondev.party/)"
 	],
 	"license": "BSD-3-Clause",
 	"scripts": {
@@ -20,7 +21,7 @@
 		"start": "NODE_ENV=production node ."
 	},
 	"engines": {
-		"node": ">=14.0.0"
+		"node": ">=18.0.0"
 	},
 	"dependencies": {
 		"@aero/corona": "^1.6.0",

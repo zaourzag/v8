@@ -1,12 +1,18 @@
 /*
- * Co-Authored-By: Ravy <ravy@aero.bot> (https://ravy.pink)
+ * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
  * Co-Authored-By: Stitch07 (https://github.com/Stitch07)
+ * Co-Authored-By: Havish Pallerla <hey@havi.sh> (https://havi.sh)
+ * 
+ * 
  * Co-Authored-By: dirigeants (https://github.com/dirigeants)
- * Co-Authored-By: Klasa Community Plugins (https://github.com/KlasaCommunityPlugins)
  * Co-Authored-By: Skyra Project (https://github.com/skyra-project)
- * Co-Authored-By: Harsh Peshwani
- * Credit example: (c) [The Aero Team](https://aero.bot) 2021
+ * Co-Authored-By: Klasa Community Plugins (https://github.com/KlasaCommunityPlugins)
+ * 
+ * Credit-Example:
+ * 2019 dirigeants, Skyra Project, Klasa Community Plugins,
+ * 2024 [mint](https://dsc.ng), [Stitch07](https://github.com/Stitch07), [Havish Pallerla](https://havi.sh) @ [Aero](https://aero.bot)
  */
+
 const { Language, util } = require('@aero/framework');
 const { bold, code } = require('discord-md-tags');
 const { success, infinity, trusted, banned, nodata, perms: { granted, unspecified }, covid: { cases, recoveries, deaths, tests }, sentinel, sentinelOff } = require('../../lib/util/constants').emojis;

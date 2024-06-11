@@ -1,9 +1,15 @@
 /*
- * Co-Authored-By: https://github.com/dirigeants/klasa-pieces
- * Co-Authored-By: https://github.com/kyranet
+ * Co-Authored-By: dirigeants (https://github.com/dirigeants)
+ * Co-Authored-By: kyranet (https://github.com/kyranet)
  * License: MIT License
- * Credit example: Copyright (c) 2019 [dirigeants](https://github.com/dirigeants), MIT License
+ * 
+ * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
+ * 
+ * Credit-Example:
+ * 2019 dirigeants, kyranet (MIT License)
+ * 2024 [mint](https://dsc.ng) @ [Aero](https://aero.bot)
  */
+
 const { Command } = require('@aero/framework');
 
 module.exports = class extends Command {

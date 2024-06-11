@@ -12,7 +12,6 @@ module.exports = class extends Event {
 	run(guild) {
 		const defaultChannel = this.getMessageChannel(guild);
 		if (defaultChannel) defaultChannel.send(guild.language.get('EVENT_JOIN_MESSAGE', this.client.user.username, guild.settings.get('prefix')));
-		guild.createMuteRole();
 	}
 
 	getMessageChannel(guild) {

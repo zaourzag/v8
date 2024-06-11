@@ -7,7 +7,7 @@
  */
 
 const { Command } = require('@aero/framework');
-const { Canvas } = require('canvas-constructor');
+const { Canvas } = require('canvas-constructor/napi-rs');
 const { readFile } = require('fs').promises;
 const req = require('@aero/http');
 

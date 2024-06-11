@@ -22,34 +22,21 @@ module.exports = class extends Command {
 		const muteable = await this.getModeratable(msg.member, users, true);
 		if (!muteable.length) return msg.responder.error('COMMAND_MUTE_NOPERMS', users.length > 1);
 
-		const muterole = msg.guild.settings.get('mod.roles.mute') || await msg.guild.createMuteRole();
-
-		await this.executeMutes(muteable, reason, msg.guild, msg.author, muterole, duration);
+		await this.executeMutes(muteable, reason, msg.guild, msg.author, duration);
 		await this.logActions(msg.guild, duration ? 'tempmute' : 'mute', muteable.map(member => member.user), { reason, moderator: msg.author, duration, msg });
 
 		return msg.responder.success();
 	}
 
-	async executeMutes(users, reason, guild, moderator, muterole, duration) {
+	async executeMutes(users, reason, guild, moderator, duration) {
 		const formattedReason = `${moderator.tag} | ${reason || guild.language.get('COMMAND_MUTE_NOREASON')}`;
 		for (const member of users) {
 			guild.modCache.add(member.id);
-			if (duration && dateDiffDays(new Date(), duration) <= 28) member.muteTimed(formattedReason, duration);
-			else await member.mute(formattedReason, muterole);
+			if (duration && dateDiffDays(new Date(), duration) <= 28) member.mute(formattedReason, duration);
+			else throw 'COMMAND_MUTE_ERR_DURATION';
 
 			if (!duration) this.updateSchedule(member);
 		}
-		if (duration && dateDiffDays(new Date(), duration) > 28) this.client.schedule.create('endTempmute', duration, { data: { users: users.map(user => user.id), guild: guild.id } });
 	}
-
-	updateSchedule(user) {
-		const unmuteTask = this.client.schedule.tasks.find(task => task.taskName === 'endTempmute' && task.data.users.includes(user.id));
-		if (!unmuteTask) return;
-		const { time, data } = unmuteTask;
-		this.client.schedule.delete(unmuteTask.id);
-		data.users = data.users.filter(id => id !== user.id);
-		if (data.users.length !== 0) this.client.schedule.create('endTempmute', time, { data });
-	}
-
 
 };

@@ -31,18 +31,7 @@ module.exports = class extends Command {
 		for (const member of users) {
 			guild.modCache.add(member.id);
 			await member.unmute(`${moderator.tag} | ${reason || guild.language.get('COMMAND_UNMUTE_NOREASON')}`);
-			this.updateSchedule(member);
 		}
 	}
-
-	updateSchedule(user) {
-		const unmuteTask = this.client.schedule.tasks.find(task => task.taskName === 'endTempmute' && task.data.users.includes(user.id));
-		if (!unmuteTask) return;
-		const { time, data } = unmuteTask;
-		this.client.schedule.delete(unmuteTask.id);
-		data.users = data.users.filter(id => id !== user.id);
-		if (data.users.length !== 0) this.client.schedule.create('endTempmute', time, { data });
-	}
-
 
 };

@@ -1,11 +1,15 @@
 const { Command, Duration, Timestamp } = require('@aero/framework');
-const { MessageEmbed, GuildMember, User, Role, Permissions: { FLAGS } } = require('discord.js');
+const { GuildMember, MessageEmbed, User, Role, Permissions: { FLAGS } } = require('discord.js');
 const {
-	color: { VERY_NEGATIVE, POSITIVE, INFORMATION },
-	emojis: { perms: { granted, unspecified }, infinity },
+	emojis: { perms: { granted, unspecified }, loading },
 	badges,
 	userInfo: { providers: providerMap }
 } = require('../../../lib/util/constants');
+const {
+	verificationLevels,
+	filterLevels
+} = require('../../../lib/util/discord/guild');
+const perms = require('../../../lib/util/discord/perms');
 const req = require('@aero/http');
 
 module.exports = class extends Command {
@@ -19,184 +23,164 @@ module.exports = class extends Command {
 		});
 
 		this.timestamp = new Timestamp('MMMM d YYYY');
-
-		this.perms = {
-			ADMINISTRATOR: 'Administrator',
-			VIEW_AUDIT_LOG: 'View Audit Log',
-			MANAGE_GUILD: 'Manage Server',
-			MANAGE_ROLES: 'Manage Roles',
-			MANAGE_CHANNELS: 'Manage Channels',
-			KICK_MEMBERS: 'Kick Members',
-			BAN_MEMBERS: 'Ban Members',
-			CREATE_INSTANT_INVITE: 'Create Instant Invite',
-			CHANGE_NICKNAME: 'Change Nickname',
-			MANAGE_NICKNAMES: 'Manage Nicknames',
-			MANAGE_EMOJIS: 'Manage Emojis',
-			MANAGE_WEBHOOKS: 'Manage Webhooks',
-			VIEW_CHANNEL: 'Read Text Channels and See Voice Channels',
-			SEND_MESSAGES: 'Send Messages',
-			SEND_TTS_MESSAGES: 'Send TTS Messages',
-			MANAGE_MESSAGES: 'Manage Messages',
-			EMBED_LINKS: 'Embed Links',
-			ATTACH_FILES: 'Attach Files',
-			READ_MESSAGE_HISTORY: 'Read Message History',
-			MENTION_EVERYONE: 'Mention Everyone',
-			USE_EXTERNAL_EMOJIS: 'Use External Emojis',
-			ADD_REACTIONS: 'Add Reactions',
-			CONNECT: 'Connect',
-			SPEAK: 'Speak',
-			MUTE_MEMBERS: 'Mute Members',
-			DEAFEN_MEMBERS: 'Deafen Members',
-			MOVE_MEMBERS: 'Move Members',
-			USE_VAD: 'Use Voice Activity',
-			STREAM: 'Go Live'
-		};
-
-		this.regions = {
-			'eu-central': 'Central Europe',
-			india: 'India',
-			london: 'London',
-			japan: 'Japan',
-			amsterdam: 'Amsterdam',
-			brazil: 'Brazil',
-			'us-west': 'US West',
-			hongkong: 'Hong Kong',
-			southafrica: 'South Africa',
-			sydney: 'Sydney',
-			europe: 'Europe',
-			singapore: 'Singapore',
-			'us-central': 'US Central',
-			'eu-west': 'Western Europe',
-			dubai: 'Dubai',
-			'us-south': 'US South',
-			'us-east': 'US East',
-			frankfurt: 'Frankfurt',
-			russia: 'Russia'
-		};
-
-		this.verificationLevels = {
-			NONE: 'None',
-			LOW: 'Low',
-			MEDIUM: 'Medium',
-			HIGH: '(╯°□°）╯︵ ┻━┻',
-			VERY_HIGH: '┻━┻ ﾐヽ(ಠ益ಠ)ノ彡┻━┻'
-		};
-
-		this.filterLevels = {
-			DISABLED: "Don't scan any messages",
-			MEMBERS_WITHOUT_ROLES: 'Scan messages from members without a role',
-			ALL_MEMBERS: 'Scan messages by all members'
-		};
 	}
 
 	async run(msg, [arg = msg.author]) {
 		if (/^\d{17,18}$/.test(arg)) arg = await this.client.users.fetch(arg).catch(() => null);
 
-		if (arg === this.client.user.id) return this.botinfo(msg);
-		if (arg?.id === this.client.user.id) return this.botinfo(msg);
-		if (arg instanceof User) return this.userinfo(msg, arg);
-		if (arg instanceof GuildMember) return this.userinfo(msg, arg.user);
-		if (arg instanceof Role) return this.roleinfo(msg, arg);
-		if (msg.guild && arg === 'server') return this.serverinfo(msg);
-		if (msg.guild && arg === msg.guild.id) return this.serverinfo(msg);
+		if ([
+			...this.client.config.instances,
+			this.client.user.id
+		].includes(arg?.id ?? arg)) return this.bot(msg);
+		if (arg instanceof User) return this.user(msg, arg);
+		if (arg instanceof GuildMember) return this.user(msg, arg.user);
+		if (arg instanceof Role) return this.role(msg, arg);
+		if (msg.guild && [
+			'server',
+			msg.guild.id
+		].includes(arg?.id ?? arg)) return this.server(msg);
 		if (!arg) return msg.responder.error('COMMAND_INFO_INVALIDID');
 
 		return false;
 	}
 
-	async userinfo(msg, user) {
-		const loading = await msg.channel.send(`${infinity} this might take a few seconds`);
+	async user(msg, user) {
+		const msgLoad = await msg.channel.send(`${loading} this might take a few seconds`);
 		let embed = new MessageEmbed();
-		const { pronouns, bans, trust, whitelists, sentinel, rep } = await req('https://ravy.org/api/v1/')
-			.path('/users')
-			.path(user.id)
-			.header('Authorization', process.env.RAVY_TOKEN)
-			.json();
 
-		let system;
+		const member = msg.guild ? await msg.guild.members.fetch(user).catch(() => null) : null;
 
-		if (msg.author.id === user.id && msg.originalAuthor)
-			system = msg.originalAuthor;
+		embed = await this._user_base(embed, msg, user);
+		embed = await this._user_badges(embed, user);
+		embed = await this._user_stats(embed, msg, user, member);
+		embed = await this._user_member(embed, msg, member);
+		embed = await this._user_security(embed, msg, user);
 
-		embed = await this._addBaseData(user, embed, pronouns, system);
-		embed = await this._addBadges(user, embed);
-		embed = await this._addMemberData(msg, user, embed);
-		embed = await this._addSecurity(msg, user, embed, bans, trust, whitelists, sentinel, rep);
 		await msg.sendEmbed(embed);
-		return loading.delete();
+		return msgLoad.delete();
 	}
 
-	async _addBaseData(user, embed, pronouns, system) {
-		const effectiveUser = system || user;
-		const username = user.discriminator === '0' ? user.username : user.tag;
-		let authorString = `${system?.username || username} [${user.id}] ${system ? `(system of ${username})` : ''}`;
-		if (pronouns !== 'unknown pronouns') authorString += ` (${pronouns})`;
+	async _user_base(embed, msg, user) {
+		let name, avatar;
+		const proxy = msg.originalAuthor;
+
+		if (msg.author.id === user.id && proxy) {
+			// pluralkit
+			name = `${proxy.name} (system of ${user.name} [${user.id}])`;
+			avatar = proxy.displayAvatarURL({ dynamic: true });
+		}
+		else {
+			// not pluralkit
+			name = `${user.name} [${user.id}]`;
+			avatar = user.displayAvatarURL({ dynamic: true });
+		}
+
+		embed.setColor(
+			await req(this.client.config.colorgenURL)
+				.path('dominant')
+				.query('image', avatar)
+				.text());
+
 		return embed
 			.setAuthor({
-				name: authorString,
-				iconURL: effectiveUser.displayAvatarURL({ dynamic: true })
+				name,
+				iconURL: avatar
 			})
-			.setThumbnail(effectiveUser.displayAvatarURL({ dynamic: true }));
 	}
 
-	async _addBadges(user, embed) {
-		const bitfield = user.settings.get('badges');
-		/* eslint-disable-next-line no-bitwise */
-		const out = badges.filter((b, idx) => (b !== null) && (bitfield & (1 << idx)));
-		if (!out.length) return embed;
+	async _user_badges(embed, user) {
+		const userBadges = user.settings.get('badges')
+			.toString(2)
+			.split('')
+			.reverse()
+			.map((b, i) => b === '1' ? i : -1)
+			.filter(i => i >= 0)
+			.filter(i => badges[i])
+			.map(i => badges[i]);
 
-		embed.setDescription(out.map(badge => `${badge.icon} ${badge.title}`).join('\n'));
-		return embed;
+		if (!userBadges.length) return embed;
+
+		return embed.setDescription(
+			userBadges
+				.map(badge => `${badge.icon} ${badge.title}`)
+				.join('\n'));
 	}
 
-	async _addMemberData(msg, user, embed) {
-		const member = msg.guild ? await msg.guild.members.fetch(user).catch(() => null) : null;
-		const creator = member && (member.joinedTimestamp - msg.guild.createdTimestamp) < 3000;
+	async _user_stats(embed, msg, user, member) {
+		const statistics = [];
 
-		const statistics = [
-			msg.language.get('COMMAND_INFO_USER_DISCORDJOIN', this.timestamp.display(user.createdAt), Duration.toNow(user.createdAt))
-		];
+		// user join
+		const on = `on ${this.timestamp.display(user.createdAt)}`;
+		const ago = `${Duration.toNow(user.createdAt)} ago`;
+
+		statistics.push(`joined Discord ${on} (${ago})`);
 
 		if (member) {
-			statistics.push(msg.language.get(
-				creator ? 'COMMAND_INFO_USER_GUILDRCEATE' : 'COMMAND_INFO_USER_GUILDJOIN',
-				msg.guild.name,
-				this.timestamp.display(member.joinedAt),
-				Duration.toNow(member.joinedAt)));
+			// member join
+			const created = (member.joinedTimestamp - msg.guild.createdTimestamp) < 3000;
+
+			const { name } = msg.guild;
+			const on = `on ${this.timestamp.display(member.joinedAt)}`;
+			const ago = `${Duration.toNow(member.joinedAt)} ago`;
+
+			statistics.push(`${created ? 'created' : 'joined'} ${name} ${on} (${ago})`);
 		}
 
 		const totalRep = user.settings.get('stats.reputation.total');
 		if (totalRep) {
+			// reputation
 			const individualRep = user.settings.get('stats.reputation.individual').length;
-			statistics.push(`+${totalRep} rep (${individualRep} individual upvoter${individualRep === 1 ? '' : 's'})`);
+			const upvoters = `${individualRep} individual upvoter${individualRep === 1 ? '' : 's'}`;
+
+			statistics.push(`+${totalRep} rep (${upvoters})`);
 		}
 
-		embed.addField(msg.language.get('COMMAND_INFO_USER_STATISTICS'), statistics.join('\n'));
+		return embed.addField('statistics', statistics.join('\n'));
+	}
+
+	async _user_member(embed, msg, member) {
 		if (!member) return embed;
 
 		const roles = member.roles.cache.sort((a, b) => b.position - a.position);
-		let spacer = false;
-		const roleString = [...roles
-			.values()]
-			.filter(role => role.id !== msg.guild.id)
-			.reduce((acc, role, idx) => {
-				if (acc.length + role.name.length < 1010) {
-					if (role.name.startsWith('⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯')) {
-						spacer = true;
-						return `${acc}\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n`;
-					} else {
-						const comma = (idx !== 0) && !spacer ? ', ' : '';
-						spacer = false;
-						return acc + comma + role.name;
-					}
-				} else return acc;
-			}, '');
+		if (roles.size > 1) {
+			const groups = [...roles.values()]
+				// no @everyone
+				.filter(role => role.id !== msg.guild.id)
+				// group by dividers
+				.reduce((acc, { name }) => {
+					if (name.startsWith('⎯⎯⎯'))
+						acc.push([]);
+					else
+						acc[acc.length - 1].push(name);
 
-		if (roles.size) {
-			embed.addField(
-				`Role${roles.size > 2 ? `s (${roles.size - 1})` : roles.size === 2 ? '' : 's'}`,
-				roleString.length ? roleString : msg.language.get('COMMAND_INFO_USER_NOROLES')
-			);
+					return acc;
+				}, [[]])
+				// remove empty groups
+				.filter(roles => roles.length)
+				// join each group together
+				.map((roles) => [roles.join(', '), roles.length])
+				// ensure 25 embed field limit
+				.slice(0, 20);
+
+			// if primary group > 1024 chars, we don't bother
+			const [first, count] = groups.shift();
+			if (first.length <= 1024) {
+				let total = roles.size - 1;
+				embed.addField(`role${total > 1 ? `s (${total})` : ''}`, first);
+
+				// display groups as separate fields
+				total -= count;
+				for (const [roles, count] of groups) {
+					if (roles.length <= 1024) {
+						total -= count;
+						embed.addField('\u200b', roles);
+					}
+					else {
+						embed.addField('\u200b', `[${total} more]`);
+						break;
+					}
+				}
+			}
 		}
 
 		const warnings = member.settings.get('warnings');
@@ -206,7 +190,7 @@ module.exports = class extends Command {
 				.map(moderator => this.client.users.fetch(moderator))
 			);
 			embed.addField(
-				`• ${msg.language.get('COMMAND_INFO_USER_WARNINGS')} (${warnings.filter(warn => warn.active).length})`,
+				`warnings (${warnings.filter(warn => warn.active).length})`,
 				warnings.map((warn, idx) => `${idx + 1}. ${!warn.active ? '~~' : ''}**${warn.reason}** | ${this.client.users.cache.get(warn.moderator).tag}${!warn.active ? '~~' : ''}`).join('\n')
 			);
 		}
@@ -217,7 +201,7 @@ module.exports = class extends Command {
 				.map(moderator => this.client.users.fetch(moderator))
 			);
 			embed.addField(
-				`• ${msg.language.get('COMMAND_INFO_USER_NOTES')} (${notes.length})`,
+				`notes (${notes.length})`,
 				notes.map((note, idx) => `${idx + 1}. **${note.reason}** | ${this.client.users.cache.get(note.moderator).tag}`).join('\n')
 			);
 		}
@@ -225,52 +209,61 @@ module.exports = class extends Command {
 		return embed;
 	}
 
-	async _addSecurity(msg, user, embed, bans, trust, whitelists, sentinel, rep) {
-		let content = [
-			...bans.map(ban =>
-				msg.language.get('COMMAND_INFO_USER_BANNED',
-					providerMap[ban.provider] || ban.provider,
-					ban.reason || 'unknown reason'
-				)
-			),
-			...whitelists.map(entry => msg.language.get('COMMAND_INFO_USER_WHITELISTED', providerMap[entry.provider] || entry.provider))
+	async _user_security(embed, msg, user) {
+		const { RAVY_TOKEN } = process.env;
+		if (!RAVY_TOKEN) return embed;
+
+		const { bans, trust, whitelists, sentinel, rep } = await req('https://ravy.org/api/v1/')
+			.path('/users')
+			.path(user.id)
+			.header('Authorization', RAVY_TOKEN)
+			.json();
+
+		const content = [
+			...bans
+				.map(({ reason, provider }) => ({
+					reason: reason || 'unknown reason',
+					provider: providerMap[provider] || provider
+				}))
+				.map(({ reason, provider }) => msg.language.get('COMMAND_INFO_USER_BANNED', provider, reason)),
+			...whitelists
+				.map(({ provider }) => providerMap[provider] || provider)
+				.map(provider => msg.language.get('COMMAND_INFO_USER_WHITELISTED', provider)),
 		];
 
-		if (!content.length) {
-			content = rep
-				.map(entry => {
-					if (entry.score === 0.5) entry.orientation = 'neutral';
-					else if (entry.score > 0.5) entry.orientation = 'positive';
-					else if (entry.score < 0.5) entry.orientation = 'negative';
+		if (!content.length) content.push(
+			...rep
+				.map(({ score, provider }) => ({
+					orientation: score > 0.5 ? 'positive' : score < 0.5 ? 'negative' : 'neutral',
+					provider: providerMap[provider] || provider
+				}))
+				.map(({ orientation, provider }) =>
+					msg.language.get(`COMMAND_INFO_USER_REP_${orientation.toUpperCase()}`, provider))
+		)
 
-					return entry;
-				})
-				.map(entry => msg.language.get(`COMMAND_INFO_USER_REP_${entry.orientation.toUpperCase()}`, providerMap[entry.provider] || entry.provider));
-		}
+		if (sentinel.verified)
+			content.unshift(msg.language.get('COMMAND_INFO_USER_SENTINEL'));
 
-		if (sentinel.verified) content = [msg.language.get('COMMAND_INFO_USER_SENTINEL')].concat(content);
-
-		embed.addField(`Trust (${trust.label})`, content.length ? content.join('\n') : msg.language.get('COMMAND_INFO_USER_NEUTRAL'));
-
-		if (trust.level === 3) embed.setColor(INFORMATION);
-		else if (trust.level < 3) embed.setColor(VERY_NEGATIVE);
-		else if (trust.level > 3) embed.setColor(POSITIVE);
-
-		return embed;
+		return embed.addField(`trust`, content.length
+			? content.join('\n')
+			: msg.language.get('COMMAND_INFO_USER_NEUTRAL'));;
 	}
 
-	roleinfo(msg, role) {
+	role(msg, role) {
 		const [bots, humans] = role.members.partition(member => member.user.bot);
 		const embed = new MessageEmbed()
 			.setTitle(`${role.name} [${role.id}]`)
 			.setColor(role.color)
-			.addField('• Color', role.color ? role.hexColor : 'none', true)
-			.addField('• Members', `${humans.size} human${humans.size === 1 ? '' : 's'}, ${bots.size} bot${bots.size === 1 ? '' : 's'}`, true)
-			.addField('• Permissions', role.permissions.has(FLAGS.ADMINISTRATOR)
+			.addField('color', role.color ? role.hexColor : 'none', true)
+			.addField('members', `${humans.size} human${humans.size === 1 ? '' : 's'}, ${bots.size} bot${bots.size === 1 ? '' : 's'}`, true)
+			.addField('permissions', role.permissions.has(FLAGS.ADMINISTRATOR)
 				? 'Administrator (all permissions)'
-				: Object.entries(role.permissions.serialize()).filter(perm => perm[1]).map(([perm]) => this.perms[perm]).join(', ') || 'none', true)
-			.addField('• Created', `${this.timestamp.display(role.createdAt)} (${Duration.toNow(role.createdAt)} ago)`, true)
-			.addField('• Properties', [
+				: Object.entries(role.permissions.serialize())
+					.filter(perm => perm[1])
+					.map(([perm]) => perms[perm])
+					.join(', ') || 'none')
+			.addField('created', `${this.timestamp.display(role.createdAt)} (${Duration.toNow(role.createdAt)} ago)`,)
+			.addField('properties', [
 				role.hoist
 					? `${granted} displayed seperately`
 					: `${unspecified} not displayed seperately`,
@@ -284,34 +277,53 @@ module.exports = class extends Command {
 		return msg.sendEmbed(embed);
 	}
 
-	async serverinfo(msg) {
+	async server(msg) {
 		const { guild } = msg;
 		await msg.guild.members.fetch(msg.guild.ownerId);
 		const owner = await guild.fetchOwner();
 		const embed = new MessageEmbed()
 			.setAuthor({ name: `${guild.name} [${guild.id}]`, iconURL: guild.iconURL() })
-			.addField('• Created', `${this.timestamp.display(guild.createdAt)} (${Duration.toNow(guild.createdAt)} ago)`)
-			.addField('• Members', `${guild.memberCount} (cached: ${guild.members.cache.size})`, true)
-			.addField('• Owner', `${owner.user.tag} ${owner.toString()} [${owner.id}]`)
-			.addField('• Security', [
-				`Verification level: ${this.verificationLevels[msg.guild.verificationLevel]}`,
-				`Explicit filter: ${this.filterLevels[msg.guild.explicitContentFilter]}`
+			.addField('created', `${this.timestamp.display(guild.createdAt)} (${Duration.toNow(guild.createdAt)} ago)`)
+			.addField('members', `${guild.memberCount} (cached: ${guild.members.cache.size})`, true)
+			.addField('owner', `${owner.user.tag} ${owner.toString()} [${owner.id}]`)
+			.addField('security', [
+				`Verification level: ${verificationLevels[msg.guild.verificationLevel]}`,
+				`Explicit filter: ${filterLevels[msg.guild.explicitContentFilter]}`
 			].join('\n'));
 		const icon = msg.guild.iconURL({ format: 'png' });
-		if (icon) embed.setColor(await req(this.client.config.colorgenURL).path('dominant').query('image', icon).text());
+		if (icon) embed.setColor(
+			await req(this.client.config.colorgenURL)
+				.path('dominant')
+				.query('image', icon)
+				.text());
 		return msg.sendEmbed(embed);
 	}
 
-	async botinfo(msg) {
-		if (msg.guild && !msg.guild.me.permissions.has(FLAGS.EMBED_LINKS)) return msg.sendLocale('COMMAND_INFO_BOT');
-		const dominant = await req(this.client.config.colorgenURL)
+	async bot(msg) {
+		const user = await this.client.users.fetch(this.client.config.instances[0]);
+		const name = user.username;
+		const avatar = user.displayAvatarURL({ dynamic: false });
+		const text = [
+			`${name} is a bot for intuitive community management.`,
+			'',
+			'It features 🛠 extensive moderation, 🎮 fun games, and a lot of other useful things.',
+			`If you have a cool idea, feel free to share it on our [support server](${this.client.config.supportServer}) or directly [PR it](${this.client.config.repoURL}).`,
+			'',
+			`If you like what we're doing, please share ${name} with your pals!`,
+			`Thank you for using ${name} ♥`
+		].join('\n');
+
+		if (msg.guild && !msg.guild.me.permissions.has(FLAGS.EMBED_LINKS)) return msg.send(text);
+
+		const color = await req(this.client.config.colorgenURL)
 			.path('dominant')
-			.query('image', this.client.user.displayAvatarURL({ dynamic: false, format: 'png' }))
+			.query('image', avatar)
 			.text();
+
 		return msg.sendEmbed(new MessageEmbed()
-			.setAuthor({ name: this.client.user.username, iconURL: this.client.user.displayAvatarURL({ dynamic: true }) })
-			.setDescription(msg.language.get('COMMAND_INFO_BOT'))
-			.setColor(dominant)
+			.setAuthor({ name, iconURL: avatar })
+			.setDescription(text)
+			.setColor(color)
 		);
 	}
 

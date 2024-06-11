@@ -9,7 +9,8 @@ module.exports = class extends Command {
 		super(...args, {
 			description: language => language.get('COMMAND_COLOR_DESCRIPTION'),
 			usage: '[random|display] [color:...str]',
-			usageDelim: ' '
+			usageDelim: ' ',
+			aliases: ['c']
 		});
 	}
 

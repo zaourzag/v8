@@ -35,7 +35,6 @@ we make use of several amazing services which support us with open-source licens
 
 on its own, Aero is pretty cool, but there are some tools we use to extend this even further:
 - [Perspective](https://www.perspectiveapi.com/) - an API using machine learning to reduce toxicity online
-- [DiscordRep](https://discordrep.com) - an online fraud prevention project
 
 Aero isn't built from scratch, here's some of the tech that we used:
 - [Klasa](https://klasa.js.org) - an object-oriented framework around discord.js which saves us from writing all the basics

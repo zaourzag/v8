@@ -110,58 +110,60 @@ module.exports = class extends Command {
 			}
 		}
 
-		await interaction.update({ content: `${c4.turnTable()}\n1⃣2⃣3⃣4⃣5⃣6⃣7⃣`, components: [
-			new MessageActionRow()
-				.addComponents(
-					new MessageButton()
-						.setCustomId(`c4-1-${msg.channel.id}`)
-						.setStyle('PRIMARY')
-						.setLabel('1')
-				)
-				.addComponents(
-					new MessageButton()
-						.setCustomId(`c4-2-${msg.channel.id}`)
-						.setStyle('PRIMARY')
-						.setLabel('2')
-				)
-				.addComponents(
-					new MessageButton()
-						.setCustomId(`c4-3-${msg.channel.id}`)
-						.setStyle('PRIMARY')
-						.setLabel('3')
-				)
-				.addComponents(
-					new MessageButton()
-						.setCustomId(`c4-4-${msg.channel.id}`)
-						.setStyle('PRIMARY')
-						.setLabel('4')
-				),
-			new MessageActionRow()
-				.addComponents(
-					new MessageButton()
-						.setCustomId(`c4-5-${msg.channel.id}`)
-						.setStyle('PRIMARY')
-						.setLabel('5')
-				)
-				.addComponents(
-					new MessageButton()
-						.setCustomId(`c4-6-${msg.channel.id}`)
-						.setStyle('PRIMARY')
-						.setLabel('6')
-				)
-				.addComponents(
-					new MessageButton()
-						.setCustomId(`c4-7-${msg.channel.id}`)
-						.setStyle('PRIMARY')
-						.setLabel('7')
-				)
-				.addComponents(
-					new MessageButton()
-						.setCustomId(`c4-quit-${msg.channel.id}`)
-						.setStyle('DANGER')
-						.setEmoji(error)
-				)
-		] });
+		await interaction.update({
+			content: `${c4.turnTable()}\n1⃣2⃣3⃣4⃣5⃣6⃣7⃣`, components: [
+				new MessageActionRow()
+					.addComponents(
+						new MessageButton()
+							.setCustomId(`c4-1-${msg.channel.id}`)
+							.setStyle('PRIMARY')
+							.setLabel('1')
+					)
+					.addComponents(
+						new MessageButton()
+							.setCustomId(`c4-2-${msg.channel.id}`)
+							.setStyle('PRIMARY')
+							.setLabel('2')
+					)
+					.addComponents(
+						new MessageButton()
+							.setCustomId(`c4-3-${msg.channel.id}`)
+							.setStyle('PRIMARY')
+							.setLabel('3')
+					)
+					.addComponents(
+						new MessageButton()
+							.setCustomId(`c4-4-${msg.channel.id}`)
+							.setStyle('PRIMARY')
+							.setLabel('4')
+					),
+				new MessageActionRow()
+					.addComponents(
+						new MessageButton()
+							.setCustomId(`c4-5-${msg.channel.id}`)
+							.setStyle('PRIMARY')
+							.setLabel('5')
+					)
+					.addComponents(
+						new MessageButton()
+							.setCustomId(`c4-6-${msg.channel.id}`)
+							.setStyle('PRIMARY')
+							.setLabel('6')
+					)
+					.addComponents(
+						new MessageButton()
+							.setCustomId(`c4-7-${msg.channel.id}`)
+							.setStyle('PRIMARY')
+							.setLabel('7')
+					)
+					.addComponents(
+						new MessageButton()
+							.setCustomId(`c4-quit-${msg.channel.id}`)
+							.setStyle('DANGER')
+							.setEmoji(error)
+					)
+			]
+		});
 
 		const timeout = this.client.setTimeout(() => {
 			msg.edit({ content: `Time's up! <@${players[(choice + 1) % 2]}> loses after 30 seconds of inactivity.`, components: [] });

@@ -23,8 +23,6 @@
 	},
 	"dependencies": {
 		"@aero/corona": "^1.6.0",
-		"@aero/corona-graphs": "^1.2.0",
-		"@aero/drep": "^2.1.3",
 		"@aero/framework": "git+https://ravy.dev/aero/v8-framework.git",
 		"@aero/http": "^1.2.0",
 		"@aero/member-gateway": "git+https://ravy.dev/aero/v8-member-gw.git",

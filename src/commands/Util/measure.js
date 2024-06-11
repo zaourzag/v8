@@ -2,7 +2,7 @@ const { Command } = require('@aero/framework');
 const req = require('@aero/http');
 const { MessageEmbed } = require('discord.js');
 const BASE_URL = 'https://pagespeedonline.googleapis.com/pagespeedonline/v5/runPagespeed';
-const { infinity, success, error, minus } = require('../../../lib/util/constants').emojis;
+const { loading, success, error, minus } = require('../../../lib/util/constants').emojis;
 
 module.exports = class extends Command {
 
@@ -16,7 +16,7 @@ module.exports = class extends Command {
 	}
 
 	async run(msg, [url]) {
-		const loading = await msg.channel.send(`${infinity} this might take a few seconds`);
+		const msgLoad = await msg.channel.send(`${loading} this might take a few seconds`);
 
 		const res = await req(BASE_URL)
 			.query({
@@ -65,7 +65,7 @@ module.exports = class extends Command {
 			await msg.responder.error('ERROR_SHORT', errors);
 
 
-		return loading.delete();
+		return msgLoad.delete();
 	}
 
 };

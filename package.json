@@ -1,13 +1,11 @@
 {
-	"type": "commonjs",
 	"name": "aero",
 	"version": "8.1/2.2",
 	"description": "Aero is an intuitive Discord bot perfect for your server.",
 	"main": "src/index",
 	"repository": "https://ravy.dev/aero/v8",
-	"author": "The Aero Team <team@aero.bot> (https://aero.bot)",
+	"author": "mint <mint@aero.bot> (https://dsc.ng)",
 	"contributors": [
-		"mint <mint@aero.bot> (https://dsc.ng)",
 		"rxsto <rxsto@aero.bot> (https://rxs.to)",
 		"Stitch07 (https://github.com/Stitch07)",
 		"Havish Pallerla <hey@havi.sh> (https://havi.sh)",
@@ -15,10 +13,10 @@
 		"SyntaxDragon <dragon@dragondev.party> (https://dragondev.party/)"
 	],
 	"license": "BSD-3-Clause",
+	"type": "commonjs",
 	"scripts": {
-		"dev": "node .",
-		"lint": "eslint . --fix",
-		"start": "NODE_ENV=production node ."
+		"start": "node .",
+		"lint": "eslint . --fix"
 	},
 	"engines": {
 		"node": ">=18.0.0"
@@ -27,27 +25,28 @@
 		"@aero/corona": "^1.6.0",
 		"@aero/corona-graphs": "^1.2.0",
 		"@aero/drep": "^2.1.3",
-		"@aero/framework": "git+https://ravy.dev/aero/libs/klasa.git#main",
+		"@aero/framework": "git+https://ravy.dev/aero/v8-framework.git",
 		"@aero/http": "^1.2.0",
-		"@aero/member-gateway": "git+https://ravy.dev/aero/libs/member-gateway.git",
+		"@aero/member-gateway": "git+https://ravy.dev/aero/v8-member-gw.git",
 		"@aero/sanitizer": "^1.2.0",
 		"@aero/statuspage": "^1.1.0",
 		"@aero/tags": "^3.0.14",
 		"@aero/xkcd": "^1.1.1",
 		"@sentry/node": "^5.15.4",
-		"canvas": "^2.8.0",
-		"canvas-constructor": "^3.2.0",
+		"@napi-rs/canvas": "^0.1.53",
+		"canvas-constructor": "^7.0.2",
 		"dayjs": "^1.10.8",
 		"discord-api-types": "^0.37.43",
 		"discord-md-tags": "^0.0.6",
-		"discord.js": "github:FireDiscordBot/discord.js",
+		"discord.js": "github:FireDiscordBot/discord.js#c8c4f731ad06d6f2ca84277fa026867096416ee0",
 		"dotenv": "^8.2.0",
 		"emoji-regex": "^9.0.0",
 		"express": "^4.17.2",
+		"fs-nextra": "^0.5.1",
 		"html-entities": "^1.3.1",
 		"js-levenshtein": "^1.1.6",
 		"kurasuta": "^3.0.1",
-		"mongodb": "^3.5.7",
+		"mongodb": "^6.7.0",
 		"natural": "^5.1.11",
 		"ngrok": "^4.3.1",
 		"owoify-js": "^1.0.7",
@@ -55,10 +54,6 @@
 		"tinycolor2": "^1.4.1",
 		"undici": "^5.8.1",
 		"ws": "^7.2.3"
-	},
-	"devDependencies": {
-		"@aero/eslint-config": "^1.0.6",
-		"eslint": "^7.4.0"
 	},
 	"optionalDependencies": {
 		"bufferutil": "^4.0.1",

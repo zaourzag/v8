@@ -40,7 +40,7 @@ module.exports = class extends Provider {
 			|| `mongodb://${connection.user}:${connection.password}@${connection.host}:${connection.port}/${connection.db}`;
 
 		const mongoClient = await Mongo.connect(connectionString,
-			mergeObjects(connection.options, { useNewUrlParser: true, useUnifiedTopology: true }));
+			mergeObjects(connection.options));
 		this.client.console.log('[Mongo] Connected.');
 		this.db = mongoClient.db(connection.db);
 	}

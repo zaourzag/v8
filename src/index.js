@@ -88,7 +88,7 @@ async function main() {
 			.catch(() => logger.error(`[ngrok] failed to start`));
 	}
 	else {
-		logger.log(`[ngrok] not automatically proxying :${accessPort}`);
+		logger.log(`[express] not automatically proxying :${accessPort}`);
 	}
 
 	cluster.on('message', (worker, msg) => {

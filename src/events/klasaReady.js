@@ -26,7 +26,7 @@ module.exports = class extends Event {
 
 	async run() {
 		this.client.user.setActivity(`${this.client.options.prefix}help`, { type: 'LISTENING' });
-		if (process.env.KUBE_ENABLED === 'true') {
+		if (process.env.AETHER_URL) {
 			this.client.console.log('[Aether] Sending ready event.');
 			this.client.manager.ws.send(encode(new Message(READY_CLIENT, { id: this.client.manager.id })));
 		}

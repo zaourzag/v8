@@ -47,4 +47,4 @@ module.exports = {
 	}[stage]
 };
 
-module.exports.metricsEnabled = !['true', true].includes(process.env.METRICS_DISABLED);
+module.exports.metricsEnabled = ['true', true].includes(process.env.METRICS_ENABLED);

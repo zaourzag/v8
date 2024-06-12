@@ -6,7 +6,7 @@ const db = {
 	testing: 'aero-test'
 }[stage];
 
-const { MONGO_URI: uri, MONGO_USER: user, MONGO_PASS: pass, MONGO_HOST: host, MONGO_PORT: port } = process.env;
+const { MONGO_URI: uri } = process.env;
 
 module.exports = {
 	commandEditing: true,
@@ -23,7 +23,7 @@ module.exports = {
 	providers: {
 		default: 'mongodb',
 		mongodb: {
-			connectionString: uri ?? `mongodb://${user}:${pass}@${host}:${port}/`,
+			connectionString: uri,
 			db,
 			options: {
 				forceServerObjectId: true

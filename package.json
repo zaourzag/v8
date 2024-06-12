@@ -31,8 +31,6 @@
 		"@aero/tags": "^3.0.14",
 		"@aero/xkcd": "^1.1.1",
 		"@sentry/node": "^5.15.4",
-		"@napi-rs/canvas": "^0.1.53",
-		"canvas-constructor": "^7.0.2",
 		"dayjs": "^1.10.8",
 		"discord-api-types": "^0.37.43",
 		"discord-md-tags": "^0.0.6",

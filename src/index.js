@@ -134,7 +134,7 @@ function secondary() {
 
 	// sentry
 	let sentry;
-	if (version !== 'development') {
+	if (version !== 'development' && process.env.SENTRY_TOKEN) {
 		sentry = require('@sentry/node');
 
 		sentry.init({

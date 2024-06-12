@@ -67,24 +67,26 @@ module.exports = class extends Command {
 		if (msg.author.id === user.id && proxy) {
 			// pluralkit
 			name = `${proxy.name} (system of ${user.name} [${user.id}])`;
-			avatar = proxy.displayAvatarURL({ dynamic: true });
+			avatar = (format) => proxy.displayAvatarURL({ dynamic: true, format });
 		}
 		else {
 			// not pluralkit
 			name = `${user.name} [${user.id}]`;
-			avatar = user.displayAvatarURL({ dynamic: true });
+			avatar = (format) => user.displayAvatarURL({ dynamic: true, format });
 		}
 
-		embed.setColor(
-			await req(this.client.config.colorgenURL)
-				.path('dominant')
-				.query('image', avatar)
-				.text());
+		const color = await req(this.client.config.colorgenURL)
+			.path('dominant')
+			.query('image', avatar("png"))
+			.text();
+
+
+		if (/^[0-9a-f]{6}$/i.test(color)) embed.setColor(color);
 
 		return embed
 			.setAuthor({
 				name,
-				iconURL: avatar
+				iconURL: avatar("webp")
 			})
 	}
 

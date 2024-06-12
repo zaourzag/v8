@@ -213,7 +213,7 @@ module.exports = class extends Command {
 		const { RAVY_TOKEN } = process.env;
 		if (!RAVY_TOKEN) return embed;
 
-		const { bans, trust, whitelists, sentinel, rep } = await req('https://ravy.org/api/v1/')
+		const { bans, whitelists, sentinel, rep } = await req('https://ravy.org/api/v1/')
 			.path('/users')
 			.path(user.id)
 			.header('Authorization', RAVY_TOKEN)

@@ -19,7 +19,10 @@ module.exports = class extends Command {
 
 		if (!key) throw 'Invalid hastebin url';
 
-		const res = await req(`https://hst.sh/raw/${key}`).text();
+		const res = await req(this.client.config.hasteURL)
+			.path('raw')
+			.path(key)
+			.text();
 
 		const ids = res.split('\n').filter(id => id.length <= 19 && id.length >= 17);
 

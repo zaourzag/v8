@@ -14,9 +14,13 @@ module.exports = class extends Task {
 
 	async run({ channel, user, text, replyLink }) {
 		if (!channel || !text || !user) return false;
-		const _channel = this.client.channels.cache.get(channel);
-		if (!_channel) return false;
+		const _channel = await this.client.channels.fetch(channel);
+		if (!_channel) {
+      this.client.console.debug(`reminder queued for invalid channel: ${channel} (u=${user})`);
+      return false;
+    }
 		return _channel.send(`<@${user}> You wanted me to remind you: ${text}${replyLink ? ` (in reply to ${replyLink})` : ""}`);
 	}
 
 };
+

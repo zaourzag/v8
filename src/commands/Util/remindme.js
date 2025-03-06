@@ -1,3 +1,12 @@
+/*
+ * Co-Authored-By: mint <mint@aero.bot> (https://ravy.dev/mint)
+ * Co-Authored-By: Yhvr <yhvr@protonmail.com>
+ * 
+ * Credit-Example:
+ * [mint](https://ravy.dev/mint), Yhvr @ [Aero](https://aero.bot)
+ */
+
+
 const { Command, Duration } = require('@aero/framework');
 
 module.exports = class extends Command {

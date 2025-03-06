@@ -10,7 +10,8 @@
 		"Stitch07 (https://github.com/Stitch07)",
 		"Havish Pallerla <hey@havi.sh> (https://havi.sh)",
 		"William Johnstone <william@endevrr.com> (https://endevrr.com)",
-		"SyntaxDragon <dragon@dragondev.party> (https://dragondev.party/)"
+		"SyntaxDragon <dragon@dragondev.party> (https://dragondev.party/)",
+    "Yhvr <yhvr@protonmail.com>"
 	],
 	"license": "BSD-3-Clause",
 	"type": "commonjs",

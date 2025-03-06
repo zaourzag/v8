@@ -24,6 +24,7 @@ the amazing people who made all of this possible
 - [Havish Pallerla](https://havi.sh) (dev)
 - [William Johnstone](https://endevrr.com) (dev)
 - [SyntaxDragon](https://dragondev.party/) (dev)
+- Yhvr (dev)
 
 
 ## thanks

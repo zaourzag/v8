@@ -17,7 +17,21 @@ module.exports = class extends Command {
 
 		if (!tasks.length) return msg.responder.info('COMMAND_REMINDLIST_NOREMINDERS');
 
-		return msg.send(tasks.map(task => `\`[${task.id}]\` **${task.data.text.length > 100 ? `${task.data.text.slice(0, 100)}...` : task.data.text}** ${task.data.replyLink ? `${task.data.replyLink} ` : ""}(in ${Duration.toNow(task.time)})`).join('\n'));
+		return msg.send(tasks
+      .map(task => {
+        const { data: { text, replyLink }, id, time } = task;
+
+        const segments = [
+          `\`[${id}]\``,
+          `**${text.slice(0, 100)}${text.length > 100 ? '...' : ''}**`,
+          replyLink,
+          `(in ${Duration.toNow(time)})`
+        ];
+
+        return segments.filter(s => !!s).join(' ');
+      })
+      .join('\n')
+    );
 	}
 
 };

@@ -12,20 +12,20 @@ module.exports = class extends Command {
 	}
 
 	async run(msg, [time, text]) {
-		const reminderData = {
+		const data = {
 			channel: msg.channel.id,
 			user: msg.author.id,
 			text: text ?? msg.language.get("COMMAND_REMIND_FALLBACK"),
+      replyLink: msg.reference && replyLink(msg)
 		}
 
-		if (msg.reference !== null) {
-			reminderData.replyLink = `https://discord.com/channels/${msg.reference.guildId}/${msg.reference.channelId}/${msg.reference.messageId}`;
-		}
-
-		const { id } = await this.client.schedule.create('reminder', time, {
-			data: reminderData
-		});
+		const { id } = await this.client.schedule.create('reminder', time, { data });
 		return msg.responder.success('COMMAND_REMIND_REPLY', Duration.toNow(time), id);
 	}
+
+  replyLink(msg) {
+    const { guildId, channelId, messageId } = msg.reference;
+		return `https://discord.com/channels/${guildId}/${channelId}/${messageId}`;
+  }
 
 };

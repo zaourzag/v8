@@ -1,9 +1,9 @@
 /*
  * Co-Authored-By: mint <mint@aero.bot> (https://ravy.dev/mint)
- * Co-Authored-By: Yhvr <yhvr@protonmail.com>
+ * Co-Authored-By: yhvr <yhvr@protonmail.com> (https://yhvr.me)
  * 
  * Credit-Example:
- * [mint](https://ravy.dev/mint), Yhvr @ [Aero](https://aero.bot)
+ * [mint](https://ravy.dev/mint), [yhvr](https://yhvr.me) @ [Aero](https://aero.bot)
  */
 
 

@@ -3,11 +3,11 @@
  * License: MIT License
  *
  * Co-Authored-By: mint <mint@aero.bot> (https://ravy.dev/mint)
- * Co-Authored-By: Yhvr <yhvr@protonmail.com>
+ * Co-Authored-By: yhvr <yhvr@protonmail.com> (https://yhvr.me)
  * 
  * Credit-Example:
  * 2019 dirigeants (MIT License)
- * 2024 [mint](https://ravy.dev/mint), Yhvr @ [Aero](https://aero.bot)
+ * 2024 [mint](https://ravy.dev/mint), [yhvr](https://yhvr.me) @ [Aero](https://aero.bot)
  */
 
 const { Task } = require('@aero/framework');

@@ -25,7 +25,7 @@ module.exports = class extends Command {
 			channel: msg.channel.id,
 			user: msg.author.id,
 			text: text ?? msg.language.get("COMMAND_REMIND_FALLBACK"),
-      replyLink: msg.reference && replyLink(msg)
+      replyLink: msg.reference && this.replyLink(msg)
 		}
 
 		const { id } = await this.client.schedule.create('reminder', time, { data });

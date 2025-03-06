@@ -3,11 +3,11 @@
  * Co-Authored-By: kyranet (https://github.com/kyranet)
  * License: MIT License
  * 
- * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
+ * Co-Authored-By: mint <mint@aero.bot> (https://ravy.dev/mint)
  * 
  * Credit-Example:
  * 2019 dirigeants, kyranet (MIT License)
- * 2024 [mint](https://dsc.ng) @ [Aero](https://aero.bot)
+ * 2024 [mint](https://ravy.dev/mint) @ [Aero](https://aero.bot)
  */
 
 const { Command } = require('@aero/framework');

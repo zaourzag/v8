@@ -1,9 +1,9 @@
 /*
- * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
+ * Co-Authored-By: mint <mint@aero.bot> (https://ravy.dev/mint)
  * Co-Authored-By: William Johnstone <william@endevrr.com> (https://endevrr.com)
  * 
  * Credit-Example:
- * [mint](https://dsc.ng), [William Johnstone](https://endevrr.com) @ [Aero](https://aero.bot)
+ * [mint](https://ravy.dev/mint), [William Johnstone](https://endevrr.com) @ [Aero](https://aero.bot)
  */
 
 const { Event } = require('@aero/framework');

@@ -1,9 +1,9 @@
 /*
  * Co-Authored-By: William Johnstone <william@endevrr.com> (https://endevrr.com)
- * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
+ * Co-Authored-By: mint <mint@aero.bot> (https://ravy.dev/mint)
  * 
  * Credit-Example:
- * [William Johnstone](https://endevrr.com), [mint](https://dsc.ng) @ [Aero](https://aero.bot)
+ * [William Johnstone](https://endevrr.com), [mint](https://ravy.dev/mint) @ [Aero](https://aero.bot)
  */
 
 const { Command } = require('@aero/framework');

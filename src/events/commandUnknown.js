@@ -3,11 +3,11 @@
  * License: MIT License
  *
  * Co-Authored-By: Stitch07 (https://github.com/Stitch07)
- * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
+ * Co-Authored-By: mint <mint@aero.bot> (https://ravy.dev/mint)
  * 
  * Credit-Example:
  * 2019 Klasa Community Plugins (MIT License)
- * 2024 [Stitch07](https://github.com/Stitch07), [mint](https://dsc.ng) @ [Aero](https://aero.bot)
+ * 2024 [Stitch07](https://github.com/Stitch07), [mint](https://ravy.dev/mint) @ [Aero](https://aero.bot)
  */
 
 const { Event } = require('@aero/framework');

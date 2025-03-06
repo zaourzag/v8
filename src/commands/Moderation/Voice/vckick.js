@@ -1,9 +1,9 @@
 /*
  * Co-Authored-By: Havish Pallerla <hey@havi.sh> (https://havi.sh)
- * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
+ * Co-Authored-By: mint <mint@aero.bot> (https://ravy.dev/mint)
  * 
  * Credit-Example:
- * [Havish Pallerla](https://havi.sh), [mint](https://dsc.ng) @ [Aero](https://aero.bot)
+ * [Havish Pallerla](https://havi.sh), [mint](https://ravy.dev/mint) @ [Aero](https://aero.bot)
  */
 
 const { Command } = require('@aero/framework');

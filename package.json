@@ -4,7 +4,7 @@
 	"description": "Aero is an intuitive Discord bot perfect for your server.",
 	"main": "src/index",
 	"repository": "https://ravy.dev/aero/v8",
-	"author": "mint <mint@aero.bot> (https://dsc.ng)",
+	"author": "mint <mint@aero.bot> (https://ravy.dev/mint)",
 	"contributors": [
 		"rxsto <rxsto@aero.bot> (https://rxs.to)",
 		"Stitch07 (https://github.com/Stitch07)",

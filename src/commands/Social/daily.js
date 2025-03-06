@@ -1,9 +1,9 @@
 /*
  * Co-Authored-By: Stitch07 (https://github.com/Stitch07)
- * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
+ * Co-Authored-By: mint <mint@aero.bot> (https://ravy.dev/mint)
  * 
  * Credit-Example:
- * [Stitch07](https://github.com/Stitch07), [mint](https://dsc.ng) @ [Aero](https://aero.bot)
+ * [Stitch07](https://github.com/Stitch07), [mint](https://ravy.dev/mint) @ [Aero](https://aero.bot)
  */
 
 const { Command, Duration, constants: { TIME } } = require('@aero/framework');

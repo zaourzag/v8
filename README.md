@@ -18,7 +18,7 @@ any questions? [check out our community](https://aero.bot/community)!
 
 the amazing people who made all of this possible
 
-- [mint](https://dsc.ng) (core, lead dev, community)
+- [mint](https://ravy.dev/mint) (core, lead dev, community)
 - [rxsto](https://rxs.to) (core, infra engineer)
 - [Stitch07](https://github.com/Soumil07/) (dev)
 - [Havish Pallerla](https://havi.sh) (dev)
@@ -62,7 +62,7 @@ below are some shortcuts to help you, that fulfill the license & make us happy!
 *none of this is legal advice. for a legally sound answer, consult the license text and applicable local laws instead, or speak to a lawyer!*
 
 - code\
-  `[mint](https://dsc.ng) @ [Aero](https://aero.bot)`\
+  `[mint](https://ravy.dev/mint) @ [Aero](https://aero.bot)`\
   occasionally, there are deviating credit examples in the code, use those instead.\
   as per the license, you're not allowed to use the name of our project or its contributors to endorse your deviations.
 

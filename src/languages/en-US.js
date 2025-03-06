@@ -1,5 +1,5 @@
 /*
- * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
+ * Co-Authored-By: mint <mint@aero.bot> (https://ravy.dev/mint)
  * Co-Authored-By: Stitch07 (https://github.com/Stitch07)
  * Co-Authored-By: Havish Pallerla <hey@havi.sh> (https://havi.sh)
  * 
@@ -10,7 +10,7 @@
  * 
  * Credit-Example:
  * 2019 dirigeants, Skyra Project, Klasa Community Plugins,
- * 2024 [mint](https://dsc.ng), [Stitch07](https://github.com/Stitch07), [Havish Pallerla](https://havi.sh) @ [Aero](https://aero.bot)
+ * 2024 [mint](https://ravy.dev/mint), [Stitch07](https://github.com/Stitch07), [Havish Pallerla](https://havi.sh) @ [Aero](https://aero.bot)
  */
 
 const { Language, util } = require('@aero/framework');

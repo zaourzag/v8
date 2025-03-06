@@ -2,11 +2,11 @@
  * Co-Authored-By: dirigeants (https://github.com/dirigeants)
  * License: MIT License
  * 
- * Co-Authored-By: mint <mint@aero.bot> (https://dsc.ng)
+ * Co-Authored-By: mint <mint@aero.bot> (https://ravy.dev/mint)
  * 
  * Credit-Example:
  * 2019 dirigeants (MIT License)
- * 2024 [mint](https://dsc.ng) @ [Aero](https://aero.bot)
+ * 2024 [mint](https://ravy.dev/mint) @ [Aero](https://aero.bot)
  */
 
 const { Command, util } = require('@aero/framework');

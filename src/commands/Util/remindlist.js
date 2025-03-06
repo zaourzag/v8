@@ -17,7 +17,7 @@ module.exports = class extends Command {
 
 		if (!tasks.length) return msg.responder.info('COMMAND_REMINDLIST_NOREMINDERS');
 
-		return msg.send(tasks.map(task => `\`[${task.id}]\` **${task.data.text.length > 100 ? `${task.data.text.slice(0, 100)}...` : task.data.text}** (in ${Duration.toNow(task.time)})`).join('\n'));
+		return msg.send(tasks.map(task => `\`[${task.id}]\` **${task.data.text.length > 100 ? `${task.data.text.slice(0, 100)}...` : task.data.text}** ${task.data.replyLink ? `${task.data.replyLink} ` : ""}(in ${Duration.toNow(task.time)})`).join('\n'));
 	}
 
 };

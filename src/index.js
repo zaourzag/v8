@@ -5,8 +5,8 @@ require('dotenv').config({
 
 const { ShardingManager } = require('kurasuta');
 const Aero = require('../lib/Aero');
-const { KlasaConsole } = require('@aero/framework');
-const logger = new KlasaConsole();
+const { Logger, LogLevel } = require('@sapphire/framework');
+const logger = new Logger(LogLevel.Info);
 const { stage: version, ipcSocket, metricsEnabled, accessPort, stageShorthand, ngrokRegion, ngrokPrefix } = require('../config/aero');
 const Aggregator = require('../lib/Aggregator');
 const AggregatorClient = require('../lib/AggregatorClient');

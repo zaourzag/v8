@@ -8,7 +8,8 @@ class EchoCommand extends AeroCommand {
 			...options,
 			name: 'echo',
 			description: 'Echoes your message',
-			aliases: ['say', 'repeat']
+			aliases: ['say', 'repeat'],
+			category: 'Utility'
 		});
 	}
 
@@ -34,7 +35,10 @@ class EchoCommand extends AeroCommand {
 			return message.reply('Please provide a message to echo!');
 		}
 
-		return message.reply(content);
+		return message.reply({
+			content,
+			allowedMentions: { parse: [] }
+		});
 	}
 
 	async runSlash(interaction) {

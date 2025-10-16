@@ -6,7 +6,8 @@ class PingCommand extends AeroCommand {
 		super(context, {
 			...options,
 			name: 'ping',
-			description: 'Shows bot latency'
+			description: 'Shows bot latency',
+			category: 'General'
 		});
 	}
 
